@@ -3,39 +3,50 @@ package de.jellshock.game.vehicles;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 
 public class Tank implements Disposable {
 
     private final Color color;
-    private final Texture chassis;
-    private final Texture track;
+    private final Texture chassisTexture;
+    private final Texture trackTexture;
+
+    private final TextureRegion chassis;
+    private final TextureRegion track;
 
     private float scale = 0.2F;
+
+    private float rotation = 45;
 
     private Vector2 position = new Vector2(100, 100);
 
     public Tank(Color color) {
         this.color = color;
-        chassis = new Texture("tank/chassis_round.png");
-        track = new Texture("tank/track_classic.png");
+        chassisTexture = new Texture("tank/chassis_round.png");
+        trackTexture = new Texture("tank/track_classic.png");
+        track = new TextureRegion(trackTexture);
+        chassis = new TextureRegion(chassisTexture);
     }
 
     public void render(SpriteBatch batch) {
         batch.setColor(color);
 
-        float chassisWidth = chassis.getWidth() * scale;
-        float chassisHeight = chassis.getHeight() * scale;
+        float chassisWidth = chassisTexture.getWidth() * scale;
+        float chassisHeight = chassisTexture.getHeight() * scale;
 
-        float trackWidth = track.getWidth() * scale;
-        float trackHeight = track.getHeight() * scale;
+        float trackWidth = trackTexture.getWidth() * scale;
+        float trackHeight = trackTexture.getHeight() * scale;
+
 
         float chassisXOffset = trackWidth / 2 - chassisWidth / 2;
         float chassisYOffset = trackHeight - 4;
 
-        batch.draw(track, position.x, position.y, trackWidth, trackHeight);
-        batch.draw(chassis, position.x + chassisXOffset, position.y + chassisYOffset, chassisWidth, chassisHeight);
+
+
+        batch.draw(track, position.x, position.y, 0, 0, trackWidth, trackHeight, 1, 1, rotation);
+        batch.draw(chassis, position.x + chassisXOffset, position.y + chassisYOffset, 0, 0, chassisWidth, chassisHeight, 1, 1, rotation);
     }
 
     public void setPosition(Vector2 position) {
@@ -52,7 +63,7 @@ public class Tank implements Disposable {
 
     @Override
     public void dispose() {
-        chassis.dispose();
-        track.dispose();
+        chassisTexture.dispose();
+        trackTexture.dispose();
     }
 }
