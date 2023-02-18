@@ -33,6 +33,12 @@ public class TestScreen implements Screen {
         if(Gdx.input.isKeyPressed(Input.Keys.D)) {
             tank.moveX(100 * delta);
         }
+        if(Gdx.input.isKeyPressed(Input.Keys.R)) {
+            tank.setRotation(tank.getRotation() + 100 * delta);
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.F)) {
+            tank.setRotation(tank.getRotation() - 100 * delta);
+        }
         ScreenUtils.clear(0.5F,0.5F,0.5F,0);
         batch.begin();
         font.draw(batch, "asdf", 1 , font.getLineHeight());
