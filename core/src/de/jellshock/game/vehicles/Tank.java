@@ -18,7 +18,7 @@ public class Tank implements Disposable {
 
     private float scale = 0.2F;
 
-    private float rotation = 20;
+    private float rotation = 0;
 
     private Vector2 position = new Vector2(100, 100);
 
@@ -39,23 +39,10 @@ public class Tank implements Disposable {
         float trackWidth = trackTexture.getWidth() * scale;
         float trackHeight = trackTexture.getHeight() * scale;
 
+        float chassisXOffset = trackWidth / 2 - chassisWidth / 2;
 
-        float dx = trackWidth / 2 - chassisWidth / 2;
-        float dy = trackHeight - 4;
-
-        double angle = Math.atan2(dy, dx);
-
-
-        double rot = Math.toRadians(rotation) + angle;
-        double cos = Math.cos(rot);
-        double sin = Math.sin(rot);
-
-        float chassisXOffset = (float) (trackHeight * cos);
-        float chassisYOffset = (float) (trackHeight * sin);
-
-
-        batch.draw(track, position.x, position.y, 0, 0, trackWidth, trackHeight, 1, 1, rotation);
-        batch.draw(chassis, position.x + chassisXOffset, position.y + chassisYOffset, 0, 0, chassisWidth, chassisHeight, 1, 1, rotation);
+        batch.draw(track, position.x, position.y, trackWidth / 2, 0, trackWidth, trackHeight, 1, 1, rotation);
+        batch.draw(chassis, position.x + chassisXOffset, position.y + trackHeight, chassisWidth / 2, - trackHeight, chassisWidth, chassisHeight, 1, 1, rotation);
     }
 
     public void setPosition(Vector2 position) {
