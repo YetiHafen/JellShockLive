@@ -39,9 +39,10 @@ public class Tank implements Disposable {
         float trackWidth = trackTexture.getWidth() * scale;
         float trackHeight = trackTexture.getHeight() * scale;
 
-        float chassisXOffset = trackWidth / 2 - chassisWidth / 2;
+        float chassisXOffset = -chassisWidth / 2;
+        float trackXOffset = -trackWidth / 2;
 
-        batch.draw(track, position.x, position.y, trackWidth / 2, 0, trackWidth, trackHeight, 1, 1, rotation);
+        batch.draw(track, position.x + trackXOffset, position.y, trackWidth / 2, 0, trackWidth, trackHeight, 1, 1, rotation);
         batch.draw(chassis, position.x + chassisXOffset, position.y + trackHeight, chassisWidth / 2, - trackHeight, chassisWidth, chassisHeight, 1, 1, rotation);
     }
 
