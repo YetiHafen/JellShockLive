@@ -5,8 +5,26 @@ import de.jellshock.game.screens.TestScreen;
 
 public class JellShock extends Game {
 
+	private static JellShock instance;
+
+	private TestScreen testScreen;
+
+	public JellShock() {
+		instance = this;
+	}
+
 	@Override
 	public void create() {
-		setScreen(new TestScreen());
+		testScreen = new TestScreen();
+
+		setScreen(testScreen);
+	}
+
+	public TestScreen getTestScreen() {
+		return testScreen;
+	}
+
+	public static JellShock getInstance() {
+		return instance;
 	}
 }

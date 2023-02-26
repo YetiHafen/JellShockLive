@@ -2,8 +2,9 @@ package de.jellshock.game.world;
 
 public enum WorldType {
 
-    SAND(100, 100),
-    LAVA(200, 200);
+    MOUNTAIN(100, 100),
+    CAVE(100, 100),
+    CUSTOM(-1, -1);
 
     private final int waveLength;
     private final int amplitude;

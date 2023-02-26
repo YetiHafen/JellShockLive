@@ -1,26 +1,21 @@
 package de.jellshock.game.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import de.jellshock.game.world.TerrainType;
 import de.jellshock.game.world.World;
+import de.jellshock.game.world.WorldType;
 
-public class TestScreen implements Screen {
+public class TestScreen extends AbstractScreen {
 
     SpriteBatch batch;
     World world;
 
     public TestScreen() {
         batch = new SpriteBatch();
-        world = new World(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 100, 100);
+        world = new World(width, height, WorldType.MOUNTAIN, TerrainType.MOUNTAIN);
         world.generateWorld();
-    }
-
-    @Override
-    public void show() {
     }
 
     @Override
@@ -35,21 +30,5 @@ public class TestScreen implements Screen {
     public void dispose() {
         batch.dispose();
         world.dispose();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void hide() {
     }
 }

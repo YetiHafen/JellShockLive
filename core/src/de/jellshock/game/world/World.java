@@ -1,15 +1,12 @@
 package de.jellshock.game.world;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 import lombok.Getter;
 
-import java.io.File;
 import java.util.Random;
 
 @Getter
@@ -18,6 +15,7 @@ public class World implements Disposable {
     private final Pixmap pixmap;
     private Texture texture;
     private final Random random;
+    private final WorldType worldType;
 
     private final int width;
     private final int height;
@@ -31,6 +29,18 @@ public class World implements Disposable {
         this.waveLength = waveLength;
         this.frequency = 1.0f / waveLength;
         this.amplitude = amplitude;
+        this.worldType = WorldType.CUSTOM;
+        pixmap = new Pixmap(width, height, Pixmap.Format.RGB888);
+        random = new Random();
+    }
+
+    public World(int width, int height, WorldType worldType) {
+        this.width = width;
+        this.height = height;
+        this.worldType = worldType;
+        this.waveLength = worldType.getWaveLength();
+        this.frequency = 1.0f / waveLength;
+        this.amplitude = worldType.getAmplitude();
         pixmap = new Pixmap(width, height, Pixmap.Format.RGB888);
         random = new Random();
     }
@@ -56,10 +66,16 @@ public class World implements Disposable {
                     pixmap.setColor(Color.LIGHT_GRAY);
                     pixmap.drawPixel(x, j);
                 }
+
+                if (x < 20) {
+                    if (j < y && j < (y + 50)) {
+                        pixmap.setColor(Color.BLUE);
+                        pixmap.drawPixel(x, j);
+                    }
+                }
             }
         }
 
-        PixmapIO.writePNG(new FileHandle(new File("test.png")), pixmap);
         texture = new Texture(pixmap);
     }
 
