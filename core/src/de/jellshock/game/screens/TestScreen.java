@@ -1,17 +1,22 @@
 package de.jellshock.game.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.ScreenUtils;
+import de.jellshock.game.world.World;
 
 public class TestScreen implements Screen {
 
     SpriteBatch batch;
-    BitmapFont font;
+    World world;
 
     public TestScreen() {
         batch = new SpriteBatch();
-        font = new BitmapFont();
+        world = new World(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 100, 100);
+        world.generateWorld();
     }
 
     @Override
@@ -20,15 +25,16 @@ public class TestScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        ScreenUtils.clear(Color.BLACK);
         batch.begin();
-        font.draw(batch, "asdf", 1 , font.getLineHeight());
+        world.renderWorld(batch);
         batch.end();
     }
 
     @Override
     public void dispose() {
         batch.dispose();
-        font.dispose();
+        world.dispose();
     }
 
     @Override
