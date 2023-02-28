@@ -1,32 +1,31 @@
 package de.jellshock.game.screens;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import de.jellshock.game.world.TerrainType;
+import de.jellshock.game.world.World;
+import de.jellshock.game.world.WorldType;
 import de.jellshock.game.vehicles.Tank;
 
-public class TestScreen implements Screen {
+public class TestScreen extends AbstractScreen {
 
     private SpriteBatch batch;
-    private BitmapFont font;
+    private World world;
     private Tank tank = new Tank(new Color(Color.CYAN));
 
 
     public TestScreen() {
         batch = new SpriteBatch();
-        font = new BitmapFont();
-    }
-
-    @Override
-    public void show() {
+        world = new World(width, height, WorldType.MOUNTAIN, TerrainType.MOUNTAIN);
+        world.generateWorld();
     }
 
     @Override
     public void render(float delta) {
+        ScreenUtils.clear(Color.BLACK);
         if(Gdx.input.isKeyPressed(Input.Keys.A)) {
             tank.moveX(-100 * delta);
         }
@@ -45,9 +44,8 @@ public class TestScreen implements Screen {
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             tank.setGunRotation(tank.getGunRotation() - 100 * delta);
         }
-        ScreenUtils.clear(0.5F,0.5F,0.5F,0);
         batch.begin();
-        font.draw(batch, "asdf", 1 , font.getLineHeight());
+        world.renderWorld(batch);
         tank.render(batch);
         batch.end();
     }
@@ -55,22 +53,7 @@ public class TestScreen implements Screen {
     @Override
     public void dispose() {
         batch.dispose();
-        font.dispose();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void hide() {
+        world.dispose();
+        tank.dispose();
     }
 }
