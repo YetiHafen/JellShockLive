@@ -90,12 +90,16 @@ public class World implements Disposable {
         }
         if (texture != null) texture.dispose();
         texture = new Texture(pixmap);
-        texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
     public void setHeight(int x, int height) {
         mapChanged = true;
+        assert height <= this.height;
         worldMap[x] = height;
+    }
+
+    public int getHeight(int x) {
+        return height - worldMap[x];
     }
 
     public void render(SpriteBatch batch) {

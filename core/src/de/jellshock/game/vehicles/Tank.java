@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+import de.jellshock.game.world.World;
 
 public class Tank implements Disposable {
 
@@ -17,16 +17,16 @@ public class Tank implements Disposable {
     private final TextureRegion chassis;
     private final TextureRegion track;
     private final TextureRegion gun;
-
-    private float scale = 0.2F;
-
-    private float rotation = 0;
     private float gunRotation = 0;
 
-    private Vector2 position = new Vector2(100, 100);
+    private float position = 0;
+    private final World world;
 
-    public Tank(Color color) {
+    private float scale = 0.1F;
+    private static final int SLOPE_05DX = 15;
+    public Tank(Color color, World world) {
         this.color = color;
+        this.world = world;
         chassisTexture = new Texture("tank/chassis_round.png");
         trackTexture = new Texture("tank/track_classic.png");
         gunTexture = new Texture("tank/gun_dainty.png");
@@ -37,6 +37,9 @@ public class Tank implements Disposable {
 
     public void render(SpriteBatch batch) {
         batch.setColor(color);
+
+        float x = position;
+        float y = world.getHeight((int) x);
 
         float chassisWidth = chassisTexture.getWidth() * scale;
         float chassisHeight = chassisTexture.getHeight() * scale;
@@ -50,34 +53,34 @@ public class Tank implements Disposable {
         float chassisXOffset = -chassisWidth / 2;
         float trackXOffset = -trackWidth / 2;
 
-        double rot = Math.toRadians(rotation);
-        float gunCenterX = (float) (position.x + (trackHeight) * -Math.sin(rot));
-        float gunCenterY = (float) (position.y + (trackHeight) * Math.cos(rot));
+        double rotationRad = calculateRotation();
+        float rotationDeg = (float) Math.toDegrees(rotationRad);
+
+        float gunCenterX = (float) (x + (trackHeight) * -Math.sin(rotationRad));
+        float gunCenterY = (float) (y + (trackHeight) * Math.cos(rotationRad));
 
         batch.draw(gun, gunCenterX, gunCenterY, 0, gunHeight / 2, gunLength, gunHeight, 1, 1, gunRotation);
-        batch.draw(track, position.x + trackXOffset, position.y, trackWidth / 2, 0, trackWidth, trackHeight, 1, 1, rotation);
-        batch.draw(chassis, position.x + chassisXOffset, position.y + trackHeight, chassisWidth / 2, - trackHeight, chassisWidth, chassisHeight, 1, 1, rotation);
+        batch.draw(track, x + trackXOffset, y, trackWidth / 2, 0, trackWidth, trackHeight, 1, 1, rotationDeg);
+        batch.draw(chassis, x + chassisXOffset, y + trackHeight, chassisWidth / 2, - trackHeight, chassisWidth, chassisHeight, 1, 1, rotationDeg);
         batch.setColor(Color.WHITE);
     }
 
-    public void setPosition(Vector2 position) {
-        this.position = position;
+    /**
+     * @return the tank rotation in rad
+     */
+    private double calculateRotation() {
+        if(position < SLOPE_05DX || position > world.getWidth() - SLOPE_05DX) return 0;
+        int y0 = world.getHeight((int) (position - SLOPE_05DX));
+        int y1 = world.getHeight((int) (position + SLOPE_05DX));
+        return Math.atan2(y1 - y0, SLOPE_05DX * 2.0);
+    }
+
+    public void setPosition(float position) {
+        this.position = Math.max(SLOPE_05DX, Math.min(world.getWidth() - SLOPE_05DX - 1, position));
     }
 
     public void moveX(float amount) {
-        this.position.x += amount;
-    }
-
-    public void moveY(float amount) {
-        this.position.y += amount;
-    }
-
-    public void setRotation(float rotation) {
-        this.rotation = rotation % 360;
-    }
-
-    public float getRotation() {
-        return rotation;
+        setPosition(position + amount);
     }
 
     public float getGunRotation() {
