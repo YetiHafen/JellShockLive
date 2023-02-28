@@ -12,16 +12,20 @@ import java.util.Random;
 @Getter
 public class World implements Disposable {
 
-    private final Pixmap pixmap;
+    private Pixmap pixmap;
     private Texture texture;
     private final Random random;
     private final WorldType worldType;
+    private final int[] worldMap;
+    private final Color color;
 
     private final int width;
     private final int height;
     private final int waveLength;
     private final float frequency;
     private final int amplitude;
+
+    private boolean mapChanged = false;
 
     public World(int width, int height, int waveLength, int amplitude) {
         this.width = width;
@@ -32,6 +36,8 @@ public class World implements Disposable {
         this.worldType = WorldType.CUSTOM;
         pixmap = new Pixmap(width, height, Pixmap.Format.RGB888);
         random = new Random();
+        worldMap = new int[width];
+        color = new Color();
     }
 
     public World(int width, int height, WorldType worldType) {
@@ -43,9 +49,12 @@ public class World implements Disposable {
         this.amplitude = worldType.getAmplitude();
         pixmap = new Pixmap(width, height, Pixmap.Format.RGB888);
         random = new Random();
+        worldMap = new int[width];
+        color = new Color();
     }
 
     public void generateWorld() {
+        mapChanged = true;
         float a = random.nextFloat();
         float b = random.nextFloat();
 
@@ -58,29 +67,59 @@ public class World implements Disposable {
                 b = random.nextFloat();
                 y = height / 2f + (a * amplitude);
             }
-            pixmap.setColor(Color.RED);
-            pixmap.drawPixel(x, (int) y);
+            worldMap[x] = (int) y;
+        }
+    }
+
+    private void renderWorld() {
+        mapChanged = false;
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                int worldValue = worldMap[x];
+                if (y < worldValue) {
+                    pixmap.setColor(Color.LIGHT_GRAY);
+                    pixmap.drawPixel(x, y);
+                } else {
+                    float t = x / (float) width;
+                    pixmap.setColor(color.set(Color.RED).lerp(Color.ORANGE, t));
+                    pixmap.drawPixel(x, y);
+                }
+
+            }
+        }
+        if (texture != null) texture.dispose();
+        texture = new Texture(pixmap);
+        texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+    }
+
+    public void setHeight(int x, int height) {
+        mapChanged = true;
+        worldMap[x] = height;
+    }
+
+    public void render(SpriteBatch batch) {
+        if (mapChanged) renderWorld();
+        batch.draw(texture, 0, 0, width, height);
+    }
+
+    public void checkScreenBuffer(int width, int height) {
+        if (!(width > this.width)) return;
+        int widthDifference = (width - this.width) / 2;
+        Pixmap leftBuffer = new Pixmap(widthDifference, this.height, Pixmap.Format.RGB888);
+        Pixmap rightBuffer = new Pixmap(widthDifference, this.height, Pixmap.Format.RGB888);
+
+        for (int i = widthDifference; i < 0; i--) {
 
             for (int j = 0; j < height; j++) {
-                if (j < y) {
-                    pixmap.setColor(Color.LIGHT_GRAY);
-                    pixmap.drawPixel(x, j);
-                }
 
-                if (x < 20) {
-                    if (j < y && j < (y + 50)) {
-                        pixmap.setColor(Color.BLUE);
-                        pixmap.drawPixel(x, j);
-                    }
-                }
             }
         }
 
-        texture = new Texture(pixmap);
-    }
+        for (int i = 0; i < widthDifference; i++) {
 
-    public void renderWorld(SpriteBatch batch) {
-        batch.draw(texture, 0, 0, width, height);
+        }
+
     }
 
     private float interpolate(float aPosition, float bPosition, float relativeDistance) {

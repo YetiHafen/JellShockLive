@@ -6,7 +6,6 @@ import de.jellshock.game.screens.TestScreen;
 public class JellShock extends Game {
 
 	private static JellShock instance;
-
 	private TestScreen testScreen;
 
 	public JellShock() {

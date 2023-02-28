@@ -57,6 +57,7 @@ public class Tank implements Disposable {
         batch.draw(gun, gunCenterX, gunCenterY, 0, gunHeight / 2, gunLength, gunHeight, 1, 1, gunRotation);
         batch.draw(track, position.x + trackXOffset, position.y, trackWidth / 2, 0, trackWidth, trackHeight, 1, 1, rotation);
         batch.draw(chassis, position.x + chassisXOffset, position.y + trackHeight, chassisWidth / 2, - trackHeight, chassisWidth, chassisHeight, 1, 1, rotation);
+        batch.setColor(Color.WHITE);
     }
 
     public void setPosition(Vector2 position) {
