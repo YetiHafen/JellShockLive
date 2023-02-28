@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-import de.jellshock.game.world.TerrainType;
 import de.jellshock.game.world.World;
 import de.jellshock.game.world.WorldType;
 import de.jellshock.game.vehicles.Tank;
@@ -19,7 +18,7 @@ public class TestScreen extends AbstractScreen {
 
     public TestScreen() {
         batch = new SpriteBatch();
-        world = new World(width, height, WorldType.MOUNTAIN, TerrainType.MOUNTAIN);
+        world = new World(width, height, WorldType.MOUNTAIN);
         world.generateWorld();
     }
 
