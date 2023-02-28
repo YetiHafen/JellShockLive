@@ -67,7 +67,7 @@ public class World implements Disposable {
                 b = random.nextFloat();
                 y = height / 2f + (a * amplitude);
             }
-            worldMap[x] = (int) y;
+            worldMap[x] = (int) (height - y);
         }
     }
 
@@ -76,7 +76,7 @@ public class World implements Disposable {
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                int worldValue = worldMap[x];
+                int worldValue = height - worldMap[x];
                 if (y < worldValue) {
                     pixmap.setColor(Color.LIGHT_GRAY);
                     pixmap.drawPixel(x, y);
@@ -99,7 +99,7 @@ public class World implements Disposable {
     }
 
     public int getHeight(int x) {
-        return height - worldMap[x];
+        return worldMap[x];
     }
 
     public void render(SpriteBatch batch) {
