@@ -10,6 +10,9 @@ import de.jellshock.game.rendering.IRenderConsumer;
 import de.jellshock.game.vehicles.projectiles.Projectile;
 import de.jellshock.game.world.World;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
 
     private final Color color;
@@ -38,13 +41,21 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
         gun = new TextureRegion(gunTexture);
     }
 
-    public void shootProjectile(Projectile p, float power) {
-        p.setPosition(new Vector2(position, world.getHeight((int) position)));
-        double rot = Math.toRadians(gunRotation);
-        float vx = (float) Math.cos(rot);
-        float vy = (float) Math.sin(rot);
-        Vector2 v = new Vector2(vx * power, vy * power);
-        p.setVelocity(v);
+    public Projectile shootProjectile(float power, Class<? extends Projectile> projectileType) {
+        try {
+            Constructor<? extends Projectile> constructor = projectileType.getDeclaredConstructor();
+            Projectile projectile = constructor.newInstance();
+            projectile.setPosition(new Vector2(position, world.getHeight((int) position)));
+
+            double rot = Math.toRadians(gunRotation);
+            float vx = (float) Math.cos(rot);
+            float vy = (float) Math.sin(rot);
+            Vector2 v = new Vector2(vx * power * 100, vy * power * 100);
+            projectile.setVelocity(v);
+            return projectile;
+        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

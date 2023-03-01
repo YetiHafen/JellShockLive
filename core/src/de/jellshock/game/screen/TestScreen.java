@@ -43,8 +43,7 @@ public class TestScreen extends AbstractScreen {
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             if(projectile != null)
                 projectile.dispose();
-            projectile = new TestProjectile();
-            tank.shootProjectile(projectile, 500);
+            projectile = tank.shootProjectile(5, TestProjectile.class);
         }
         if(projectile != null)
             projectile.update(delta);
