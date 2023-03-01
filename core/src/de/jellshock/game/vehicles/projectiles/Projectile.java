@@ -12,11 +12,6 @@ public abstract class Projectile implements IRenderConsumer<SpriteBatch>, Dispos
 
     private float gravity = 9.81F;
 
-    public Projectile(Vector2 position, Vector2 velocity) {
-        this.position = position;
-        this.velocity = velocity;
-    }
-
     public void update(float delta) {
         velocity.y -= gravity * delta;
 

@@ -4,8 +4,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import de.jellshock.game.rendering.IRenderConsumer;
+import de.jellshock.game.vehicles.projectiles.Projectile;
 import de.jellshock.game.world.World;
 
 public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
@@ -34,6 +36,15 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
         track = new TextureRegion(trackTexture);
         chassis = new TextureRegion(chassisTexture);
         gun = new TextureRegion(gunTexture);
+    }
+
+    public void shootProjectile(Projectile p, float power) {
+        p.setPosition(new Vector2(position, world.getHeight((int) position)));
+        double rot = Math.toRadians(gunRotation);
+        float vx = (float) Math.cos(rot);
+        float vy = (float) Math.sin(rot);
+        Vector2 v = new Vector2(vx * power, vy * power);
+        p.setVelocity(v);
     }
 
     @Override
