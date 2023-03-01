@@ -5,9 +5,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Disposable;
+import de.jellshock.game.rendering.IRenderConsumer;
 import de.jellshock.game.world.World;
 
-public class Tank implements Disposable {
+public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
 
     private final Color color;
     private final Texture chassisTexture;
@@ -35,6 +36,7 @@ public class Tank implements Disposable {
         gun = new TextureRegion(gunTexture);
     }
 
+    @Override
     public void render(SpriteBatch batch) {
         batch.setColor(color);
 
