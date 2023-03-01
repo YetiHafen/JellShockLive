@@ -12,7 +12,7 @@ import java.util.Random;
 @Getter
 public class World implements Disposable {
 
-    private Pixmap pixmap;
+    private final Pixmap pixmap;
     private Texture texture;
     private final Random random;
     private final WorldType worldType;
@@ -82,14 +82,16 @@ public class World implements Disposable {
                     pixmap.drawPixel(x, y);
                 } else {
                     float t = x / (float) width;
-                    pixmap.setColor(color.set(Color.RED).lerp(Color.ORANGE, t));
+                    pixmap.setColor(color.set(Color.BLUE).lerp(Color.CYAN, t));
                     pixmap.drawPixel(x, y);
                 }
 
             }
         }
-        if (texture != null) texture.dispose();
-        texture = new Texture(pixmap);
+        if (texture == null) {
+            texture = new Texture(pixmap);
+        }
+        texture.draw(pixmap, 0,0);
     }
 
     public void setHeight(int x, int height) {
