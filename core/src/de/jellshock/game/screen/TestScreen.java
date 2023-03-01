@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.jellshock.game.vehicles.Tank;
 import de.jellshock.game.world.World;
@@ -15,9 +16,12 @@ public class TestScreen extends AbstractScreen {
     private final World world;
     private final Tank tank;
 
+    private BitmapFont font;
+
     public TestScreen() {
         batch = new SpriteBatch();
-        world = new World(width, height, WorldType.MOUNTAIN);
+        font = new BitmapFont();
+        world = new World(5000, height, WorldType.MOUNTAIN);
         tank = new Tank(Color.CYAN, world);
         world.generateWorld();
     }
@@ -40,6 +44,7 @@ public class TestScreen extends AbstractScreen {
         batch.begin();
         world.render(batch);
         tank.render(batch);
+        font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 20, Gdx.graphics.getHeight() - 20);
         batch.end();
     }
 
