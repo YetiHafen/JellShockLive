@@ -4,11 +4,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import de.jellshock.game.rendering.IRenderConsumer;
+import de.jellshock.game.world.World;
 
 public abstract class Projectile implements IRenderConsumer<SpriteBatch>, Disposable {
 
     private Vector2 position;
     private Vector2 velocity;
+    private World world;
 
     private float gravity = 9.81F;
 
@@ -41,5 +43,13 @@ public abstract class Projectile implements IRenderConsumer<SpriteBatch>, Dispos
 
     public float getGravity() {
         return gravity;
+    }
+
+    public void setWorld(World world) {
+        this.world = world;
+    }
+
+    public World getWorld() {
+        return world;
     }
 }

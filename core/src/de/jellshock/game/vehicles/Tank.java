@@ -52,6 +52,7 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
             float vy = (float) Math.sin(rot);
             Vector2 v = new Vector2(vx * power * 100, vy * power * 100);
             projectile.setVelocity(v);
+            projectile.setWorld(world);
             return projectile;
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
