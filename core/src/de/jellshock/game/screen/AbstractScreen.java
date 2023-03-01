@@ -1,4 +1,4 @@
-package de.jellshock.game.screens;
+package de.jellshock.game.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;

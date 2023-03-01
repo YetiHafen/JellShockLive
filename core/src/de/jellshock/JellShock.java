@@ -1,7 +1,7 @@
 package de.jellshock;
 
 import com.badlogic.gdx.Game;
-import de.jellshock.game.screens.TestScreen;
+import de.jellshock.game.screen.TestScreen;
 
 public class JellShock extends Game {
 
