@@ -19,37 +19,39 @@ public class World implements Disposable {
     private final int[] worldMap;
     private final Color color;
 
-    private final int width;
-    private final int height;
+    private final int mapWidth;
+    private final int mapHeight;
+    private int screenWidth;
+    private int screenHeight;
     private final int waveLength;
     private final float frequency;
     private final int amplitude;
 
     private boolean mapChanged = false;
 
-    public World(int width, int height, int waveLength, int amplitude) {
-        this.width = width;
-        this.height = height;
+    public World(int mapWidth, int waveLength, int amplitude) {
+        this.mapWidth = mapWidth;
         this.waveLength = waveLength;
-        this.frequency = 1.0f / waveLength;
         this.amplitude = amplitude;
+        this.mapHeight = amplitude * 2;
+        this.frequency = 1.0f / waveLength;
         this.worldType = WorldType.CUSTOM;
-        pixmap = new Pixmap(width, height, Pixmap.Format.RGB888);
+        pixmap = new Pixmap(mapWidth, mapHeight, Pixmap.Format.RGB888);
         random = new Random();
-        worldMap = new int[width];
+        worldMap = new int[mapWidth];
         color = new Color();
     }
 
-    public World(int width, int height, WorldType worldType) {
-        this.width = width;
-        this.height = height;
+    public World(int mapWidth, WorldType worldType) {
+        this.mapWidth = mapWidth;
         this.worldType = worldType;
         this.waveLength = worldType.getWaveLength();
-        this.frequency = 1.0f / waveLength;
         this.amplitude = worldType.getAmplitude();
-        pixmap = new Pixmap(width, height, Pixmap.Format.RGB888);
+        this.mapHeight = amplitude * 2;
+        this.frequency = 1.0f / waveLength;
+        pixmap = new Pixmap(mapWidth, mapHeight, Pixmap.Format.RGB888);
         random = new Random();
-        worldMap = new int[width];
+        worldMap = new int[mapWidth];
         color = new Color();
     }
 
@@ -58,30 +60,30 @@ public class World implements Disposable {
         float a = random.nextFloat();
         float b = random.nextFloat();
 
-        for (int x = 0; x < width; x++) {
+        for (int x = 0; x < mapWidth; x++) {
             float y;
             if (!(x % waveLength == 0)) {
-                y = height / 2f + interpolate(a, b, (x % waveLength) * 1.0f / (float) waveLength) * amplitude;
+                y = interpolate(a, b, (x % waveLength) * 1.0f / (float) waveLength) * amplitude;
             } else {
                 a = b;
                 b = random.nextFloat();
-                y = height / 2f + (a * amplitude);
+                y = a * amplitude;
             }
-            worldMap[x] = (int) (height - y);
+            worldMap[x] = (int) (mapHeight - y);
         }
     }
 
     private void renderWorld() {
         mapChanged = false;
 
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                int worldValue = height - worldMap[x];
+        for (int x = 0; x < mapWidth; x++) {
+            for (int y = 0; y < mapHeight; y++) {
+                int worldValue = mapHeight - worldMap[x];
                 if (y < worldValue) {
                     pixmap.setColor(Color.LIGHT_GRAY);
                     pixmap.drawPixel(x, y);
                 } else {
-                    float t = x / (float) width;
+                    float t = x / (float) mapWidth;
                     pixmap.setColor(color.set(Color.BLUE).lerp(Color.CYAN, t));
                     pixmap.drawPixel(x, y);
                 }
@@ -94,29 +96,28 @@ public class World implements Disposable {
         texture.draw(pixmap, 0,0);
     }
 
-    public void setHeight(int x, int height) {
+    public void setMapHeight(int x, int height) {
         mapChanged = true;
-        assert height <= this.height;
+        assert height <= this.mapHeight;
         worldMap[x] = height;
     }
 
-    public int getHeight(int x) {
+    public int getMapHeight(int x) {
         return worldMap[x];
     }
 
     public void render(SpriteBatch batch) {
         if (mapChanged) renderWorld();
-        batch.draw(texture, 0, 0, width, height);
+        batch.draw(texture, 0, 0, mapWidth, mapHeight);
     }
 
     public void checkScreenBuffer(int width, int height) {
-        if (!(width > this.width)) return;
-        int widthDifference = (width - this.width) / 2;
-        Pixmap leftBuffer = new Pixmap(widthDifference, this.height, Pixmap.Format.RGB888);
-        Pixmap rightBuffer = new Pixmap(widthDifference, this.height, Pixmap.Format.RGB888);
+        if (!(width > this.mapWidth)) return;
+        int widthDifference = (width - this.mapWidth) / 2;
+        Pixmap leftBuffer = new Pixmap(widthDifference, this.mapHeight, Pixmap.Format.RGB888);
+        Pixmap rightBuffer = new Pixmap(widthDifference, this.mapHeight, Pixmap.Format.RGB888);
 
         for (int i = widthDifference; i < 0; i--) {
-
             for (int j = 0; j < height; j++) {
 
             }
@@ -134,6 +135,11 @@ public class World implements Disposable {
         // weight of the two texture values of the relative position
         float weight = (1 - (float) Math.cos(scaledValue)) * 0.5f;
         return aPosition * (1 - weight) + bPosition * weight;
+    }
+
+    public void updateScreenSize(int width, int height) {
+        this.screenWidth = width;
+        this.screenHeight = height;
     }
 
     @Override

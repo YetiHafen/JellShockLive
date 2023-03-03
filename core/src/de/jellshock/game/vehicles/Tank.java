@@ -30,6 +30,7 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
 
     private float scale = 0.1F;
     private static final int SLOPE_05DX = 15;
+
     public Tank(Color color, World world) {
         this.color = color;
         this.world = world;
@@ -64,7 +65,7 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
         batch.setColor(color);
 
         float x = position;
-        float y = world.getHeight((int) x);
+        float y = world.getMapHeight((int) x);
 
         float chassisWidth = chassisTexture.getWidth() * scale;
         float chassisHeight = chassisTexture.getHeight() * scale;
@@ -94,14 +95,14 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
      * @return the tank rotation in rad
      */
     private double calculateRotation() {
-        if(position < SLOPE_05DX || position > world.getWidth() - SLOPE_05DX) return 0;
-        int y0 = world.getHeight((int) (position - SLOPE_05DX));
-        int y1 = world.getHeight((int) (position + SLOPE_05DX));
+        if(position < SLOPE_05DX || position > world.getMapWidth() - SLOPE_05DX) return 0;
+        int y0 = world.getMapHeight((int) (position - SLOPE_05DX));
+        int y1 = world.getMapHeight((int) (position + SLOPE_05DX));
         return Math.atan2(y1 - y0, SLOPE_05DX * 2.0);
     }
 
     public void setPosition(float position) {
-        this.position = Math.max(SLOPE_05DX, Math.min(world.getWidth() - SLOPE_05DX - 1, position));
+        this.position = Math.max(SLOPE_05DX, Math.min(world.getMapWidth() - SLOPE_05DX - 1, position));
     }
 
     public float getPosition() {
