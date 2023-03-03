@@ -19,7 +19,7 @@ public class TestProjectile extends Projectile {
         Vector2 vel = getVelocity();
         World world = getWorld();
 
-        if(pos.y < world.getHeight((int) pos.x)) {
+        if(pos.y < world.getMapHeight((int) pos.x)) {
             // stop movement and move to top
             vel.x = 0;
             vel.y = 0;
@@ -28,7 +28,7 @@ public class TestProjectile extends Projectile {
             int x = (int) pos.x;
             for(int i = 0; i < 20; i++) {
 
-                world.setHeight(x + i, world.getHeight(x) - 20);
+                world.setMapHeight(x + i, world.getMapHeight(x) - 20);
             }
         }
         spriteBatch.draw(testTexture, getPosition().x, getPosition().y, testTexture.getWidth() * 0.1F, testTexture.getHeight() * 0.1F);

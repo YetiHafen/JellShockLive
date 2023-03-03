@@ -46,7 +46,7 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
         try {
             Constructor<? extends Projectile> constructor = projectileType.getDeclaredConstructor();
             Projectile projectile = constructor.newInstance();
-            projectile.setPosition(new Vector2(position, world.getHeight((int) position)));
+            projectile.setPosition(new Vector2(position, world.getMapHeight((int) position)));
 
             double rot = Math.toRadians(gunRotation);
             float vx = (float) Math.cos(rot);
