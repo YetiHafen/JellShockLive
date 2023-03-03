@@ -2,7 +2,7 @@ package de.jellshock.game.world;
 
 public enum WorldType {
 
-    MOUNTAIN(100, 100),
+    MOUNTAIN(100, 200),
     CAVE(100, 100),
     CUSTOM(-1, -1);
 
