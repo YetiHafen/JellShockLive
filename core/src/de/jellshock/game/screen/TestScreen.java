@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.jellshock.game.vehicles.Tank;
 import de.jellshock.game.vehicles.projectiles.Projectile;
 import de.jellshock.game.vehicles.projectiles.TestProjectile;
@@ -22,23 +24,24 @@ public class TestScreen extends AbstractScreen {
     private BitmapFont font;
 
     public TestScreen() {
+        super(new ExtendViewport(width, height));
         batch = new SpriteBatch();
         font = new BitmapFont();
-        world = new World(5000, WorldType.MOUNTAIN);
+        world = new World(2048, WorldType.MOUNTAIN);
         tank = new Tank(Color.CYAN, world);
         world.generateWorld();
+        camera.translate(tank.getPosition(), world.getMapHeight((int) tank.getPosition()));
     }
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(Color.LIGHT_GRAY);
         if(Gdx.input.isKeyPressed(Input.Keys.A)) {
             tank.moveX(-100 * delta);
-            camera.translate(-10, 0);
+            camera.translate(-delta * 100, 0);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.D)) {
             tank.moveX(100 * delta);
-            camera.translate(10, 0);
+            camera.translate(delta * 100, 0);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             tank.setGunRotation(tank.getGunRotation() + 100 * delta);
@@ -53,8 +56,10 @@ public class TestScreen extends AbstractScreen {
         }
         if(projectile != null)
             projectile.update(delta);
-        camera.update();
+        ScreenUtils.clear(Color.LIGHT_GRAY);
         batch.begin();
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
         world.render(batch);
         tank.render(batch);
         if(projectile != null)
@@ -68,5 +73,7 @@ public class TestScreen extends AbstractScreen {
         batch.dispose();
         world.dispose();
         tank.dispose();
+        font.dispose();
+        projectile.dispose();
     }
 }

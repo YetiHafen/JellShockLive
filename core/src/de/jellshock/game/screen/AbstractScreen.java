@@ -3,36 +3,35 @@ package de.jellshock.game.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class AbstractScreen implements Screen {
+public abstract class AbstractScreen implements Screen {
 
     protected OrthographicCamera camera;
     protected Viewport viewport;
 
-    protected int width;
-    protected int height;
+    protected static int width;
+    protected static int height;
+    protected static boolean fullscreen;
 
-    public AbstractScreen() {
-        this.width = Gdx.graphics.getWidth();
-        this.height = Gdx.graphics.getHeight();
-        camera = new OrthographicCamera(width, height);
-        viewport = new ScreenViewport(camera);
+    static {
+        width = Gdx.graphics.getWidth();
+        height = Gdx.graphics.getHeight();
+        fullscreen = Gdx.graphics.isFullscreen();
+    }
+
+    public AbstractScreen(Viewport viewport) {
+        this.camera = new OrthographicCamera(width, height);
+        this.viewport = viewport;
     }
 
     @Override
     public void show() {}
 
     @Override
-    public void render(float delta) {}
-
-    @Override
     public void resize(int width, int height) {
-        this.width = width;
-        this.height = height;
-        viewport.update(width, height);
+        AbstractScreen.width = width;
+        AbstractScreen.height = height;
     }
 
     @Override
