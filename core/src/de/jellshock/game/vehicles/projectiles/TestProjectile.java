@@ -19,6 +19,7 @@ public class TestProjectile extends Projectile {
         Vector2 vel = getVelocity();
         World world = getWorld();
 
+        if (pos.x >= world.getMapWidth() || pos.x < 0) return;
         if(pos.y < world.getMapHeight((int) pos.x)) {
             // stop movement and move to top
             vel.x = 0;
@@ -27,7 +28,7 @@ public class TestProjectile extends Projectile {
             // add damage to map
             int x = (int) pos.x;
             for(int i = 0; i < 20; i++) {
-
+                if (x + i >= world.getMapWidth() || x + i < 0) continue;
                 world.setMapHeight(x + i, world.getMapHeight(x) - 20);
             }
         }

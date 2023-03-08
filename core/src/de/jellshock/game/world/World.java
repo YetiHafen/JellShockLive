@@ -95,6 +95,7 @@ public class World implements Disposable {
     }
 
     public void setMapHeight(int x, int height) {
+        if (height <= 5) return;
         mapChanged = true;
         assert height <= this.mapHeight;
         worldMap[x] = height;
@@ -106,6 +107,7 @@ public class World implements Disposable {
 
     public void render(SpriteBatch batch) {
         if (mapChanged) renderWorld();
+        texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         batch.draw(texture, 0, 0, mapWidth, mapHeight);
     }
 
