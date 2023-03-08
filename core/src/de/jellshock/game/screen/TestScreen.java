@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.jellshock.game.vehicles.Tank;
 import de.jellshock.game.vehicles.projectiles.Projectile;
@@ -30,18 +32,28 @@ public class TestScreen extends AbstractScreen {
         world = new World(2048, WorldType.MOUNTAIN);
         tank = new Tank(Color.CYAN, world);
         world.generateWorld();
-        camera.translate(tank.getPosition(), world.getMapHeight((int) tank.getPosition()));
+
+        camera.position.x = world.getMapWidth() / 2F;
+        camera.position.y = Gdx.graphics.getHeight() / 2F;
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        camera.zoom = world.getMapWidth() / (float) Gdx.graphics.getWidth();
+        camera.position.x = world.getMapWidth() / 2F;
+        // TODO
+        // camera.position.y = Gdx.graphics.getHeight() / 2F + world.getMapHeight();
+        System.out.printf("cz: %f, vw: %f, gw: %d, mw: %d\n", camera.zoom, camera.viewportWidth, Gdx.graphics.getWidth(), world.getMapWidth());
+        super.resize(width, height);
     }
 
     @Override
     public void render(float delta) {
         if(Gdx.input.isKeyPressed(Input.Keys.A)) {
             tank.moveX(-100 * delta);
-            camera.translate(-delta * 100, 0);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.D)) {
             tank.moveX(100 * delta);
-            camera.translate(delta * 100, 0);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             tank.setGunRotation(tank.getGunRotation() + 100 * delta);
@@ -64,7 +76,8 @@ public class TestScreen extends AbstractScreen {
         tank.render(batch);
         if(projectile != null)
             projectile.render(batch);
-        font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 20, Gdx.graphics.getHeight() - 20);
+        font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 20, world.getMapHeight());
+        font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 20, 0);
         batch.end();
     }
 

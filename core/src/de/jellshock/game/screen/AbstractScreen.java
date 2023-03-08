@@ -32,6 +32,10 @@ public abstract class AbstractScreen implements Screen {
     public void resize(int width, int height) {
         AbstractScreen.width = width;
         AbstractScreen.height = height;
+        //viewport.setScreenSize(width, height);
+        camera.viewportHeight = height;
+        camera.viewportWidth = width;
+        camera.update();
     }
 
     @Override
