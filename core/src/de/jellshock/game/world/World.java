@@ -21,8 +21,6 @@ public class World implements Disposable {
 
     private final int mapWidth;
     private final int mapHeight;
-    private int screenWidth;
-    private int screenHeight;
     private final int waveLength;
     private final float frequency;
     private final int amplitude;
@@ -135,11 +133,6 @@ public class World implements Disposable {
         // weight of the two texture values of the relative position
         float weight = (1 - (float) Math.cos(scaledValue)) * 0.5f;
         return aPosition * (1 - weight) + bPosition * weight;
-    }
-
-    public void updateScreenSize(int width, int height) {
-        this.screenWidth = width;
-        this.screenHeight = height;
     }
 
     @Override
