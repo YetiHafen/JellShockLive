@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public abstract class AbstractScreen implements Screen {
 
-    protected OrthographicCamera camera;
+    protected static OrthographicCamera camera;
     protected Viewport viewport;
 
     protected static int width;
@@ -18,10 +18,10 @@ public abstract class AbstractScreen implements Screen {
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
         fullscreen = Gdx.graphics.isFullscreen();
+        camera = new OrthographicCamera(width, height);
     }
 
     public AbstractScreen(Viewport viewport) {
-        this.camera = new OrthographicCamera(width, height);
         this.viewport = viewport;
     }
 

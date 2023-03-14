@@ -1,12 +1,19 @@
 package de.jellshock;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import de.jellshock.game.screen.TestScreen;
+import de.jellshock.game.screen.menu.MenuScreen;
 
 public class JellShock extends Game {
 
 	private static JellShock instance;
+
+	private AssetManager assetManager;
+
 	private TestScreen testScreen;
+	private MenuScreen menuScreen;
 
 	public JellShock() {
 		instance = this;
@@ -14,9 +21,20 @@ public class JellShock extends Game {
 
 	@Override
 	public void create() {
-		testScreen = new TestScreen();
+		assetManager = new AssetManager();
 
-		setScreen(testScreen);
+		testScreen = new TestScreen();
+		menuScreen = new MenuScreen();
+		setScreen(menuScreen);
+	}
+
+	@Override
+	public void dispose() {
+
+	}
+
+	public AssetManager getAssetManager() {
+		return assetManager;
 	}
 
 	public TestScreen getTestScreen() {
