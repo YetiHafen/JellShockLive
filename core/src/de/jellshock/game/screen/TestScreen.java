@@ -26,11 +26,12 @@ public class TestScreen extends AbstractScreen {
     private BitmapFont font;
 
     public TestScreen() {
-        super(new ExtendViewport(width, height));
+        super(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         batch = new SpriteBatch();
         font = new BitmapFont();
-        world = new World(2048, WorldType.MOUNTAIN);
+        world = new World(3000, WorldType.MOUNTAIN);
         tank = new Tank(Color.CYAN, world);
+        tank.setPosition(world.getMapWidth() / 2f);
         world.generateWorld();
 
         camera.position.x = world.getMapWidth() / 2F;
@@ -42,7 +43,7 @@ public class TestScreen extends AbstractScreen {
         camera.zoom = world.getMapWidth() / (float) Gdx.graphics.getWidth();
         camera.position.x = world.getMapWidth() / 2F;
         // TODO
-        // camera.position.y = Gdx.graphics.getHeight() / 2F + world.getMapHeight();
+        // camera.position.y = 1/4f * Gdx.graphics.getWidth();
         System.out.printf("cz: %f, vw: %f, gw: %d, mw: %d\n", camera.zoom, camera.viewportWidth, Gdx.graphics.getWidth(), world.getMapWidth());
         super.resize(width, height);
     }
@@ -50,10 +51,10 @@ public class TestScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-            tank.moveX(-100 * delta);
+            tank.moveX(-1000 * delta);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-            tank.moveX(100 * delta);
+            tank.moveX(1000 * delta);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             tank.setGunRotation(tank.getGunRotation() + 100 * delta);
