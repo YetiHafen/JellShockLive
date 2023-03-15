@@ -35,20 +35,22 @@ public class MenuScreen extends AbstractMenuScreen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("kek");
                 JellShock.getInstance().setScreen(new TestScreen());
             }
         });
 
         Gdx.input.setInputProcessor(stage);
+        stage.setViewport(viewport);
 
         settingsButton = new TextButton("Settings", textButtonStyle);
         settingsButton.setSize(100, 80);
 
-        table.setPosition(Gdx.graphics.getWidth() / 2F, Gdx.graphics.getHeight() / 2F, Align.center);
         table.add(playButton);
         table.row();
         table.add(settingsButton);
+
+        table.setDebug(true);
+        table.setFillParent(true);
 
         stage.addActor(table);
     }
@@ -58,7 +60,6 @@ public class MenuScreen extends AbstractMenuScreen {
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
         spriteBatch.begin();
         super.render(delta);
-        /*spriteBatch.draw(buttonRegion, 100, 100);*/
         spriteBatch.end();
         stage.draw();
     }
