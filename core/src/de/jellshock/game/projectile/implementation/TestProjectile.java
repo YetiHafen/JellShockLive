@@ -1,13 +1,14 @@
-package de.jellshock.game.vehicles.projectiles;
+package de.jellshock.game.projectile.implementation;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import de.jellshock.game.projectile.abstraction.Projectile;
 import de.jellshock.game.world.World;
 
 public class TestProjectile extends Projectile {
 
-    private Texture testTexture = new Texture("hexenmeister.png");
+    private final Texture testTexture = new Texture("hexenmeister.png");
 
     public TestProjectile() {
         setGravity(400);
@@ -32,6 +33,7 @@ public class TestProjectile extends Projectile {
                 world.setMapHeight(x + i, world.getMapHeight(x) - 20);
             }
         }
+
         spriteBatch.draw(testTexture, getPosition().x, getPosition().y, testTexture.getWidth() * 0.1F, testTexture.getHeight() * 0.1F);
     }
 

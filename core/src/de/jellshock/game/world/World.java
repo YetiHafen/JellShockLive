@@ -5,12 +5,13 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
+import de.jellshock.game.rendering.IRenderConsumer;
 import lombok.Getter;
 
 import java.util.Random;
 
 @Getter
-public class World implements Disposable {
+public class World implements IRenderConsumer<SpriteBatch>, Disposable {
 
     private final Pixmap pixmap;
     private Texture texture;

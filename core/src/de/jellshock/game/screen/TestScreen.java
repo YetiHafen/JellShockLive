@@ -7,12 +7,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import de.jellshock.game.vehicles.Tank;
-import de.jellshock.game.vehicles.projectiles.Projectile;
-import de.jellshock.game.vehicles.projectiles.TestProjectile;
+import de.jellshock.game.vehicle.Tank;
+import de.jellshock.game.projectile.abstraction.Projectile;
+import de.jellshock.game.projectile.implementation.TestProjectile;
 import de.jellshock.game.world.World;
 import de.jellshock.game.world.WorldType;
 
