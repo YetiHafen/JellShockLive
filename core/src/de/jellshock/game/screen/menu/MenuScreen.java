@@ -1,6 +1,7 @@
 package de.jellshock.game.screen.menu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -49,7 +50,7 @@ public class MenuScreen extends AbstractMenuScreen {
         table.row();
         table.add(settingsButton);
 
-        table.setDebug(true);
+        //table.setDebug(true);
         table.setFillParent(true);
 
         stage.addActor(table);

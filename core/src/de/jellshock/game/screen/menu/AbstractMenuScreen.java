@@ -20,7 +20,7 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         spriteBatch.draw(backgroundTexture, 0 ,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        spriteBatch.draw(logoTexture, Gdx.graphics.getWidth() / 2F, 100);
+        spriteBatch.draw(logoTexture, Gdx.graphics.getWidth() / 2F - logoTexture.getWidth() / 2F, Gdx.graphics.getHeight() - 300);
     }
 
     @Override
@@ -29,4 +29,6 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
         spriteBatch.dispose();
         super.dispose();
     }
+
+
 }
