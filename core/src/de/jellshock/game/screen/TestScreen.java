@@ -26,11 +26,12 @@ public class TestScreen extends AbstractScreen {
     private BitmapFont font;
 
     public TestScreen() {
-        super(new ExtendViewport(width, height));
+        super(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         batch = new SpriteBatch();
         font = new BitmapFont();
-        world = new World(2048, WorldType.MOUNTAIN);
+        world = new World(3000, WorldType.MOUNTAIN);
         tank = new Tank(Color.CYAN, world);
+        tank.setPosition(world.getMapWidth() / 2f);
         world.generateWorld();
 
         camera.position.x = world.getMapWidth() / 2F;
