@@ -41,9 +41,7 @@ public class TestScreen extends AbstractScreen {
     public void resize(int width, int height) {
         camera.zoom = world.getMapWidth() / (float) Gdx.graphics.getWidth();
         camera.position.x = world.getMapWidth() / 2F;
-        // TODO
-        // camera.position.y = Gdx.graphics.getHeight() / 2F + world.getMapHeight();
-        System.out.printf("cz: %f, vw: %f, gw: %d, mw: %d\n", camera.zoom, camera.viewportWidth, Gdx.graphics.getWidth(), world.getMapWidth());
+        camera.position.y = camera.zoom * Gdx.graphics.getHeight() / 2;
         super.resize(width, height);
     }
 
