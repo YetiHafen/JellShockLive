@@ -1,5 +1,6 @@
 package de.jellshock.game.projectile.abstraction;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import de.jellshock.game.projectile.ProjectileCategory;
 
@@ -7,14 +8,18 @@ import java.util.List;
 
 public abstract class MultiProjectile extends Projectile {
 
-    private final List<Texture> textures;
+    protected final List<Texture> textures;
 
-    public MultiProjectile(ProjectileCategory category, boolean enabledByDefault) {
-        super(category, enabledByDefault);
-        this.textures = collectTextures();
+    public MultiProjectile(String name, Color color, ProjectileCategory category) {
+        this(name, color, category, false);
     }
 
-    public abstract List<Texture> collectTextures();
+    public MultiProjectile(String name, Color color, ProjectileCategory category, boolean enabledByDefault) {
+        super(name, color, category, enabledByDefault);
+        this.textures = getTextures();
+    }
+
+    protected abstract List<Texture> getTextures();
 
 
 }

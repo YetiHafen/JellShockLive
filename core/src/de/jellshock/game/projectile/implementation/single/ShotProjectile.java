@@ -1,24 +1,28 @@
-package de.jellshock.game.projectile.implementation;
+package de.jellshock.game.projectile.implementation.single;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import de.jellshock.game.projectile.ProjectileCategory;
-import de.jellshock.game.projectile.abstraction.Projectile;
+import de.jellshock.game.projectile.abstraction.SingleProjectile;
 import de.jellshock.game.world.World;
 
-public class TestProjectile extends Projectile {
+public class ShotProjectile extends SingleProjectile {
 
-    private final Texture testTexture = new Texture("hexenmeister.png");
-
-    public TestProjectile() {
-        super("Test", Color.BLUE, ProjectileCategory.SINGLE_SHOT, false);
+    public ShotProjectile() {
+        super("Shot", Color.CYAN, ProjectileCategory.SINGLE_SHOT);
         setGravity(400);
     }
 
     @Override
-    public void render(SpriteBatch spriteBatch) {
+    protected Texture getTexture() {
+        return new Texture(Gdx.files.internal("shot.png"));
+    }
+
+    @Override
+    public void render(SpriteBatch batch) {
         Vector2 pos = getPosition();
         Vector2 vel = getVelocity();
         World world = getWorld();
@@ -37,11 +41,10 @@ public class TestProjectile extends Projectile {
             }
         }
 
-        spriteBatch.draw(testTexture, getPosition().x, getPosition().y, testTexture.getWidth() * 0.1F, testTexture.getHeight() * 0.1F);
+        batch.draw(texture, getPosition().x, getPosition().y, texture.getWidth() * 3, texture.getHeight() * 3);
     }
 
     @Override
     public void dispose() {
-        testTexture.dispose();
     }
 }

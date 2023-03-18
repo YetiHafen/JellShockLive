@@ -25,4 +25,6 @@ public interface IProjectile extends IRenderConsumer<SpriteBatch>, Disposable {
     Color getColor();
 
 
+
+
 }

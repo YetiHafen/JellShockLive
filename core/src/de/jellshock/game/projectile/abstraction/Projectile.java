@@ -1,5 +1,6 @@
 package de.jellshock.game.projectile.abstraction;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import de.jellshock.game.projectile.IProjectile;
 import de.jellshock.game.projectile.ProjectileCategory;
@@ -7,14 +8,12 @@ import de.jellshock.game.world.World;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.awt.*;
-
 @Getter
 @Setter
 public abstract class Projectile implements IProjectile {
 
     protected ProjectileCategory category;
-    private final boolean enabledByDefault;
+    protected final boolean enabledByDefault;
     protected boolean enabled;
 
     protected String name;
@@ -26,11 +25,19 @@ public abstract class Projectile implements IProjectile {
 
     protected float gravity = 9.81F;
 
-    public Projectile(ProjectileCategory category) {
-        this(category, false);
+    public Projectile(String name, Color color) {
+        this(name, color, false);
     }
 
-    public Projectile(ProjectileCategory category, boolean enabledByDefault) {
+    public Projectile(String name, Color color, boolean enabledByDefault) {
+        this(name, color, ProjectileCategory.DEFAULT, false);
+    }
+
+    public Projectile(String name, Color color, ProjectileCategory category) {
+        this(name, color, ProjectileCategory.DEFAULT, false);
+    }
+
+    public Projectile(String name, Color color, ProjectileCategory category, boolean enabledByDefault) {
         this.category = category;
         this.enabledByDefault = enabledByDefault;
         setEnabled(enabledByDefault);
@@ -48,8 +55,8 @@ public abstract class Projectile implements IProjectile {
         this.enabled = enabled;
     }
 
-
-
-
-
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 }
