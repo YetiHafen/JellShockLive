@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import de.jellshock.game.projectile.implementation.single.ShotProjectile;
 import de.jellshock.game.vehicle.Tank;
+import de.jellshock.game.weapon.implementation.single.ShotProjectile;
 import de.jellshock.game.world.World;
 import de.jellshock.game.world.WorldType;
 
@@ -19,8 +19,6 @@ public class TestScreen extends AbstractScreen {
     private final World world;
     private final Tank tank;
     private ShotProjectile shotProjectile;
-
-    ShapeRenderer shapeRenderer;
 
     private BitmapFont font;
 
@@ -35,8 +33,6 @@ public class TestScreen extends AbstractScreen {
 
         camera.position.x = world.getMapWidth() / 2F;
         camera.position.y = world.getMapHeight() / 100F;
-
-        shapeRenderer = new ShapeRenderer();
     }
 
     @Override
@@ -80,10 +76,6 @@ public class TestScreen extends AbstractScreen {
         font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 20, world.getMapHeight());
         font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 20, 0);
         batch.end();
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.rect(camera.position.x, camera.position.y, 100, 100);
-        shapeRenderer.end();
     }
 
     @Override
