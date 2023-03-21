@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import de.jellshock.game.vehicle.Tank;
@@ -32,7 +31,7 @@ public class TestScreen extends AbstractScreen {
         world.generateWorld();
 
         camera.position.x = world.getMapWidth() / 2F;
-        camera.position.y = world.getMapHeight() / 100F;
+        camera.position.y = world.getMapHeight() / 2F;
     }
 
     @Override
