@@ -29,9 +29,6 @@ public class TestScreen extends AbstractScreen {
         tank = new Tank(Color.CYAN, world);
         tank.setPosition(world.getMapWidth() / 2F);
         world.generateWorld();
-
-        camera.position.x = world.getMapWidth() / 2F;
-        camera.position.y = world.getMapHeight() / 2F;
     }
 
     @Override
