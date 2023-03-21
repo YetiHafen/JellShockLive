@@ -1,11 +1,11 @@
-package de.jellshock.game.projectile;
+package de.jellshock.game.weapon;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 import de.jellshock.game.rendering.IRenderConsumer;
 
-public interface IProjectile extends IRenderConsumer<SpriteBatch>, Disposable {
+public interface IWeapon extends IRenderConsumer<SpriteBatch>, Disposable {
 
     /**
      * @return if this projectile is usable in the game
@@ -19,12 +19,8 @@ public interface IProjectile extends IRenderConsumer<SpriteBatch>, Disposable {
     String getName();
 
     /**
-     *
      * @return the color of this projectile which is used in the select screen and as a trail
      */
     Color getColor();
-
-
-
 
 }

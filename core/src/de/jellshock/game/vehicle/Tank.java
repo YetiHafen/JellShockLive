@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import de.jellshock.game.rendering.IRenderConsumer;
-import de.jellshock.game.projectile.abstraction.Projectile;
+import de.jellshock.game.weapon.abstraction.AbstractWeapon;
 import de.jellshock.game.world.World;
 
 import java.lang.reflect.Constructor;
@@ -29,7 +29,7 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
     private final World world;
 
     private float scale = 0.1F;
-    private static final int SLOPE_05DX = 15;
+    private static final int SLOPE_05DX = 10;
 
     public Tank(Color color, World world) {
         this.color = color;
@@ -42,10 +42,10 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
         gun = new TextureRegion(gunTexture);
     }
 
-    public Projectile shootProjectile(float power, Class<? extends Projectile> projectileType) {
+    public AbstractWeapon shootProjectile(float power, Class<? extends AbstractWeapon> projectileType) {
         try {
-            Constructor<? extends Projectile> constructor = projectileType.getDeclaredConstructor();
-            Projectile projectile = constructor.newInstance();
+            Constructor<? extends AbstractWeapon> constructor = projectileType.getDeclaredConstructor();
+            AbstractWeapon projectile = constructor.newInstance();
             projectile.setPosition(new Vector2(position, world.getMapHeight((int) position)));
 
             double rot = Math.toRadians(gunRotation);

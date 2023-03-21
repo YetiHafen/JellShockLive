@@ -1,44 +1,40 @@
-package de.jellshock.game.projectile.abstraction;
+package de.jellshock.game.weapon.abstraction;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import de.jellshock.game.projectile.IProjectile;
-import de.jellshock.game.projectile.ProjectileCategory;
+import de.jellshock.game.weapon.IWeapon;
 import de.jellshock.game.world.World;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class Projectile implements IProjectile {
+public abstract class AbstractWeapon implements IWeapon {
 
-    protected ProjectileCategory category;
     protected final boolean enabledByDefault;
     protected boolean enabled;
-
     protected String name;
-    protected Color color;
 
+    protected Color color;
+    protected World world;
+
+    protected int damage;
+    protected int damageRadius;
+
+    // projectile position
     protected Vector2 position;
     protected Vector2 velocity;
-    protected World world;
 
     protected float gravity = 9.81F;
 
-    public Projectile(String name, Color color) {
+
+    public AbstractWeapon(String name, Color color) {
         this(name, color, false);
     }
 
-    public Projectile(String name, Color color, boolean enabledByDefault) {
-        this(name, color, ProjectileCategory.DEFAULT, false);
-    }
-
-    public Projectile(String name, Color color, ProjectileCategory category) {
-        this(name, color, ProjectileCategory.DEFAULT, false);
-    }
-
-    public Projectile(String name, Color color, ProjectileCategory category, boolean enabledByDefault) {
-        this.category = category;
+    public AbstractWeapon(String name, Color color, boolean enabledByDefault) {
+        this.name = name;
+        this.color = color;
         this.enabledByDefault = enabledByDefault;
         setEnabled(enabledByDefault);
     }
