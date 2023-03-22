@@ -106,6 +106,25 @@ public class World implements IRenderConsumer<SpriteBatch>, Disposable {
         return worldMap[x];
     }
 
+    public void addCircleDamage(int position, int depth, int radius) {
+        int centerHeight = getMapHeight(position) - depth;
+
+        for(int i = -radius; i < radius; i++) {
+            int currentX = position + i;
+            if(!isXinBounds(currentX)) continue;
+            int circleHeight = (int) (Math.sin(Math.acos(i/(double)radius)) * radius);
+
+            int newHeight = centerHeight - circleHeight;
+            if(newHeight < getMapHeight(currentX)) {
+                setMapHeight(currentX, newHeight);
+            }
+        }
+    }
+
+    public boolean isXinBounds(int xPos) {
+        return xPos >= 0 && xPos < worldMap.length;
+    }
+
     public void render(SpriteBatch batch) {
         if (mapChanged) renderWorld();
         texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);

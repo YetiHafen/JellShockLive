@@ -24,11 +24,7 @@ public abstract class SingleProjectile extends AbstractWeapon {
             velocity.y = 0;
             position.y = Integer.MAX_VALUE;
             // add damage to map
-            int x = (int) position.x;
-            for(int i = 0; i < 20; i++) {
-                if (x + i >= world.getMapWidth() || x + i < 0) continue;
-                world.setMapHeight(x + i, world.getMapHeight(x) - 20);
-            }
+            world.addCircleDamage((int) position.x, 0, 100);
         }
         batch.draw(texture, getPosition().x, getPosition().y, texture.getWidth() * 3, texture.getHeight() * 3);
     }
