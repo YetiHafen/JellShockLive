@@ -96,7 +96,7 @@ public class World implements IRenderConsumer<SpriteBatch>, Disposable {
     }
 
     public void setMapHeight(int x, int height) {
-        if (height <= 5) return;
+        if (height <= 5) height = 6;
         mapChanged = true;
         assert height <= this.mapHeight;
         worldMap[x] = height;
