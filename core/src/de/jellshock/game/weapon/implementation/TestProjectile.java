@@ -10,7 +10,7 @@ import de.jellshock.game.weapon.abstraction.SingleProjectile;
 public class TestProjectile extends SingleProjectile {
 
     public TestProjectile() {
-        super("Test", Color.BLUE, false);
+        super("Test", Color.BLUE);
         setGravity(400);
     }
 

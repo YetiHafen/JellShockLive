@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Weapon {
+    WeaponType type() default WeaponType.UNKNOWN;
 
-    WeaponType type();
-
+    boolean enabledByDefault() default false;
 }

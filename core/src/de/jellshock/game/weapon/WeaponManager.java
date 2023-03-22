@@ -1,5 +1,6 @@
 package de.jellshock.game.weapon;
 
+import de.jellshock.game.weapon.abstraction.AbstractWeapon;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -10,22 +11,18 @@ import java.util.function.Predicate;
 @Getter
 public class WeaponManager {
 
-    private final HashMap<WeaponType, IWeapon> weapons;
+    private final HashMap<WeaponType, AbstractWeapon> weapons;
 
     public WeaponManager() {
         weapons = new HashMap<>();
     }
 
-    public void register(IWeapon weapon) {
+    public void register(AbstractWeapon weapon) {
         if (weapons.containsValue(weapon)) return;
-        WeaponType weaponType = WeaponType.UNKNOWN;
-        if (weapon.getClass().isAnnotationPresent(Weapon.class)) {
-             weaponType = weapon.getClass().getAnnotation(Weapon.class).type();
-        }
-        weapons.put(weaponType, weapon);
-    }
+        if (!weapon.getClass().isAnnotationPresent(Weapon.class))
+            throw new IllegalArgumentException(weapon.getClass() + " is not annotated with " + Weapon.class);
 
-    public static boolean isAnno(IWeapon weapon) {
-        return weapon.getClass().isAnnotationPresent(Weapon.class);
+        Weapon annotation = weapon.getClass().getAnnotation(Weapon.class);
+        weapons.put(annotation.type(), weapon);
     }
 }

@@ -12,11 +12,7 @@ public abstract class MultiProjectile extends AbstractWeapon {
     protected final List<Texture> textures;
 
     public MultiProjectile(String name, Color color) {
-        this(name, color, false);
-    }
-
-    public MultiProjectile(String name, Color color, boolean enabledByDefault) {
-        super(name, color, enabledByDefault);
+        super(name, color);
         this.textures = getTextures();
     }
 

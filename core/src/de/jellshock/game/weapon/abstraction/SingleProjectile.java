@@ -9,11 +9,7 @@ public abstract class SingleProjectile extends AbstractWeapon {
     protected Texture texture;
 
     public SingleProjectile(String name, Color color) {
-        this(name, color, false);
-    }
-
-    public SingleProjectile(String name, Color color, boolean enabledByDefault) {
-        super(name, color, enabledByDefault);
+        super(name, color);
         this.texture = getTexture();
     }
 

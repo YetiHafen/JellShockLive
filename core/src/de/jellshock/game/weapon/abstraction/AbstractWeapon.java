@@ -1,18 +1,18 @@
 package de.jellshock.game.weapon.abstraction;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import de.jellshock.game.weapon.IWeapon;
+import com.badlogic.gdx.utils.Disposable;
+import de.jellshock.game.rendering.IRenderConsumer;
 import de.jellshock.game.world.World;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class AbstractWeapon implements IWeapon {
+public abstract class AbstractWeapon implements IRenderConsumer<SpriteBatch>, Disposable {
 
-    protected final boolean enabledByDefault;
-    protected boolean enabled;
     protected String name;
 
     protected Color color;
@@ -28,15 +28,10 @@ public abstract class AbstractWeapon implements IWeapon {
     protected float gravity = 9.81F;
 
 
-    public AbstractWeapon(String name, Color color) {
-        this(name, color, false);
-    }
 
-    public AbstractWeapon(String name, Color color, boolean enabledByDefault) {
+    public AbstractWeapon(String name, Color color) {
         this.name = name;
         this.color = color;
-        this.enabledByDefault = enabledByDefault;
-        setEnabled(enabledByDefault);
     }
 
     public void update(float delta) {
@@ -44,15 +39,5 @@ public abstract class AbstractWeapon implements IWeapon {
 
         position.x += velocity.x * delta;
         position.y += velocity.y * delta;
-    }
-
-    public void setEnabled(boolean enabled) {
-        if (this.enabled == enabled) return;
-        this.enabled = enabled;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled;
     }
 }
