@@ -75,7 +75,8 @@ public class World implements IRenderConsumer<SpriteBatch>, Disposable {
 
     private void renderWorld() {
         mapChanged = false;
-
+        pixmap.setColor(Color.BLACK);
+        pixmap.fill();
         for (int x = 0; x < mapWidth; x++) {
             for (int y = 0; y < mapHeight; y++) {
                 int worldValue = mapHeight - worldMap[x];
