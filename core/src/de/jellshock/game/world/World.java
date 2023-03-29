@@ -83,14 +83,11 @@ public class World implements IRenderConsumer<SpriteBatch>, Disposable {
                     pixmap.setColor(Color.LIGHT_GRAY);
                     pixmap.drawPixel(x, y);
                 } else {
-                    Color worldColor = Color.CYAN;
+                    Color worldColor = Color.CYAN.cpy();
                     worldColor.a = 1F - ((float) (y - worldValue) / (float) (mapHeight - worldValue));
                     pixmap.setColor(worldColor);
-                    // Reset global color alpha value
-                    worldColor.a = 1;
                     pixmap.drawPixel(x, y);
                 }
-
             }
         }
         if (texture == null) {
