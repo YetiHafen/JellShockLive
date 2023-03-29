@@ -1,6 +1,7 @@
 package de.jellshock.game.world;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -82,8 +83,11 @@ public class World implements IRenderConsumer<SpriteBatch>, Disposable {
                     pixmap.setColor(Color.LIGHT_GRAY);
                     pixmap.drawPixel(x, y);
                 } else {
-                    float t = x / (float) mapWidth;
-                    pixmap.setColor(color.set(Color.BLUE).lerp(Color.CYAN, t));
+                    Color worldColor = Color.CYAN;
+                    worldColor.a = 1F - ((float) (y - worldValue) / (float) (mapHeight - worldValue));
+                    pixmap.setColor(worldColor);
+                    // Reset global color alpha value
+                    worldColor.a = 1;
                     pixmap.drawPixel(x, y);
                 }
 
@@ -128,6 +132,8 @@ public class World implements IRenderConsumer<SpriteBatch>, Disposable {
     public void render(SpriteBatch batch) {
         if (mapChanged) renderWorld();
         texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        //batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ALPHA);
+        //batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_DST_ALPHA);
         batch.draw(texture, 0, 0, mapWidth, mapHeight);
     }
 
