@@ -1,12 +1,12 @@
 package de.jellshock.game.screen.game;
 
-import de.jellshock.game.player.Player;
+public class OfflineScreen extends GameScreen {
 
-import java.util.ArrayList;
 
-public class OfflineScreen extends AbstractGameScreen {
-    
-    private Player player;
+
+    public OfflineScreen() {
+
+    }
 
     /**
      * @param delta The time in seconds since the last render.

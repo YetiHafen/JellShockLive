@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import de.jellshock.game.rendering.IRenderConsumer;
 import de.jellshock.game.weapon.abstraction.AbstractWeapon;
-import de.jellshock.game.world.World;
+import de.jellshock.game.world.Map;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -26,12 +26,12 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
     private float gunRotation = 0;
 
     private float position = 0;
-    private final World world;
+    private final Map world;
 
     private float scale = 0.1F;
     private static final int SLOPE_05DX = 10;
 
-    public Tank(Color color, World world) {
+    public Tank(Color color, Map world) {
         this.color = color;
         this.world = world;
         chassisTexture = new Texture("tank/chassis_round.png");

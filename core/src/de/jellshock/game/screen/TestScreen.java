@@ -9,13 +9,13 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import de.jellshock.game.vehicle.Tank;
 import de.jellshock.game.weapon.implementation.single.ShotProjectile;
-import de.jellshock.game.world.World;
-import de.jellshock.game.world.WorldType;
+import de.jellshock.game.world.Map;
+import de.jellshock.game.world.MapType;
 
 public class TestScreen extends AbstractScreen {
 
     private final SpriteBatch batch;
-    private final World world;
+    private final Map world;
     private final Tank tank;
     private ShotProjectile shotProjectile;
 
@@ -25,10 +25,10 @@ public class TestScreen extends AbstractScreen {
         super(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         batch = new SpriteBatch();
         font = new BitmapFont();
-        world = new World(3000, WorldType.MOUNTAIN);
+        world = new Map(3000, MapType.MOUNTAIN);
         tank = new Tank(Color.CYAN, world);
         tank.setPosition(world.getMapWidth() / 2F);
-        world.generateWorld();
+        world.generateMap();
     }
 
     @Override

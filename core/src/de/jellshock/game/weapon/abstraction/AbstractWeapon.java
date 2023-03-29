@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import de.jellshock.game.rendering.IRenderConsumer;
-import de.jellshock.game.world.World;
+import de.jellshock.game.world.Map;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +16,7 @@ public abstract class AbstractWeapon implements IRenderConsumer<SpriteBatch>, Di
     protected String name;
 
     protected Color color;
-    protected World world;
+    protected Map world;
 
     protected int damage;
     protected int damageRadius;

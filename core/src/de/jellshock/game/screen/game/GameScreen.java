@@ -2,25 +2,45 @@ package de.jellshock.game.screen.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import de.jellshock.game.player.Player;
 import de.jellshock.game.screen.AbstractScreen;
-import de.jellshock.game.world.World;
-import de.jellshock.game.world.WorldType;
+import de.jellshock.game.world.Map;
+import de.jellshock.game.world.MapType;
 
-public abstract class AbstractGameScreen extends AbstractScreen {
+import java.util.List;
+
+public abstract class GameScreen extends AbstractScreen {
 
     private final SpriteBatch batch;
+    private final InputMultiplexer multiplexer;
 
-    private final World world;
+    private final Map world;
 
-    public AbstractGameScreen() {
+    private Player localPlayer;
+    private List<Player> enemyPlayer;
+
+    public GameScreen() {
         super(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         batch = new SpriteBatch();
-        world = new World(3000, WorldType.MOUNTAIN);
-        world.generateWorld();
+
+        multiplexer = new InputMultiplexer();
+        // add stages
+
+        world = new Map(3000, MapType.MOUNTAIN);
+        world.generateMap();
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(multiplexer);
     }
 
     /**
