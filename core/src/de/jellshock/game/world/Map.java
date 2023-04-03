@@ -14,9 +14,9 @@ import java.util.Random;
 public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
 
     private final Pixmap pixmap;
-    private Texture texture;
+    private Texture mapTexture;
     private final Random random;
-    private final MapType mapType;
+    private MapType mapType;
     private final int[] worldMap;
     private final Color color;
 
@@ -28,26 +28,18 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
 
     private boolean mapChanged = false;
 
+    public Map(int mapWidth, MapType mapType) {
+        this(mapWidth, mapType.getWaveLength(), mapType.getAmplitude());
+        this.mapType = mapType;
+    }
+
     public Map(int mapWidth, int waveLength, int amplitude) {
         this.mapWidth = mapWidth;
         this.waveLength = waveLength;
         this.amplitude = amplitude;
         this.mapHeight = amplitude * 2;
-        this.frequency = 1.0f / waveLength;
+        this.frequency = 1.0F / waveLength;
         this.mapType = MapType.CUSTOM;
-        pixmap = new Pixmap(mapWidth, mapHeight, Pixmap.Format.RGB888);
-        random = new Random();
-        worldMap = new int[mapWidth];
-        color = new Color();
-    }
-
-    public Map(int mapWidth, MapType mapType) {
-        this.mapWidth = mapWidth;
-        this.mapType = mapType;
-        this.waveLength = mapType.getWaveLength();
-        this.amplitude = mapType.getAmplitude();
-        this.mapHeight = amplitude * 2;
-        this.frequency = 1.0f / waveLength;
         pixmap = new Pixmap(mapWidth, mapHeight, Pixmap.Format.RGB888);
         random = new Random();
         worldMap = new int[mapWidth];
@@ -79,21 +71,23 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
         for (int x = 0; x < mapWidth; x++) {
             for (int y = 0; y < mapHeight; y++) {
                 int mapValue = mapHeight - worldMap[x];
-                if (y < mapValue) {
-                    pixmap.setColor(Color.LIGHT_GRAY);
-                    pixmap.drawPixel(x, y);
-                } else {
+
+                if (y > mapValue) {
+                    pixmap.setBlending(Pixmap.Blending.SourceOver);
                     Color mapColor = Color.CYAN.cpy();
                     mapColor.a = 1F - ((float) (y - mapValue) / (float) (mapHeight - mapValue));
                     pixmap.setColor(mapColor);
                     pixmap.drawPixel(x, y);
+                } else {
+                    pixmap.setBlending(Pixmap.Blending.None);
+                    pixmap.drawPixel(x, y, Color.CLEAR.toIntBits());
                 }
             }
         }
-        if (texture == null) {
-            texture = new Texture(pixmap);
+        if (mapTexture == null) {
+            mapTexture = new Texture(pixmap);
         }
-        texture.draw(pixmap, 0,0);
+        mapTexture.draw(pixmap, 0,0);
     }
 
     public void setMapHeight(int x, int height) {
@@ -128,10 +122,10 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
 
     public void render(SpriteBatch batch) {
         if (mapChanged) renderMap();
-        texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        mapTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         //batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ALPHA);
         //batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_DST_ALPHA);
-        batch.draw(texture, 0, 0, mapWidth, mapHeight);
+        batch.draw(mapTexture, 0, 0, mapWidth, mapHeight);
     }
 
     public void checkScreenBuffer(int width, int height) {
@@ -162,7 +156,7 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
 
     @Override
     public void dispose() {
-        texture.dispose();
+        mapTexture.dispose();
         pixmap.dispose();
     }
 }

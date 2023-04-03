@@ -2,7 +2,6 @@ package de.jellshock.game.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -13,7 +12,7 @@ public abstract class AbstractScreen implements Screen {
     protected Viewport viewport;
 
     public AbstractScreen(Viewport viewport) {
-        this.camera = (OrthographicCamera)  viewport.getCamera();
+        this.camera = (OrthographicCamera) viewport.getCamera();
         this.viewport = viewport;
     }
 
@@ -26,7 +25,6 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        //viewport.setScreenSize(width, height);
         camera.viewportHeight = height;
         camera.viewportWidth = width;
         camera.update();

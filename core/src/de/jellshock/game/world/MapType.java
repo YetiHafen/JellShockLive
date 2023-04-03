@@ -2,8 +2,8 @@ package de.jellshock.game.world;
 
 public enum MapType {
 
-    MOUNTAIN(100, 200),
-    CAVE(100, 100),
+    MOUNTAIN(100, 400),
+    HILLS(200, 300),
     CUSTOM(-1, -1);
 
     private final int waveLength;

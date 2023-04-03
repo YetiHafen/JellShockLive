@@ -2,79 +2,87 @@ package de.jellshock.game.screen.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import de.jellshock.game.event.key.KeyEventManager;
+import de.jellshock.game.event.key.KeyInputProcessor;
 import de.jellshock.game.player.Player;
 import de.jellshock.game.screen.AbstractScreen;
-import de.jellshock.game.world.Map;
+import de.jellshock.game.weapon.implementation.single.ShotProjectile;
 import de.jellshock.game.world.MapType;
-
-import java.util.List;
+import de.jellshock.game.world.World;
 
 public abstract class GameScreen extends AbstractScreen {
 
-    private final SpriteBatch batch;
-    private final InputMultiplexer multiplexer;
+    protected final SpriteBatch batch;
+    protected final KeyEventManager keyEventManager;
+    protected final KeyInputProcessor inputProcessor;
 
-    private final Map world;
+    protected final World world;
+    protected final Player player;
 
-    private Player localPlayer;
-    private List<Player> enemyPlayer;
+    protected ShotProjectile shotProjectile;
 
-    public GameScreen() {
+    public GameScreen(String worldName, MapType mapType, String playerName) {
         super(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         batch = new SpriteBatch();
 
-        multiplexer = new InputMultiplexer();
-        // add stages
+        world = new World(worldName, mapType);
+        world.generateWorld();
 
-        world = new Map(3000, MapType.MOUNTAIN);
-        world.generateMap();
+        player = new Player(playerName, world);
+
+        keyEventManager = new KeyEventManager();
+        inputProcessor = new KeyInputProcessor(keyEventManager);
+
+        keyEventManager.registerKeyListener(player);
     }
 
-    /**
-     *
-     */
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(multiplexer);
     }
 
-    /**
-     * @param delta The time in seconds since the last render.
-     */
     @Override
     public void render(float delta) {
+        inputProcessor.keyPressed();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            if (shotProjectile != null) {
+                shotProjectile.dispose();
+            }
+            shotProjectile = (ShotProjectile) player.getTank().shootProjectile(5, ShotProjectile.class);
+        }
+        if (shotProjectile != null) {
+            shotProjectile.update(delta);
+        }
         ScreenUtils.clear(Color.LIGHT_GRAY);
         batch.begin();
         camera.update();
         batch.setProjectionMatrix(camera.combined);
-
-        world.render(batch);
-
+        world.renderWorld(batch);
+        player.getTank().render(batch);
+        update(delta);
         batch.end();
     }
 
+    public abstract void update(float delta);
+
     @Override
     public void resize(int width, int height) {
-        camera.zoom = world.getMapWidth() / (float) Gdx.graphics.getWidth();
-        camera.position.x = world.getMapWidth() / 2F;
+        int mapWidth = world.getMap().getMapWidth();
+        camera.zoom = mapWidth / (float) Gdx.graphics.getWidth();
+        camera.position.x = mapWidth / 2F;
         camera.position.y = camera.zoom * Gdx.graphics.getHeight() / 2;
         super.resize(width, height);
-    }
-
-    protected void checkInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-
-        }
     }
 
     @Override
     public void dispose() {
         batch.dispose();
         world.dispose();
+        player.dispose();
+        shotProjectile.dispose();
+        batch.dispose();
     }
 }

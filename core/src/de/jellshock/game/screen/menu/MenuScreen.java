@@ -1,23 +1,23 @@
 package de.jellshock.game.screen.menu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import de.jellshock.JellShock;
 import de.jellshock.game.screen.TestScreen;
+import de.jellshock.game.screen.game.OfflineScreen;
+import de.jellshock.game.screen.game.OnlineScreen;
 
 public class MenuScreen extends AbstractMenuScreen {
 
-
     private final TextButton.TextButtonStyle textButtonStyle;
 
-    private final TextButton playButton;
+    private final TextButton offlineButton;
+    private final TextButton onlineButton;
     private final TextButton settingsButton;
 
     private final Stage stage;
@@ -30,13 +30,20 @@ public class MenuScreen extends AbstractMenuScreen {
         Skin skin = new Skin(Gdx.files.internal("neon/skin/neon-ui.json"));
         textButtonStyle = skin.get(TextButton.TextButtonStyle.class);
 
-        playButton = new TextButton("Play!", textButtonStyle);
-        playButton.setSize(100, 80);
+        offlineButton = new TextButton("Play!", textButtonStyle);
+        onlineButton = new TextButton("Online!", textButtonStyle);
 
-        playButton.addListener(new ClickListener() {
+        offlineButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                JellShock.getInstance().setScreen(new TestScreen());
+                JellShock.getInstance().setScreen(new OfflineScreen());
+            }
+        });
+
+        onlineButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                JellShock.getInstance().setScreen(new OnlineScreen());
             }
         });
 
@@ -46,11 +53,11 @@ public class MenuScreen extends AbstractMenuScreen {
         settingsButton = new TextButton("Settings", textButtonStyle);
         settingsButton.setSize(100, 80);
 
-        table.add(playButton);
+        table.add(offlineButton);
+        table.row();
+        table.add(onlineButton);
         table.row();
         table.add(settingsButton);
-
-        //table.setDebug(true);
         table.setFillParent(true);
 
         stage.addActor(table);
@@ -69,6 +76,11 @@ public class MenuScreen extends AbstractMenuScreen {
     public void resize(int width, int height) {
         viewport.update(width, height, true);
         super.resize(width, height);
+    }
+
+    @Override
+    public void hide() {
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override

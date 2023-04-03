@@ -12,7 +12,7 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
     protected SpriteBatch spriteBatch;
 
     public AbstractMenuScreen() {
-        backgroundTexture = new Texture("background/background.png");
+        backgroundTexture = new Texture("menu/background.png");
         logoTexture = new Texture("jellshock.png");
         spriteBatch = new SpriteBatch();
     }

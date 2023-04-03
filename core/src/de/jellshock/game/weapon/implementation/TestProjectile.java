@@ -15,6 +15,11 @@ public class TestProjectile extends SingleProjectile {
     }
 
     @Override
+    protected void onMapCollision() {
+        world.getMap().addCircleDamage((int) position.x, 10, 10);
+    }
+
+    @Override
     protected Texture getTexture() {
         return new Texture("hexenmeister.png");
     }

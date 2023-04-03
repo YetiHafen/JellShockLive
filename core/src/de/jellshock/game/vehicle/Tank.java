@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Disposable;
 import de.jellshock.game.rendering.IRenderConsumer;
 import de.jellshock.game.weapon.abstraction.AbstractWeapon;
 import de.jellshock.game.world.Map;
+import de.jellshock.game.world.World;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -26,12 +27,12 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
     private float gunRotation = 0;
 
     private float position = 0;
-    private final Map world;
+    private final World world;
 
     private float scale = 0.1F;
     private static final int SLOPE_05DX = 10;
 
-    public Tank(Color color, Map world) {
+    public Tank(Color color, World world) {
         this.color = color;
         this.world = world;
         chassisTexture = new Texture("tank/chassis_round.png");
@@ -46,7 +47,7 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
         try {
             Constructor<? extends AbstractWeapon> constructor = projectileType.getDeclaredConstructor();
             AbstractWeapon projectile = constructor.newInstance();
-            projectile.setPosition(new Vector2(position, world.getMapHeight((int) position)));
+            projectile.setPosition(new Vector2(position, world.getMap().getMapHeight((int) position)));
 
             double rot = Math.toRadians(gunRotation);
             float vx = (float) Math.cos(rot);
@@ -65,7 +66,7 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
         batch.setColor(color);
 
         float x = position;
-        float y = world.getMapHeight((int) x);
+        float y = world.getMap().getMapHeight((int) x);
 
         float chassisWidth = chassisTexture.getWidth() * scale;
         float chassisHeight = chassisTexture.getHeight() * scale;
@@ -95,14 +96,14 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
      * @return the tank rotation in rad
      */
     private double calculateRotation() {
-        if(position < SLOPE_05DX || position > world.getMapWidth() - SLOPE_05DX) return 0;
-        int y0 = world.getMapHeight((int) (position - SLOPE_05DX));
-        int y1 = world.getMapHeight((int) (position + SLOPE_05DX));
+        if(position < SLOPE_05DX || position > world.getMap().getMapWidth() - SLOPE_05DX) return 0;
+        int y0 = world.getMap().getMapHeight((int) (position - SLOPE_05DX));
+        int y1 = world.getMap().getMapHeight((int) (position + SLOPE_05DX));
         return Math.atan2(y1 - y0, SLOPE_05DX * 2.0);
     }
 
     public void setPosition(float position) {
-        this.position = Math.max(SLOPE_05DX, Math.min(world.getMapWidth() - SLOPE_05DX - 1, position));
+        this.position = Math.max(SLOPE_05DX, Math.min(world.getMap().getMapWidth() - SLOPE_05DX - 1, position));
     }
 
     public float getPosition() {

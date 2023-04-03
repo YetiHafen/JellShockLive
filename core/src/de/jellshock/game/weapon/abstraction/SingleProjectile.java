@@ -17,20 +17,22 @@ public abstract class SingleProjectile extends AbstractWeapon {
 
     @Override
     public void render(SpriteBatch batch) {
-        if (position.x >= world.getMapWidth() || position.x < 0) return;
+        if (position.x >= world.getMap().getMapWidth() || position.x < 0) return;
         if (checkMapCollision()) {
             // stop movement and move to top
             velocity.x = 0;
             velocity.y = 0;
             position.y = Integer.MAX_VALUE;
-            // add damage to map
-            world.addCircleDamage((int) position.x, 0, 500);
+
+            onMapCollision();
         }
         batch.draw(texture, getPosition().x, getPosition().y, texture.getWidth(), texture.getHeight());
     }
 
+    protected abstract void onMapCollision();
+
     private boolean checkMapCollision() {
-        return position.y < world.getMapHeight((int) position.x);
+        return position.y < world.getMap().getMapHeight((int) position.x);
     }
 
     @Override
