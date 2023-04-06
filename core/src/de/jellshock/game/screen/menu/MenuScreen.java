@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.jellshock.JellShock;
-import de.jellshock.game.screen.TestScreen;
 import de.jellshock.game.screen.game.OfflineScreen;
 import de.jellshock.game.screen.game.OnlineScreen;
 

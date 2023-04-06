@@ -40,7 +40,7 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
         this.mapHeight = amplitude * 2;
         this.frequency = 1.0F / waveLength;
         this.mapType = MapType.CUSTOM;
-        pixmap = new Pixmap(mapWidth, mapHeight, Pixmap.Format.RGB888);
+        pixmap = new Pixmap(mapWidth, mapHeight, Pixmap.Format.RGBA8888);
         random = new Random();
         worldMap = new int[mapWidth];
         color = new Color();
@@ -80,7 +80,7 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
                     pixmap.drawPixel(x, y);
                 } else {
                     pixmap.setBlending(Pixmap.Blending.None);
-                    pixmap.drawPixel(x, y, Color.CLEAR.toIntBits());
+                    pixmap.drawPixel(x, y);
                 }
             }
         }
@@ -123,27 +123,7 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
     public void render(SpriteBatch batch) {
         if (mapChanged) renderMap();
         mapTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        //batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ALPHA);
-        //batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_DST_ALPHA);
         batch.draw(mapTexture, 0, 0, mapWidth, mapHeight);
-    }
-
-    public void checkScreenBuffer(int width, int height) {
-        if (!(width > this.mapWidth)) return;
-        int widthDifference = (width - this.mapWidth) / 2;
-        Pixmap leftBuffer = new Pixmap(widthDifference, this.mapHeight, Pixmap.Format.RGB888);
-        Pixmap rightBuffer = new Pixmap(widthDifference, this.mapHeight, Pixmap.Format.RGB888);
-
-        for (int i = widthDifference; i < 0; i--) {
-            for (int j = 0; j < height; j++) {
-
-            }
-        }
-
-        for (int i = 0; i < widthDifference; i++) {
-
-        }
-
     }
 
     private float interpolate(float aPosition, float bPosition, float relativeDistance) {
