@@ -18,7 +18,7 @@ public class ShotProjectile extends SingleProjectile {
 
     @Override
     protected void onMapCollision() {
-        world.getMap().addCircleDamage((int) position.x, 200, 200);
+        world.getMap().addCircleDamage((int) position.x, 0, 200);
     }
 
     @Override

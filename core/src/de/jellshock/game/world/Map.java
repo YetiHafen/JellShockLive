@@ -25,6 +25,7 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
     private final int waveLength;
     private final float frequency;
     private final int amplitude;
+    private final int maxSlope = 10;
 
     private boolean mapChanged = false;
 
@@ -64,8 +65,13 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
         }
     }
 
-    private void renderMap() {
+    public void updateMap() {
+        smoothSurface();
+        renderMap();
         mapChanged = false;
+    }
+
+    private void renderMap() {
         pixmap.setColor(Color.BLACK);
         pixmap.fill();
         for (int x = 0; x < mapWidth; x++) {
@@ -101,6 +107,44 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
         return worldMap[x];
     }
 
+    public void smoothSurface() {
+        int heightPrev = worldMap[0];
+        for(int i = 0; i < worldMap.length; i++) {
+            int slope = Math.abs(worldMap[i] - heightPrev);
+            if(slope > maxSlope) {
+                int x1 = Math.max(0, i - slope);
+                int x2 = Math.min(worldMap.length - 1, i + slope);
+                smoothRange(x1, x2);
+            }
+            heightPrev = worldMap[i];
+        }
+    }
+
+    private void smoothRange(int x1, int x2) {
+        int maxY = 0;
+        int maxX = 0;
+        for(int i = x1; i <= x2; i++) {
+            maxY = Math.max(maxY, worldMap[i]);
+            if(maxY == worldMap[i]) maxX = i;
+        }
+
+        for(int i = x1; i < maxX; i++) {
+            int start = worldMap[x1];
+            int end = worldMap[maxX - 1];
+            float progress =  (i - x1) / (float) (maxX - x1);
+            worldMap[i] = (int) interpolate(start, end, progress);
+        }
+
+
+        for(int i = maxX; i <= x2; i++) {
+            int start = worldMap[maxX];
+            int end = worldMap[x2];
+            float progress = (i - maxX) / (float) (x2 - maxX);
+            worldMap[i] = (int) interpolate(start, end, progress);
+        }
+        mapChanged = true;
+    }
+
     public void addCircleDamage(int position, int depth, int radius) {
         int centerHeight = getMapHeight(position) - depth;
 
@@ -121,7 +165,7 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
     }
 
     public void render(SpriteBatch batch) {
-        if (mapChanged) renderMap();
+        if (mapChanged) updateMap();
         mapTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         batch.draw(mapTexture, 0, 0, mapWidth, mapHeight);
     }
