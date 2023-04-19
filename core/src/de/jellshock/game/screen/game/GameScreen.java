@@ -9,10 +9,14 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import de.jellshock.game.event.key.KeyEventManager;
 import de.jellshock.game.event.key.KeyInputProcessor;
 import de.jellshock.game.player.Player;
+import de.jellshock.game.rendering.IRenderConsumer;
 import de.jellshock.game.screen.AbstractScreen;
 import de.jellshock.game.weapon.implementation.single.ShotProjectile;
 import de.jellshock.game.world.MapType;
 import de.jellshock.game.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class GameScreen extends AbstractScreen {
 
@@ -22,6 +26,8 @@ public abstract class GameScreen extends AbstractScreen {
 
     protected final World world;
     protected final Player player;
+
+    protected final List<IRenderConsumer<SpriteBatch>> renderObjects;
 
     protected ShotProjectile shotProjectile;
 
@@ -33,6 +39,10 @@ public abstract class GameScreen extends AbstractScreen {
         world.generateWorld();
 
         player = new Player(playerName, world);
+
+        renderObjects = new ArrayList<>();
+        renderObjects.add(world);
+        renderObjects.add(player.getTank());
 
         keyEventManager = new KeyEventManager();
         inputProcessor = new KeyInputProcessor(keyEventManager);
@@ -60,8 +70,7 @@ public abstract class GameScreen extends AbstractScreen {
         batch.begin();
         camera.update();
         batch.setProjectionMatrix(camera.combined);
-        world.renderWorld(batch);
-        player.getTank().render(batch);
+        renderObjects.forEach(render -> render.render(batch));
         update(delta);
         batch.end();
     }

@@ -2,10 +2,11 @@ package de.jellshock.game.world;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
+import de.jellshock.game.rendering.IRenderConsumer;
 import lombok.Getter;
 
 @Getter
-public class World implements Disposable {
+public class World implements IRenderConsumer<SpriteBatch>, Disposable {
 
     private final String name;
     private final Map map;
@@ -23,7 +24,8 @@ public class World implements Disposable {
         map.generateMap();
     }
 
-    public void renderWorld(SpriteBatch batch) {
+    @Override
+    public void render(SpriteBatch batch) {
         background.render(batch);
         map.render(batch);
     }
