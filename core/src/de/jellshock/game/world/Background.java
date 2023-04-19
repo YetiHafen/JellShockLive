@@ -2,32 +2,38 @@ package de.jellshock.game.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import lombok.Getter;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Disposable;
+import de.jellshock.game.rendering.IRenderConsumer;
 
-@Getter
-public class Background {
+public class Background implements IRenderConsumer<SpriteBatch>, Disposable {
 
     private String path;
-    private Table table;
     private final Texture backgroundTexture;
+    private final Map map;
 
-    public Background() {
-        backgroundTexture = new Texture("background/sky.png");
-        setBackground();
+    public Background(Map map) {
+        this("background/sky.png", map);
     }
 
-    public Background(String path) {
+    public Background(String path, Map map) {
         this.path = path;
+        this.map = map;
         backgroundTexture = new Texture(path);
-        setBackground();
     }
 
-    private void setBackground() {
-        table = new Table();
-        table.background(new TextureRegionDrawable(backgroundTexture));
-        table.setFillParent(true);
+    @Override
+    public void render(SpriteBatch batch) {
+        int x = 0;
+        int y = 0;
+        int width = map.getMapWidth();
+        float zoom = map.getMapWidth() / (float) Gdx.graphics.getWidth();
+        float height = Gdx.graphics.getHeight() * zoom;
+        batch.draw(backgroundTexture, x, y, width, height);
     }
 
+    @Override
+    public void dispose() {
+        backgroundTexture.dispose();
+    }
 }

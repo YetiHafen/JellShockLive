@@ -16,7 +16,7 @@ public class World implements Disposable {
     public World(String name, MapType mapType) {
         this.name = name;
         this.map = new Map(MAP_SIZE, mapType);
-        this.background = new Background();
+        this.background = new Background(map);
     }
 
     public void generateWorld() {
@@ -24,14 +24,13 @@ public class World implements Disposable {
     }
 
     public void renderWorld(SpriteBatch batch) {
-        batch.draw(background.getBackgroundTexture(), 0, 0);
-        background.getTable().draw(batch, 1);
+        background.render(batch);
         map.render(batch);
     }
 
     @Override
     public void dispose() {
-        background.getBackgroundTexture().dispose();
+        background.dispose();
         map.dispose();
     }
 }
