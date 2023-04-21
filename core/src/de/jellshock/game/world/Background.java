@@ -24,12 +24,10 @@ public class Background implements IRenderConsumer<SpriteBatch>, Disposable {
 
     @Override
     public void render(SpriteBatch batch) {
-        int x = 0;
-        int y = 0;
         int width = map.getMapWidth();
         float zoom = map.getMapWidth() / (float) Gdx.graphics.getWidth();
         float height = Gdx.graphics.getHeight() * zoom;
-        batch.draw(backgroundTexture, x, y, width, height);
+        batch.draw(backgroundTexture, 0, 0, width, height);
     }
 
     @Override

@@ -9,6 +9,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("JellShockLive");
 		config.setWindowedMode(1280, 720);
+		config.setWindowIcon("tank.png");
 		new Lwjgl3Application(new JellShock(), config);
 	}
 }

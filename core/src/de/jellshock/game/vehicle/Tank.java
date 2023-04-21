@@ -29,7 +29,7 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
     private float position = 0;
     private final World world;
 
-    private float scale = 0.1F;
+    private float scale = 0.16F;
     private static final int SLOPE_05DX = 10;
 
     public Tank(Color color, World world) {

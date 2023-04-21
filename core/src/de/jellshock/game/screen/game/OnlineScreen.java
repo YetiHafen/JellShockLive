@@ -17,7 +17,9 @@ public class OnlineScreen extends GameScreen {
 
     @Override
     public void update(float delta) {
-
+        if (shotProjectile != null) {
+            shotProjectile.render(batch);
+        }
     }
 
     @Override
