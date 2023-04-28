@@ -1,6 +1,7 @@
-package de.jellshock.game.screen.game;
+package de.jellshock.game.screen.game.online;
 
 import de.jellshock.game.player.Player;
+import de.jellshock.game.screen.game.GameScreen;
 import de.jellshock.game.world.MapType;
 
 import java.util.ArrayList;

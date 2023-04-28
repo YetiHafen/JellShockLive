@@ -8,8 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.jellshock.JellShock;
-import de.jellshock.game.screen.game.OfflineScreen;
-import de.jellshock.game.screen.game.OnlineScreen;
+import de.jellshock.game.screen.game.offline.level.impl.FirstLevel;
+import de.jellshock.game.screen.game.online.OnlineScreen;
+import de.jellshock.game.world.MapType;
+import de.jellshock.game.world.level.LevelLoader;
 
 public class MenuScreen extends AbstractMenuScreen {
 
@@ -18,6 +20,8 @@ public class MenuScreen extends AbstractMenuScreen {
     private final TextButton offlineButton;
     private final TextButton onlineButton;
     private final TextButton settingsButton;
+
+    private TextButton testButton;
 
     private final Stage stage;
     private final Table table;
@@ -35,7 +39,7 @@ public class MenuScreen extends AbstractMenuScreen {
         offlineButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                JellShock.getInstance().setScreen(new OfflineScreen());
+                JellShock.getInstance().setScreen(new FirstLevel());
             }
         });
 
@@ -43,6 +47,14 @@ public class MenuScreen extends AbstractMenuScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 JellShock.getInstance().setScreen(new OnlineScreen());
+            }
+        });
+
+        testButton = new TextButton("Generate Level", textButtonStyle);
+        testButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                new LevelLoader().generateLevel("test", 3000, MapType.MOUNTAIN.getAmplitude());
             }
         });
 
@@ -57,6 +69,8 @@ public class MenuScreen extends AbstractMenuScreen {
         table.add(onlineButton);
         table.row();
         table.add(settingsButton);
+        table.row();
+        table.add(testButton);
         table.setFillParent(true);
 
         stage.addActor(table);

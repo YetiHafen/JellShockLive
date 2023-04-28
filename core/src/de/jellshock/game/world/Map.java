@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 import de.jellshock.game.rendering.IRenderConsumer;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Random;
 
@@ -15,19 +16,21 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
 
     private final Pixmap pixmap;
     private Texture mapTexture;
-    private final Random random;
+    private Random random;
     private MapType mapType;
     private final int[] worldMap;
-    private final Color color;
+    private Color color;
 
     private final int mapWidth;
     private final int mapHeight;
-    private final int waveLength;
-    private final float frequency;
-    private final int amplitude;
-    private final int maxSlope = 10;
+    private int waveLength;
+    private float frequency;
+    private int amplitude;
 
+    private final int maxSlope = 10;
+    @Setter
     private boolean mapChanged = false;
+    private final boolean levelMap;
 
     public Map(int mapWidth, MapType mapType) {
         this(mapWidth, mapType.getWaveLength(), mapType.getAmplitude());
@@ -45,6 +48,15 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
         random = new Random();
         worldMap = new int[mapWidth];
         color = new Color();
+        levelMap = false;
+    }
+
+    public Map(int[] map, int mapWidth, int mapHeight) {
+        this.mapWidth = mapWidth;
+        this.mapHeight = mapHeight;
+        this.pixmap = new Pixmap(mapWidth, mapHeight, Pixmap.Format.RGBA8888);
+        this.worldMap = map;
+        levelMap = true;
     }
 
     public void generateMap() {
@@ -90,10 +102,17 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
                 }
             }
         }
+
         if (mapTexture == null) {
             mapTexture = new Texture(pixmap);
         }
         mapTexture.draw(pixmap, 0,0);
+    }
+
+    public void render(SpriteBatch batch) {
+        if (mapChanged) updateMap();
+        mapTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        batch.draw(mapTexture, 0, 0, mapWidth, mapHeight);
     }
 
     public void setMapHeight(int x, int height) {
@@ -162,12 +181,6 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
 
     public boolean isXinBounds(int xPos) {
         return xPos >= 0 && xPos < worldMap.length;
-    }
-
-    public void render(SpriteBatch batch) {
-        if (mapChanged) updateMap();
-        mapTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        batch.draw(mapTexture, 0, 0, mapWidth, mapHeight);
     }
 
     private float interpolate(float aPosition, float bPosition, float relativeDistance) {

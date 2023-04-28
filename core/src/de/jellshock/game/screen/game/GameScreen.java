@@ -11,10 +11,13 @@ import de.jellshock.game.event.key.KeyInputProcessor;
 import de.jellshock.game.player.Player;
 import de.jellshock.game.rendering.IRenderConsumer;
 import de.jellshock.game.screen.AbstractScreen;
+import de.jellshock.game.ui.hud.Hud;
 import de.jellshock.game.weapon.implementation.single.ShotProjectile;
 import de.jellshock.game.world.MapType;
 import de.jellshock.game.world.World;
+import de.jellshock.game.world.level.LevelLoader;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,25 +32,38 @@ public abstract class GameScreen extends AbstractScreen {
 
     protected final List<IRenderConsumer<SpriteBatch>> renderObjects;
 
+    protected GameState gameState;
+
     protected ShotProjectile shotProjectile;
+
+    protected Hud hud;
 
     public GameScreen(String worldName, MapType mapType, String playerName) {
         super(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         batch = new SpriteBatch();
 
-        world = new World(worldName, mapType);
-        world.generateWorld();
+       /* world = new World(worldName, mapType);
+        world.generateWorld();*/
+
+        world = new LevelLoader().loadLevel(new File("level/test.level"));
+
+        hud = new Hud(world.getMap(), camera);
 
         player = new Player(playerName, world);
 
         renderObjects = new ArrayList<>();
-        renderObjects.add(world);
-        renderObjects.add(player.getTank());
+        registerRenderObjects();
 
         keyEventManager = new KeyEventManager();
         inputProcessor = new KeyInputProcessor(keyEventManager);
 
         keyEventManager.registerKeyListener(player);
+    }
+
+    private void registerRenderObjects() {
+        renderObjects.add(world);
+        renderObjects.add(player.getTank());
+        //renderObjects.add(hud);
     }
 
     @Override

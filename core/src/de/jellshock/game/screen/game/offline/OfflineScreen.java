@@ -1,16 +1,16 @@
-package de.jellshock.game.screen.game;
+package de.jellshock.game.screen.game.offline;
 
-import com.badlogic.gdx.utils.Array;
-import de.jellshock.game.player.Player;
+import de.jellshock.game.screen.game.GameScreen;
 import de.jellshock.game.world.MapType;
 
-public class OfflineScreen extends GameScreen {
-
-    private final Array<Player> enemy;
+public abstract class OfflineScreen extends GameScreen {
 
     public OfflineScreen() {
         super("Random World", MapType.MOUNTAIN, "Test");
-        enemy = new Array<>();
+    }
+
+    @Override
+    public void show() {
     }
 
     @Override
