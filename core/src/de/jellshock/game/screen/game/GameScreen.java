@@ -37,10 +37,7 @@ public abstract class GameScreen extends AbstractScreen {
         super(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         batch = new SpriteBatch();
 
-       /* world = new World(worldName, mapType);
-        world.generateWorld();*/
-
-        world = new LevelLoader().loadLevel(new File("level/test.level"));
+        world = new LevelLoader().loadLevel(Gdx.files.internal("level/test.level"));
 
         player = new Player(playerName, world);
 
