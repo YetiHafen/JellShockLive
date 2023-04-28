@@ -12,11 +12,8 @@ import de.jellshock.game.player.Player;
 import de.jellshock.game.rendering.IRenderConsumer;
 import de.jellshock.game.screen.AbstractScreen;
 import de.jellshock.game.weapon.implementation.single.ShotProjectile;
-import de.jellshock.game.world.MapType;
 import de.jellshock.game.world.World;
-import de.jellshock.game.world.level.LevelLoader;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,11 +30,11 @@ public abstract class GameScreen extends AbstractScreen {
 
     protected ShotProjectile shotProjectile;
 
-    public GameScreen(String worldName, MapType mapType, String playerName) {
+    public GameScreen(World world, String playerName) {
         super(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         batch = new SpriteBatch();
 
-        world = new LevelLoader().loadLevel(Gdx.files.internal("level/test.level"));
+        this.world = world;
 
         player = new Player(playerName, world);
 
