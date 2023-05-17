@@ -5,7 +5,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import lombok.Getter;
 
+@Getter
 public abstract class AbstractScreen implements Screen {
 
     protected OrthographicCamera camera;

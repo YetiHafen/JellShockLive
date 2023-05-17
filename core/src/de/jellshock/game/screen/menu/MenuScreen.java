@@ -13,6 +13,8 @@ import de.jellshock.game.screen.game.online.OnlineScreen;
 import de.jellshock.game.world.MapType;
 import de.jellshock.game.world.level.LevelLoader;
 
+import java.util.UUID;
+
 public class MenuScreen extends AbstractMenuScreen {
 
     private final TextButton.TextButtonStyle textButtonStyle;
@@ -54,7 +56,7 @@ public class MenuScreen extends AbstractMenuScreen {
         testButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                new LevelLoader().generateLevel("test", 3000, MapType.MOUNTAIN.getAmplitude());
+                new LevelLoader().generateLevel(UUID.randomUUID().toString(), 3000, MapType.MOUNTAIN.getAmplitude());
             }
         });
 

@@ -11,12 +11,15 @@ import de.jellshock.game.event.key.KeyInputProcessor;
 import de.jellshock.game.player.Player;
 import de.jellshock.game.rendering.IRenderConsumer;
 import de.jellshock.game.screen.AbstractScreen;
+import de.jellshock.game.ui.MenuBar;
 import de.jellshock.game.weapon.implementation.single.ShotProjectile;
 import de.jellshock.game.world.World;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public abstract class GameScreen extends AbstractScreen {
 
     protected final SpriteBatch batch;
@@ -25,6 +28,8 @@ public abstract class GameScreen extends AbstractScreen {
 
     protected final World world;
     protected final Player player;
+
+    protected final MenuBar menuBar;
 
     protected final List<IRenderConsumer<SpriteBatch>> renderObjects;
 
@@ -35,8 +40,9 @@ public abstract class GameScreen extends AbstractScreen {
         batch = new SpriteBatch();
 
         this.world = world;
-
         player = new Player(playerName, world);
+
+        menuBar = new MenuBar(this);
 
         renderObjects = new ArrayList<>();
         registerRenderObjects();
@@ -50,7 +56,7 @@ public abstract class GameScreen extends AbstractScreen {
     private void registerRenderObjects() {
         renderObjects.add(world);
         renderObjects.add(player.getTank());
-        //renderObjects.add(hud);
+        renderObjects.add(menuBar);
     }
 
     @Override
@@ -86,6 +92,7 @@ public abstract class GameScreen extends AbstractScreen {
         camera.zoom = mapWidth / (float) Gdx.graphics.getWidth();
         camera.position.x = mapWidth / 2F;
         camera.position.y = camera.zoom * Gdx.graphics.getHeight() / 2;
+        camera.position.y -= 200;
         super.resize(width, height);
     }
 

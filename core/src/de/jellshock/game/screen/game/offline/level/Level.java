@@ -15,15 +15,15 @@ public abstract class Level extends OfflineScreen {
 
     protected final World world;
 
-    protected final int botIndex;
+    protected final int botCount;
 
-    public Level(World world, int botIndex) {
+    public Level(World world, int botCount) {
         super(world);
         this.world = world;
-        this.botIndex = botIndex;
-        this.bots = new Array<>(botIndex);
+        this.botCount = botCount;
+        this.bots = new Array<>(botCount);
 
-        for (int i = 0; i < botIndex; i++) {
+        for (int i = 0; i < botCount; i++) {
             Bot bot = new Bot(UUID.randomUUID().toString(), world);
             bot.randomSpawn();
             bots.add(bot);

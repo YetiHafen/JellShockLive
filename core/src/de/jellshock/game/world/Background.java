@@ -5,10 +5,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 import de.jellshock.game.rendering.IRenderConsumer;
+import lombok.Getter;
 
+@Getter
 public class Background implements IRenderConsumer<SpriteBatch>, Disposable {
 
-    private String path;
+    private final String path;
     private final Texture backgroundTexture;
     private final Map map;
 
