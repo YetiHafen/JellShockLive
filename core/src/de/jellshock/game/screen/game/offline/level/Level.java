@@ -33,6 +33,6 @@ public abstract class Level extends OfflineScreen {
     }
 
     public static World loadWorldFromLvlPath(String levelName) {
-        return new LevelLoader().loadLevel(Gdx.files.internal("level/" + levelName + ".level"));
+        return LevelLoader.loadLevel(Gdx.files.internal("level/" + levelName + ".level"));
     }
 }

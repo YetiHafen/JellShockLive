@@ -29,7 +29,7 @@ public abstract class GameScreen extends AbstractScreen {
     protected final World world;
     protected final Player player;
 
-    protected final MenuBar menuBar;
+    protected MenuBar menuBar;
 
     protected final List<IRenderConsumer<SpriteBatch>> renderObjects;
 

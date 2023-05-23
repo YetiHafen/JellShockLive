@@ -6,8 +6,6 @@ import de.jellshock.game.world.Map;
 import de.jellshock.game.world.MapType;
 import de.jellshock.game.world.World;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,16 +16,11 @@ import java.util.concurrent.TimeUnit;
 public class LevelLoader {
 
     private static final String fileExtension = ".level";
-    private final List<World> levelWorlds;
-
-    public LevelLoader() {
-        levelWorlds = new ArrayList<>();
-    }
 
     /*
      * pixels[width] -> height
      */
-    public void createLevel(String name, int width, int height, int[] pixels) {
+    public static void createLevel(String name, int width, int height, int[] pixels) {
         String path = Gdx.files.getLocalStoragePath() + "assets/level/" + name + fileExtension;
         try (FileWriter writer = new FileWriter(path)) {
             long start = System.nanoTime();
@@ -43,14 +36,13 @@ public class LevelLoader {
         }
     }
 
-    public void generateLevel(String name, int width, int height) {
+    public static void generateLevel(String name, int width, int height) {
         World world = new World(name, new Map(width, MapType.MOUNTAIN));
         world.getMap().generateMap();
-        levelWorlds.add(world);
         createLevel(name, width, height * 2, world.getMap().getWorldMap());
     }
 
-    public World loadLevel(FileHandle file) {
+    public static World loadLevel(FileHandle file) {
         Scanner scanner = new Scanner(file.read());
 
         int i = 0;
@@ -76,7 +68,6 @@ public class LevelLoader {
         int[] map = pixels.stream().mapToInt(Integer::intValue).toArray();
         World world = new World(name, new Map(map, width, height));
         world.getMap().setMapChanged(true);
-        levelWorlds.add(world);
         return world;
     }
 }
