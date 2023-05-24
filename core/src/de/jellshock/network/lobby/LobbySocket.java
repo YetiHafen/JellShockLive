@@ -8,8 +8,7 @@ import de.jellshock.network.AbstractSocket;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import lombok.Getter;
-import org.json.JSONArray;
-import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -37,14 +36,10 @@ public class LobbySocket extends AbstractSocket {
         socket.on("list", args -> {
             System.out.println(args[0]);
             games.clear();
-            try {
-                JSONArray arr = (JSONArray)args[0];
-                for (int i = 0; i < arr.length(); i++) {
-                    Game game = gson.fromJson(arr.get(i).toString(), Game.class);
-                    games.add(game);
-                }
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
+            for (int i = 0; i < args.length; i++) {
+                JSONObject obj = (JSONObject) args[i];
+                Game game = gson.fromJson(obj.toString(), Game.class);
+                games.add(game);
             }
             Gdx.app.postRunnable(() -> {
                 menu.postServers(games);

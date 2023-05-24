@@ -2,10 +2,12 @@ package de.jellshock.game.screen.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.jellshock.Constants;
 import de.jellshock.JellShock;
 import de.jellshock.network.lobby.LobbySocket;
@@ -63,6 +65,15 @@ public class ServerSelectMenu extends AbstractMenuScreen {
             Label gameStateLabel = new Label(game.getGameState().getName(), skin);
             addToTable(nameLabel, mapLabel, playerCountLabel, gameStateLabel);
         }
+
+        Label reload = new Label("Reload!", skin);
+
+        reload.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                lobbySocket.reload();
+            }
+        });
     }
 
     public void addToTable(Actor... actors) {

@@ -14,7 +14,8 @@ export class Lobby extends Socket {
 
     onConnection(socket: IOSocket): void {
         this.gameList = JSLServer.getInstance().getGames();
-        socket.emit("list", this.gameList);
+        // TODO: Fix max call stack
+        socket.emit("list", ...this.gameList);
     }
 
     registerEvents(io: Namespace): void {

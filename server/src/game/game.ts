@@ -20,15 +20,6 @@ class Game extends Socket {
     registerEvents(io: Namespace): void {
 
     }
-
-    toJSON(): any {
-        return {
-            id: this.id,
-            map: this.map,
-            playerCount: this.playerCount,
-            gameState: this.gameState
-        }
-    }
 }
 
 enum GameState {
