@@ -1,16 +1,26 @@
 import { Socket } from "../socket";
-import { Namespace, Server } from "socket.io";
+import { Namespace, Server, Socket as IOSocket } from "socket.io";
+import { Game } from "../game/game";
+import {JSLServer} from "../server";
 
 export class Lobby extends Socket {
 
-    private playerCount: number;
+    private gameList: Game[];
 
-    onConnection(io: Server): void {
-        io.emit("");
+    constructor(io: Server) {
+        super("", io);
+        this.gameList = JSLServer.getInstance().getGames();
+    }
+
+    onConnection(socket: IOSocket): void {
+        this.gameList = JSLServer.getInstance().getGames();
+        socket.emit("list", this.gameList);
     }
 
     registerEvents(io: Namespace): void {
 
     }
+
+
 
 }

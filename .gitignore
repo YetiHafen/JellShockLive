@@ -115,3 +115,5 @@ Thumbs.db
 
 server/node_modules
 server/dist
+
+.lwjgl

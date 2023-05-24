@@ -1,20 +1,33 @@
 import {Socket} from "../socket";
-import {Namespace, Server} from "socket.io";
+import {Namespace, Server, Socket as IOSocket} from "socket.io";
+import {Maps} from "../maps";
 
-export class Game extends Socket {
+class Game extends Socket {
 
-    private playerCount: number;
+    public id: string;
+    public map: Maps = Maps.RANDOM;
+    public playerCount: number;
+    public gameState: GameState = GameState.LOBBY;
 
     constructor(io: Server) {
         super("/game", io);
     }
 
-    onConnection(io: Server): void {
+    onConnection(socket: IOSocket): void {
         // GameState changes
     }
 
     registerEvents(io: Namespace): void {
 
+    }
+
+    toJSON(): any {
+        return {
+            id: this.id,
+            map: this.map,
+            playerCount: this.playerCount,
+            gameState: this.gameState
+        }
     }
 }
 
@@ -24,3 +37,5 @@ enum GameState {
     INGAME,
     ENDING
 }
+
+export { Game, GameState};

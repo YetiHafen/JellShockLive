@@ -1,4 +1,4 @@
 export enum Maps {
-    FLAT,
-    RANDOM
+    FLAT= "FLAT",
+    RANDOM = "RANDOM"
 }

@@ -10,7 +10,8 @@
   "dependencies": {
     "http": "^0.0.1-security",
     "nodemon": "^2.0.22",
-    "socket.io": "^4.6.1"
+    "socket.io": "^4.6.1",
+    "nanoid": "3.3.6"
   },
   "devDependencies": {
     "ts-node": "^10.9.1",

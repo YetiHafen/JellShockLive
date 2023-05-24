@@ -1,17 +1,19 @@
 package de.jellshock.game.screen.menu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import de.jellshock.JellShock;
 import de.jellshock.game.screen.game.offline.level.impl.FirstLevel;
-import de.jellshock.game.screen.game.online.OnlineScreen;
 import de.jellshock.game.world.MapType;
 import de.jellshock.game.world.level.LevelLoader;
+import lombok.Getter;
 
 import java.util.UUID;
 
@@ -48,7 +50,7 @@ public class MenuScreen extends AbstractMenuScreen {
         onlineButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                JellShock.getInstance().setScreen(new OnlineScreen());
+                JellShock.getInstance().setScreen(new ServerSelectMenu());
             }
         });
 
@@ -56,7 +58,7 @@ public class MenuScreen extends AbstractMenuScreen {
         testButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                new LevelLoader().generateLevel(UUID.randomUUID().toString(), 3000, MapType.MOUNTAIN.getAmplitude());
+                LevelLoader.generateLevel(UUID.randomUUID().toString(), 3000, MapType.MOUNTAIN.getAmplitude());
             }
         });
 
@@ -79,18 +81,8 @@ public class MenuScreen extends AbstractMenuScreen {
     }
 
     @Override
-    public void render(float delta) {
-        spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
-        spriteBatch.begin();
-        super.render(delta);
-        spriteBatch.end();
+    public void update(float delta) {
         stage.draw();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        viewport.update(width, height, true);
-        super.resize(width, height);
     }
 
     @Override

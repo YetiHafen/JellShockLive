@@ -1,11 +1,11 @@
 export class User {
-    constructor(private _uuid: string, private _name: string) {}
+    constructor(private uuid: string, private name: string) {}
 
-    get uuid(): string {
-        return this._uuid;
+    get getUuid(): string {
+        return this.uuid;
     }
 
-    get name(): string {
-        return this._name;
+    get getName(): string {
+        return this.uuid;
     }
 }

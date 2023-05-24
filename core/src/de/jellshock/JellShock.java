@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import de.jellshock.game.screen.menu.MenuScreen;
 import de.jellshock.game.weapon.WeaponManager;
-import de.jellshock.network.SocketConnection;
 import lombok.Getter;
 
 @Getter
@@ -28,9 +27,6 @@ public class JellShock extends Game {
 
 		menuScreen = new MenuScreen();
 		setScreen(menuScreen);
-
-		SocketConnection socketConnection = new SocketConnection("localhost", 3000);
-		socketConnection.init();
 	}
 
 	@Override
