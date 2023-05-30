@@ -1,8 +1,10 @@
 import * as http from "http";
-import { nanoid } from "nanoid";
-import { Server } from "socket.io";
-import { Game, GameState } from "./game/game";
-import { Lobby } from "./lobby/lobby";
+import {nanoid} from "nanoid";
+import {Server} from "socket.io";
+import {Game, GameId, GameState, IGame} from "./game/game";
+import {Lobby} from "./lobby/lobby";
+import {Maps} from "./maps";
+import {User} from "./model/user";
 
 export class JSLServer {
 
@@ -12,16 +14,45 @@ export class JSLServer {
     private readonly io: Server;
 
     private lobby: Lobby;
-    private game1: Game;
-    private game2: Game;
-    private readonly games: Game[];
+    private readonly games: Map<GameId, Game>;
 
     constructor() {
         JSLServer.instance = this;
         this.server = http.createServer();
         this.io = new Server(this.server);
-        this.games = new Array<Game>();
+        this.games = new Map<string, Game>;
         this.listen();
+    }
+
+    public createGame(name: string, password: string, map: Maps) {
+        const options: IGame = {
+            gameId: nanoid(6),
+            name: name,
+            password: password,
+            map: map
+        }
+        let game: Game = new Game(this.io, options);
+
+        this.games.set(options.gameId, game);
+
+        setTimeout(() => {
+            if (!this.games.has(options.gameId)) return;
+            this.checkGameEnd(game);
+        }, 5000);
+    }
+
+    public joinGame(gameId: string, user: User) {
+        let game: Game = this.findGame(gameId);
+    }
+
+    public findGame(gameId: string): Game | undefined {
+        return this.games.get(gameId);
+    }
+
+    public checkGameEnd(game: Game) {
+        if (!(game.gameState === GameState.ENDING)) return;
+        this.games.delete(game.gameId);
+        console.log("Stopped game " + game.gameId);
     }
 
     private listen(): void {
@@ -29,19 +60,12 @@ export class JSLServer {
             console.log(`JDL-Server started on port ${JSLServer.PORT}`);
         });
 
-        this.game1 = new Game(this.io);
-        this.game1.id = nanoid(5);
-        this.game1.playerCount = 5;
-
-        this.game2 = new Game(this.io);
-        this.game2.id = nanoid(5);
-        this.game2.playerCount = 2;
-        this.game2.gameState = GameState.ENDING;
-
         this.lobby = new Lobby(this.io);
         this.lobby.connect();
 
-        this.games.push(this.game1, this.game2);
+        // Test
+        this.createGame("test123", "abc", Maps.FLAT);
+        this.createGame("test321", "hallo", Maps.RANDOM);
 
         this.io.on('connection', (socket: any) => {
             console.log("Client connected");

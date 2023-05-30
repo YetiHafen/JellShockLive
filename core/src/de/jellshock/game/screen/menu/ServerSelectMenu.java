@@ -1,15 +1,16 @@
 package de.jellshock.game.screen.menu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import de.jellshock.Constants;
-import de.jellshock.JellShock;
+import de.jellshock.network.Game;
 import de.jellshock.network.lobby.LobbySocket;
 import io.socket.client.IO;
 
@@ -19,73 +20,100 @@ import java.util.List;
 public class ServerSelectMenu extends AbstractMenuScreen {
 
     private final LobbySocket lobbySocket;
-
     private final Stage stage;
-    private final Table table;
-
     private final Skin skin;
 
+    private final Table listTable;
+
     public ServerSelectMenu() {
-        lobbySocket = new LobbySocket(URI.create(Constants.SERVER_URL), IO.Options.builder().build(), this);
-
+        super(false);
         stage = new Stage();
-        skin = new Skin(Gdx.files.internal("neon/skin/neon-ui.json"));
+        skin = new Skin(Gdx.files.internal(Constants.NEON_SKIN_PATH));
 
-        table = new Table(skin);
-        table.center();
+        lobbySocket = connect();
+
+        Table table = new Table();
         table.setFillParent(true);
-        stage.addActor(table);
 
-        Label serverIdLabel = new Label("Server ID", skin);
-        Label serverMapLabel = new Label("Map", skin);
-        Label serverPlayerCountLabel = new Label("Players", skin);
-        Label serverGameStateLabel = new Label("GameState", skin);
-        addToTable(serverIdLabel, serverMapLabel, serverPlayerCountLabel, serverGameStateLabel);
+        listTable = new Table();
+        listTable.center();
+        float width = Gdx.graphics.getWidth();
+        float height = Gdx.graphics.getHeight();
+        listTable.setSize(width * 0.3f, height * 0.7f);
+        table.add(listTable).padTop(20).expand().center().top().row();
 
-        new Thread(() -> {
-            try {
-                lobbySocket.connect();
+        Label title = new Label("SERVER LIST", skin);
+        title.setAlignment(Align.center);
+        listTable.add(title).colspan(Game.getLabels().length).padTop(10).row();
 
-            } catch (RuntimeException exception) {
-                Gdx.app.error("Server", "Error while connecting to host");
-                JellShock.getInstance().setScreen(new MenuScreen());
+        for (int i = 0; i < Game.getLabels().length; i++) {
+            Label serverLabel = new Label(Game.getLabels()[i], skin);
+            listTable.add(serverLabel).pad(10).center();
+        }
+        listTable.row();
+
+        Table optionsTable = new Table();
+        optionsTable.setSize(width * 0.5f, height * 0.2f);
+        optionsTable.center();
+
+        TextButton.TextButtonStyle textButtonStyle = skin.get(TextButton.TextButtonStyle.class);
+        TextButton createGame = new TextButton("Create Game", textButtonStyle);
+        createGame.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("T");
             }
-        }).start();
+        });
+        TextButton reload = new TextButton("Reload Server List", textButtonStyle);
+        reload.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                lobbySocket.reload();
+                System.out.println("Reload");
+            }
+        });
+        optionsTable.add(createGame).pad(10);
+        optionsTable.add(reload).pad(10);
+        table.row().padTop(20);
+        table.add(optionsTable).center();
+
+        stage.addActor(table);
 
         Gdx.input.setInputProcessor(stage);
         stage.setViewport(viewport);
     }
 
-    public void postServers(List<LobbySocket.Game> gameList) {
-        for (LobbySocket.Game game : gameList) {
-            System.out.println(game.getId());
-            Label nameLabel = new Label(game.getId(), skin);
+    public void postServers(List<Game> gameList) {
+        for (Game game : gameList) {
+            System.out.println(game.getGameId());
+            Label gameIdLabel = new Label(game.getGameId(), skin);
+            Label nameLabel = new Label(game.getName(), skin);
             Label mapLabel = new Label(game.getMap(), skin);
             Label playerCountLabel = new Label(String.valueOf(game.getPlayerCount()), skin);
             Label gameStateLabel = new Label(game.getGameState().getName(), skin);
-            addToTable(nameLabel, mapLabel, playerCountLabel, gameStateLabel);
+            listTable.add(gameIdLabel, nameLabel, mapLabel, playerCountLabel, gameStateLabel).pad(10).center().row();
         }
-
-        Label reload = new Label("Reload!", skin);
-
-        reload.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                lobbySocket.reload();
-            }
-        });
     }
 
-    public void addToTable(Actor... actors) {
-        for (Actor actor : actors) {
-            table.add(actor).pad(10).expandX();
-        }
-        table.row();
+    public LobbySocket connect() {
+        LobbySocket socket = new LobbySocket(URI.create(Constants.SERVER_URL), IO.Options.builder().build(), this);
+        new Thread(socket::connect).start();
+        return socket;
     }
 
     @Override
     public void update(float delta) {
         stage.act(delta);
         stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
     }
 }

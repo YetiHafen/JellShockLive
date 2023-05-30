@@ -2,9 +2,9 @@ package de.jellshock.network.lobby;
 
 import com.badlogic.gdx.Gdx;
 import com.google.gson.Gson;
-import de.jellshock.game.screen.game.GameState;
 import de.jellshock.game.screen.menu.ServerSelectMenu;
 import de.jellshock.network.AbstractSocket;
+import de.jellshock.network.Game;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import lombok.Getter;
@@ -47,26 +47,15 @@ public class LobbySocket extends AbstractSocket {
         });
     }
 
+    public void joinGame(String gameId) {
+        socket.emit("join", gameId);
+    }
+
     public void reload() {
         if ((System.currentTimeMillis() - lastReload) < RELOAD_TIMEOUT) return;
         lastReload = System.currentTimeMillis();
 
-        socket.emit("reload", "1");
-    }
-
-
-    public static class Game {
-        @Getter
-        private String id;
-        @Getter
-        private String map;
-        @Getter
-        private int playerCount;
-        private int gameState;
-
-        public GameState getGameState() {
-            return GameState.getById(gameState);
-        }
+        socket.emit("reload");
     }
 
 }
