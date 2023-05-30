@@ -2,14 +2,13 @@ package de.jellshock.network.lobby;
 
 import com.badlogic.gdx.Gdx;
 import com.google.gson.Gson;
-import de.jellshock.game.screen.game.GameState;
 import de.jellshock.game.screen.menu.ServerSelectMenu;
 import de.jellshock.network.AbstractSocket;
+import de.jellshock.network.Game;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import lombok.Getter;
-import org.json.JSONArray;
-import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -37,14 +36,10 @@ public class LobbySocket extends AbstractSocket {
         socket.on("list", args -> {
             System.out.println(args[0]);
             games.clear();
-            try {
-                JSONArray arr = (JSONArray)args[0];
-                for (int i = 0; i < arr.length(); i++) {
-                    Game game = gson.fromJson(arr.get(i).toString(), Game.class);
-                    games.add(game);
-                }
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
+            for (int i = 0; i < args.length; i++) {
+                JSONObject obj = (JSONObject) args[i];
+                Game game = gson.fromJson(obj.toString(), Game.class);
+                games.add(game);
             }
             Gdx.app.postRunnable(() -> {
                 menu.postServers(games);
@@ -52,26 +47,15 @@ public class LobbySocket extends AbstractSocket {
         });
     }
 
+    public void joinGame(String gameId) {
+        socket.emit("join", gameId);
+    }
+
     public void reload() {
         if ((System.currentTimeMillis() - lastReload) < RELOAD_TIMEOUT) return;
         lastReload = System.currentTimeMillis();
 
-        socket.emit("reload", "1");
-    }
-
-
-    public static class Game {
-        @Getter
-        private String id;
-        @Getter
-        private String map;
-        @Getter
-        private int playerCount;
-        private int gameState;
-
-        public GameState getGameState() {
-            return GameState.getById(gameState);
-        }
+        socket.emit("reload");
     }
 
 }

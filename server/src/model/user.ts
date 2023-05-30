@@ -1,11 +1,15 @@
-export class User {
-    constructor(private uuid: string, private name: string) {}
+class User {
 
-    get getUuid(): string {
-        return this.uuid;
-    }
+    constructor(public uuid: string, public name: string, public role: Role) {}
 
-    get getName(): string {
-        return this.uuid;
+    public static findUser(uuid: string) {
+
     }
 }
+
+enum Role {
+    ADMIN,
+    USER
+}
+
+export { User, Role };

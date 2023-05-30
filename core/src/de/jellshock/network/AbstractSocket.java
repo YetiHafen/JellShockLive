@@ -3,7 +3,6 @@ package de.jellshock.network;
 import com.badlogic.gdx.Gdx;
 import io.socket.client.IO;
 import io.socket.client.Socket;
-import io.socket.client.SocketIOException;
 import lombok.Getter;
 
 import java.net.URI;
@@ -23,7 +22,7 @@ public abstract class AbstractSocket {
         this.namespace = namespace;
     }
 
-    public void connect() throws RuntimeException {
+    public void connect() {
         URI nameSpaceUri = URI.create(uri.toString() + namespace);
         socket = IO.socket(nameSpaceUri, options);
         socket.connect();
@@ -32,7 +31,7 @@ public abstract class AbstractSocket {
             Gdx.app.log("Server - " + getClass().getSimpleName(), "Connected to " + uri.getHost());
         });
         socket.on(Socket.EVENT_CONNECT_ERROR, args -> {
-            throw new RuntimeException(new SocketIOException("Error connecting to server. Reason: " + args[0]));
+            Gdx.app.error("Server", "Error while connecting to host Reason: " + args[0]);
         });
         socket.on(Socket.EVENT_DISCONNECT, args -> {
             Gdx.app.log("Server - " + getClass().getSimpleName(), "Disconnected from host");

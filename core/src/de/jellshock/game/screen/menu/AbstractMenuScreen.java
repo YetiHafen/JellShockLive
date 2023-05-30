@@ -13,10 +13,18 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
     protected Texture logoTexture;
     protected SpriteBatch spriteBatch;
 
+    private final boolean renderLogo;
+
     public AbstractMenuScreen() {
-        backgroundTexture = new Texture("menu/background.png");
-        logoTexture = new Texture("jellshock.png");
+        this(true);
+    }
+
+    public AbstractMenuScreen(boolean renderLogo) {
+        this.renderLogo = renderLogo;
         spriteBatch = new SpriteBatch();
+        backgroundTexture = new Texture("menu/background.png");
+        if (!renderLogo) return;
+        logoTexture = new Texture("jellshock.png");
     }
 
     @Override
@@ -25,7 +33,9 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
         spriteBatch.begin();
         spriteBatch.draw(backgroundTexture, 0 ,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        spriteBatch.draw(logoTexture, Gdx.graphics.getWidth() / 2F - logoTexture.getWidth() / 2F, Gdx.graphics.getHeight() - 300);
+        if (renderLogo) {
+            spriteBatch.draw(logoTexture, Gdx.graphics.getWidth() / 2F - logoTexture.getWidth() / 2F, Gdx.graphics.getHeight() - 300);
+        }
         spriteBatch.end();
         update(delta);
     }
