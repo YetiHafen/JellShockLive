@@ -24,11 +24,12 @@ export class JSLServer {
         this.listen();
     }
 
-    public createGame(name: string, password: string, map: Maps) {
+    public createGame(name: string, password: string, map: Maps, maxPlayers: number) {
         const options: IGame = {
             gameId: nanoid(6),
             name: name,
             password: password,
+            maxPlayers: maxPlayers,
             map: map
         }
         let game: Game = new Game(this.io, options);
@@ -62,10 +63,6 @@ export class JSLServer {
 
         this.lobby = new Lobby(this.io);
         this.lobby.connect();
-
-        // Test
-        this.createGame("test123", "abc", Maps.FLAT);
-        this.createGame("test321", "hallo", Maps.RANDOM);
 
         this.io.on('connection', (socket: any) => {
             console.log("Client connected");

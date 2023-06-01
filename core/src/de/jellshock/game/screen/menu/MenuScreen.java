@@ -2,7 +2,6 @@ package de.jellshock.game.screen.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -29,13 +28,14 @@ public class MenuScreen extends AbstractMenuScreen {
         offlineButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                JellShock.getInstance().setScreen(new FirstLevel());
+                setSlideScreen(new FirstLevel(), Direction.TOP);
             }
         });
 
         onlineButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                setSlideScreen(new ServerSelectMenu(), Direction.LEFT);
                 JellShock.getInstance().setScreen(new ServerSelectMenu());
             }
         });
@@ -52,12 +52,19 @@ public class MenuScreen extends AbstractMenuScreen {
         uiTest.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                JellShock.getInstance().setScreen(new ExampleTableMenu());
+                setFadeScreen(new ExampleTableMenu());
             }
         });
 
         TextButton settingsButton = new TextButton("Settings", textButtonStyle);
         settingsButton.setSize(100, 80);
+
+        settingsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setSlideScreen(new SettingsScreen(), Direction.RIGHT);
+            }
+        });
 
         table.add(offlineButton);
         table.row();
@@ -71,7 +78,10 @@ public class MenuScreen extends AbstractMenuScreen {
         table.setFillParent(true);
 
         stage.addActor(table);
+    }
 
+    @Override
+    public void show() {
         Gdx.input.setInputProcessor(stage);
         stage.setViewport(viewport);
     }

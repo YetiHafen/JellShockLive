@@ -12,12 +12,12 @@ export abstract class Socket {
         let nameSpace: Namespace = this.io.of("/" + this.namespace === null ? "" : this.namespace);
         nameSpace.on("connection", (socket) => {
             this.onConnection(socket);
-        });
 
-        this.registerEvents(nameSpace);
+            this.registerEvents(socket);
+        });
     }
 
     abstract onConnection(io: IOSocket): void;
 
-    abstract registerEvents(io: Namespace): void;
+    abstract registerEvents(io: IOSocket): void;
 }

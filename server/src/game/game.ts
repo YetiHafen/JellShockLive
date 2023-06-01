@@ -10,6 +10,7 @@ class Game extends Socket {
     public password: string;
     public map: Maps;
     public playerCount: number = 0;
+    public maxPlayers: number = 8;
     public gameState: GameState = GameState.LOBBY;
 
     public users: User[];
@@ -19,6 +20,7 @@ class Game extends Socket {
         this.gameId = iGame.gameId;
         this.name = iGame.name;
         this.password = iGame.password;
+        this.maxPlayers = iGame.maxPlayers;
         this.map = iGame.map;
     }
 
@@ -26,7 +28,7 @@ class Game extends Socket {
         // GameState changes
     }
 
-    registerEvents(io: Namespace): void {
+    registerEvents(io: IOSocket): void {
 
     }
 
@@ -37,6 +39,7 @@ class Game extends Socket {
             password: this.password,
             map: this.map,
             playerCount: this.playerCount,
+            maxPlayers: this.maxPlayers,
             gameState: this.gameState
         }
     }
@@ -47,6 +50,7 @@ interface IGame {
     gameId: GameId
     name: string
     password?: string;
+    maxPlayers?: number
     map: Maps;
 }
 

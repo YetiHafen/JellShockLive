@@ -10,10 +10,11 @@ public class Game {
     private String name;
     @Getter
     private String password;
-    @Getter
     private String map;
     @Getter
     private int playerCount;
+    @Getter
+    private int maxPlayers;
     private int gameState;
 
     @Getter
@@ -25,7 +26,12 @@ public class Game {
             "GameState"
     };
 
+    public Maps getMap() {
+        return Maps.getByName(map);
+    }
+
     public GameState getGameState() {
         return GameState.getById(gameState);
     }
+
 }

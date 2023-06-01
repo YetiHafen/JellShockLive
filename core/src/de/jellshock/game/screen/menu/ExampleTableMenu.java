@@ -11,7 +11,7 @@ public class ExampleTableMenu extends AbstractMenuScreen {
     private final Stage stage;
 
     public ExampleTableMenu() {
-        super(false, false);
+        super(false);
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 

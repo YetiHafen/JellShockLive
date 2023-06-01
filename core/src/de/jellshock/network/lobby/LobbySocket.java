@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import de.jellshock.game.screen.menu.ServerSelectMenu;
 import de.jellshock.network.AbstractSocket;
 import de.jellshock.network.Game;
+import de.jellshock.network.Maps;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import lombok.Getter;
@@ -13,6 +14,8 @@ import org.json.JSONObject;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Getter
 public class LobbySocket extends AbstractSocket {
@@ -41,19 +44,37 @@ public class LobbySocket extends AbstractSocket {
                 games.add(game);
             }
             Gdx.app.postRunnable(() -> {
+                menu.clearList();
                 menu.postServers(games);
             });
         });
+
+        // Keep alive reload
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                socket.emit("reload");
+            }
+        }, 0, 5 * 1000);
     }
 
     public void joinGame(String gameId) {
         socket.emit("join", gameId);
     }
 
+    public void createGame(String serverName, String password, Maps map, int maxPlayers) {
+        JSONObject game = new JSONObject()
+                .put("name", serverName)
+                .put("password", password)
+                .put("map", map.getName())
+                .put("maxPlayers", maxPlayers);
+
+        socket.emit("create", game);
+    }
+
     public void reload() {
         if ((System.currentTimeMillis() - lastReload) < RELOAD_TIMEOUT) return;
         lastReload = System.currentTimeMillis();
-
         socket.emit("reload");
     }
 

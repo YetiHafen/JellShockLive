@@ -4,11 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.ScreenUtils;
 import de.jellshock.JellShock;
 import de.jellshock.game.screen.AbstractScreen;
@@ -23,34 +20,19 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
     protected Stage stage;
 
     private final boolean renderLogo;
-    private final boolean renderBackButton;
 
     public AbstractMenuScreen() {
-        this(true, false);
+        this(true);
     }
 
-    public AbstractMenuScreen(boolean renderLogo, boolean renderBackButton) {
+    public AbstractMenuScreen(boolean renderLogo) {
         this.renderLogo = renderLogo;
-        this.renderBackButton = renderBackButton;
         spriteBatch = new SpriteBatch();
         stage = new Stage();
         backgroundTexture = new Texture("menu/background.png");
         if (renderLogo) {
             logoTexture = new Texture("jellshock.png");
         }
-        if (!renderBackButton) return;
-        backButtonTexture = new Texture("menu/left-arrow.png");
-        ImageButton button = new ImageButton(new TextureRegionDrawable(backButtonTexture));
-        button.setSize(30, 30);
-        button.setPosition(10, Gdx.graphics.getHeight() - 50);
-
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                JellShock.getInstance().setScreen(new MenuScreen());
-            }
-        });
-        stage.addActor(button);
     }
 
     @Override
@@ -63,9 +45,26 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
             spriteBatch.draw(logoTexture, Gdx.graphics.getWidth() / 2F - logoTexture.getWidth() / 2F, Gdx.graphics.getHeight() - 300);
         }
         spriteBatch.end();
-        stage.act(delta);
-        stage.draw();
         update(delta);
+    }
+
+    public void setFadeScreen(AbstractScreen screen) {
+        stage.addAction(Actions.sequence(Actions.fadeOut(0.3f), Actions.run(() -> JellShock.getInstance().setScreen(screen))));
+    }
+
+    public void setSlideScreen(AbstractScreen screen, Direction direction)  {
+        int directionX = 0;
+        int directionY = 0;
+        switch (direction) {
+            case LEFT -> directionX = Gdx.graphics.getWidth();
+            case RIGHT -> directionX = -Gdx.graphics.getWidth();
+            case TOP -> directionY = Gdx.graphics.getHeight();
+            case BOTTOM -> directionY = -Gdx.graphics.getHeight();
+        }
+        System.out.println(directionX);
+        System.out.println(directionY);
+        stage.addAction(Actions.sequence(Actions.moveBy(directionX, directionY, 0.3f),
+                Actions.run(() -> JellShock.getInstance().setScreen(screen))));
     }
 
     public abstract void update(float delta);
@@ -86,5 +85,10 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
         super.dispose();
     }
 
-
+    public enum Direction {
+        LEFT,
+        RIGHT,
+        TOP,
+        BOTTOM
+    }
 }
