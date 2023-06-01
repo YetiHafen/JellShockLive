@@ -34,7 +34,6 @@ public class LobbySocket extends AbstractSocket {
     public void onConnection(Socket socket) {
 
         socket.on("list", args -> {
-            System.out.println(args[0]);
             games.clear();
             for (int i = 0; i < args.length; i++) {
                 JSONObject obj = (JSONObject) args[i];

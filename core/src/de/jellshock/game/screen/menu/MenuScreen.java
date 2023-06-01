@@ -17,10 +17,7 @@ import java.util.UUID;
 
 public class MenuScreen extends AbstractMenuScreen {
 
-    private final Stage stage;
-
     public MenuScreen() {
-        stage = new Stage();
         Table table = new Table();
 
         Skin skin = new Skin(Gdx.files.internal(Constants.NEON_SKIN_PATH));
@@ -59,9 +56,6 @@ public class MenuScreen extends AbstractMenuScreen {
             }
         });
 
-        Gdx.input.setInputProcessor(stage);
-        stage.setViewport(viewport);
-
         TextButton settingsButton = new TextButton("Settings", textButtonStyle);
         settingsButton.setSize(100, 80);
 
@@ -77,6 +71,9 @@ public class MenuScreen extends AbstractMenuScreen {
         table.setFillParent(true);
 
         stage.addActor(table);
+
+        Gdx.input.setInputProcessor(stage);
+        stage.setViewport(viewport);
     }
 
     @Override

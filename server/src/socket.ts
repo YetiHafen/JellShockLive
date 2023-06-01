@@ -8,7 +8,7 @@ export abstract class Socket {
         this.io = io;
     }
 
-    public connect() {
+    public connect(): void {
         let nameSpace: Namespace = this.io.of("/" + this.namespace === null ? "" : this.namespace);
         nameSpace.on("connection", (socket) => {
             this.onConnection(socket);

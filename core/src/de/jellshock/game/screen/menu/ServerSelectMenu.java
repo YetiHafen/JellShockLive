@@ -1,14 +1,13 @@
 package de.jellshock.game.screen.menu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
 import de.jellshock.Constants;
 import de.jellshock.network.Game;
 import de.jellshock.network.lobby.LobbySocket;
@@ -22,13 +21,15 @@ public class ServerSelectMenu extends AbstractMenuScreen {
     private final LobbySocket lobbySocket;
     private final Stage stage;
     private final Skin skin;
-
+    private final Texture joinButtonTexture;
     private final Table listTable;
 
     public ServerSelectMenu() {
-        super(false);
+        super(false, true);
         stage = new Stage();
         skin = new Skin(Gdx.files.internal(Constants.NEON_SKIN_PATH));
+
+        joinButtonTexture = new Texture(Gdx.files.internal("menu/play.png"));
 
         lobbySocket = connect();
 
@@ -44,8 +45,10 @@ public class ServerSelectMenu extends AbstractMenuScreen {
 
         Label title = new Label("SERVER LIST", skin);
         title.setAlignment(Align.center);
-        listTable.add(title).colspan(Game.getLabels().length).padTop(10).row();
+        listTable.add(title).colspan(Game.getLabels().length + 1).padTop(10).row();
 
+        Label spaceLabel = new Label("Join", skin);
+        listTable.add(spaceLabel).pad(10).center();
         for (int i = 0; i < Game.getLabels().length; i++) {
             Label serverLabel = new Label(Game.getLabels()[i], skin);
             listTable.add(serverLabel).pad(10).center();
@@ -64,6 +67,7 @@ public class ServerSelectMenu extends AbstractMenuScreen {
                 System.out.println("T");
             }
         });
+        optionsTable.add(createGame).pad(10);
         TextButton reload = new TextButton("Reload Server List", textButtonStyle);
         reload.addListener(new ClickListener() {
             @Override
@@ -72,8 +76,8 @@ public class ServerSelectMenu extends AbstractMenuScreen {
                 System.out.println("Reload");
             }
         });
-        optionsTable.add(createGame).pad(10);
         optionsTable.add(reload).pad(10);
+
         table.row().padTop(20);
         table.add(optionsTable).center();
 
@@ -85,8 +89,20 @@ public class ServerSelectMenu extends AbstractMenuScreen {
 
     public void postServers(List<Game> gameList) {
         for (Game game : gameList) {
-            System.out.println(game.getGameId());
+            Image joinImage = new Image(joinButtonTexture);
+            joinImage.setScaling(Scaling.fit);
+
+            joinImage.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    System.out.println("Joined " + game.getGameId());
+                }
+            });
+
+            listTable.add(joinImage).height(30).width(30);
+
             Label gameIdLabel = new Label(game.getGameId(), skin);
+
             Label nameLabel = new Label(game.getName(), skin);
             Label mapLabel = new Label(game.getMap(), skin);
             Label playerCountLabel = new Label(String.valueOf(game.getPlayerCount()), skin);
@@ -114,6 +130,8 @@ public class ServerSelectMenu extends AbstractMenuScreen {
 
     @Override
     public void dispose() {
+        joinButtonTexture.dispose();
+        skin.dispose();
         stage.dispose();
     }
 }
