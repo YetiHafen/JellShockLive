@@ -1,15 +1,15 @@
 class User {
 
-    constructor(public uuid: string, public name: string, public role: Role) {}
+    constructor(public id: string, public name: string, public role: Role) {}
 
-    public static findUser(uuid: string) {
+    public static findUser(id: string) {
 
     }
 }
 
 enum Role {
-    ADMIN,
-    USER
+    ADMIN = "Admin",
+    USER = "User"
 }
 
 export { User, Role };

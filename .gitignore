@@ -111,3 +111,5 @@ server/node_modules
 server/dist
 
 .lwjgl
+
+server/.env

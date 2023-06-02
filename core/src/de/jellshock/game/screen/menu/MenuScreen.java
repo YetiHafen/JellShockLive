@@ -28,14 +28,13 @@ public class MenuScreen extends AbstractMenuScreen {
         offlineButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                setSlideScreen(new FirstLevel(), Direction.TOP);
+                JellShock.getInstance().setScreen(new FirstLevel());
             }
         });
 
         onlineButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                setSlideScreen(new ServerSelectMenu(), Direction.LEFT);
                 JellShock.getInstance().setScreen(new ServerSelectMenu());
             }
         });
@@ -52,7 +51,7 @@ public class MenuScreen extends AbstractMenuScreen {
         uiTest.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                setFadeScreen(new ExampleTableMenu());
+                JellShock.getInstance().setScreen(new CreateAccountMenu());
             }
         });
 

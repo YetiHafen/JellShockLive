@@ -11,15 +11,14 @@ export class Lobby extends Socket {
 
     onConnection(socket: IOSocket): void {
         let games: Game[] = Array.from(JSLServer.getInstance().getGames().values());
-        let gameJSON = games.map(game=> game.toJSON());
+        let gameJSON: any = games.map(game=> game.toJSON());
         socket.emit("list", ...gameJSON);
-        console.log(gameJSON);
     }
 
     registerEvents(io: IOSocket): void {
         io.on("reload", (): void => {
             let games: Game[] = Array.from(JSLServer.getInstance().getGames().values());
-            let gameJSON = games.map(game=> game.toJSON());
+            let gameJSON: any = games.map(game=> game.toJSON());
             io.emit("list", ...gameJSON);
         });
 
@@ -28,8 +27,8 @@ export class Lobby extends Socket {
             JSLServer.getInstance().createGame(name, password, map, maxPlayers);
         });
 
-        io.on("join", (socket): void => {
-            console.log(socket);
+        io.on("join", (...args): void => {
+            JSLServer.getInstance().joinGame(args[0], args[1]);
         });
     }
 }

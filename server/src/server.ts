@@ -5,11 +5,15 @@ import {Game, GameId, GameState, IGame} from "./game/game";
 import {Lobby} from "./lobby/lobby";
 import {Maps} from "./maps";
 import {User} from "./model/user";
+import {MongoDBConnection} from "./mongo/mongodb";
+import * as process from "process";
+import * as dotenv from 'dotenv';
 
 export class JSLServer {
 
     public static readonly PORT:number = 3000;
     private static instance: JSLServer;
+    private readonly mongo: MongoDBConnection;
     private readonly server: http.Server;
     private readonly io: Server;
 
@@ -17,7 +21,10 @@ export class JSLServer {
     private readonly games: Map<GameId, Game>;
 
     constructor() {
+        dotenv.config();
         JSLServer.instance = this;
+        let url = `mongodb://${process.env.USER}:${process.env.PASSWORD}@${process.env.HOSTNAME}:${process.env.PORT}/?authSource=admin`;
+        this.mongo = new MongoDBConnection(url);
         this.server = http.createServer();
         this.io = new Server(this.server);
         this.games = new Map<string, Game>;
@@ -57,19 +64,24 @@ export class JSLServer {
     }
 
     private listen(): void {
-        this.server.listen(JSLServer.PORT, () => {
-            console.log(`JDL-Server started on port ${JSLServer.PORT}`);
-        });
-
-        this.lobby = new Lobby(this.io);
-        this.lobby.connect();
-
-        this.io.on('connection', (socket: any) => {
-            console.log("Client connected");
-
-            socket.on('disconnect', (reason: any) => {
-                console.log('Client disconnected Reason: ' + reason);
+        this.mongo.connect().then(() => {
+            this.server.listen(JSLServer.PORT, () => {
+                console.log(`JDL-Server started on port ${JSLServer.PORT}`);
             });
+
+            this.lobby = new Lobby(this.io);
+            this.lobby.connect();
+
+            this.io.on('connection', (socket: any) => {
+                console.log("Client connected");
+
+                socket.on('disconnect', (reason: any) => {
+                    console.log('Client disconnected Reason: ' + reason);
+                });
+            });
+        }).catch((error: Error) => {
+            console.error('Database connection failed', error);
+            process.exit();
         });
     }
 

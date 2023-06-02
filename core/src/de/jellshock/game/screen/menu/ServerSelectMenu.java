@@ -89,6 +89,7 @@ public class ServerSelectMenu extends AbstractMenuScreen {
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                button.setVisible(false);
                 setSlideScreen(new MenuScreen(), Direction.LEFT);
             }
         });
@@ -132,7 +133,6 @@ public class ServerSelectMenu extends AbstractMenuScreen {
             listTable.add(gameIdLabel, nameLabel, mapLabel, playerCountLabel, gameStateLabel).pad(10).center().row();
         }
     }
-
 
     public void clearList() {
         listTable.clear();

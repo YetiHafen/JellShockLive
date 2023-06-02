@@ -1,11 +1,11 @@
 import {Socket} from "../socket";
-import {Namespace, Server, Socket as IOSocket} from "socket.io";
+import {Server, Socket as IOSocket} from "socket.io";
 import {Maps} from "../maps";
 import {User} from "../model/user";
 
 class Game extends Socket {
 
-    public gameId: string;
+    public gameId: GameId;
     public name: string;
     public password: string;
     public map: Maps;
@@ -16,7 +16,7 @@ class Game extends Socket {
     public users: User[];
 
     constructor(io: Server, iGame: IGame) {
-        super("/game", io);
+        super("/game/" + iGame.gameId, io);
         this.gameId = iGame.gameId;
         this.name = iGame.name;
         this.password = iGame.password;

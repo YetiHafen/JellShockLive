@@ -61,9 +61,7 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
             case TOP -> directionY = Gdx.graphics.getHeight();
             case BOTTOM -> directionY = -Gdx.graphics.getHeight();
         }
-        System.out.println(directionX);
-        System.out.println(directionY);
-        stage.addAction(Actions.sequence(Actions.moveBy(directionX, directionY, 0.3f),
+        stage.addAction(Actions.sequence(Actions.moveBy(directionX, directionY, 0.4f),
                 Actions.run(() -> JellShock.getInstance().setScreen(screen))));
     }
 

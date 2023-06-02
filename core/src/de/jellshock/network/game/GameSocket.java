@@ -1,5 +1,6 @@
 package de.jellshock.network.game;
 
+import de.jellshock.game.screen.game.online.OnlineScreen;
 import de.jellshock.network.AbstractSocket;
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -8,8 +9,11 @@ import java.net.URI;
 
 public class GameSocket extends AbstractSocket {
 
-    public GameSocket(URI uri, IO.Options options) {
-        super(uri, options, "game");
+    private final OnlineScreen onlineScreen;
+
+    public GameSocket(URI uri, String gameId, IO.Options options, OnlineScreen online) {
+        super(uri, options, "game/" + gameId);
+        this.onlineScreen = online;
     }
 
     @Override
