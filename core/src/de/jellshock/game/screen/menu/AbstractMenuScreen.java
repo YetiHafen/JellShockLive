@@ -29,6 +29,7 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
         this.renderLogo = renderLogo;
         spriteBatch = new SpriteBatch();
         stage = new Stage();
+        backButtonTexture = new Texture("menu/left-arrow.png");
         backgroundTexture = new Texture("menu/background.png");
         if (renderLogo) {
             logoTexture = new Texture("jellshock.png");

@@ -18,7 +18,6 @@ public class CreateAccountMenu extends AbstractMenuScreen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        backButtonTexture = new Texture("menu/left-arrow.png");
         ImageButton button = new ImageButton(new TextureRegionDrawable(backButtonTexture));
         button.setSize(30, 30);
         button.setPosition(10, Gdx.graphics.getHeight() - 50);
