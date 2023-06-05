@@ -1,15 +1,19 @@
+import {collections} from "../mongo/mongodb";
+import {ObjectId} from 'mongodb';
+
 class User {
 
-    constructor(public id: string, public name: string, public role: Role) {}
+    constructor(public id: ObjectId, public name: string, public password: string) {}
 
-    public static findUser(id: string) {
+    public static async findUser(name: string): Promise<User> {
 
+        const user = await collections.users.findOne({ name: name});
+        if (user) {
+            return new User(user._id, user.name, user.password);
+        } else {
+            return null;
+        }
     }
 }
 
-enum Role {
-    ADMIN = "Admin",
-    USER = "User"
-}
-
-export { User, Role };
+export { User };

@@ -9,7 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.ScreenUtils;
 import de.jellshock.JellShock;
 import de.jellshock.game.screen.AbstractScreen;
+import lombok.Getter;
 
+@Getter
 public abstract class AbstractMenuScreen extends AbstractScreen {
 
     protected Texture backgroundTexture;
@@ -49,11 +51,11 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
         update(delta);
     }
 
-    public void setFadeScreen(AbstractScreen screen) {
+    public void setFadeScreen(Class<? extends AbstractScreen> screen) {
         stage.addAction(Actions.sequence(Actions.fadeOut(0.3f), Actions.run(() -> JellShock.getInstance().setScreen(screen))));
     }
 
-    public void setSlideScreen(AbstractScreen screen, Direction direction)  {
+    public void setSlideScreen(Class<? extends AbstractScreen> screen, Direction direction)  {
         int directionX = 0;
         int directionY = 0;
         switch (direction) {
@@ -78,10 +80,8 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
     public void dispose() {
         backgroundTexture.dispose();
         logoTexture.dispose();
-        backButtonTexture.dispose();
         stage.dispose();
         spriteBatch.dispose();
-        super.dispose();
     }
 
     public enum Direction {

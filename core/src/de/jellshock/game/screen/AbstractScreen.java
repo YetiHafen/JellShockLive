@@ -40,7 +40,4 @@ public abstract class AbstractScreen implements Screen {
 
     @Override
     public void hide() {}
-
-    @Override
-    public void dispose() {}
 }

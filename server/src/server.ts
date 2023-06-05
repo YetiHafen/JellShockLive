@@ -8,6 +8,7 @@ import {User} from "./model/user";
 import {MongoDBConnection} from "./mongo/mongodb";
 import * as process from "process";
 import * as dotenv from 'dotenv';
+import {Account} from "./lobby/account";
 
 export class JSLServer {
 
@@ -17,6 +18,7 @@ export class JSLServer {
     private readonly server: http.Server;
     private readonly io: Server;
 
+    private account: Account;
     private lobby: Lobby;
     private readonly games: Map<GameId, Game>;
 
@@ -31,13 +33,14 @@ export class JSLServer {
         this.listen();
     }
 
-    public createGame(name: string, password: string, map: Maps, maxPlayers: number) {
+    public createGame(name: string, password: string, map: Maps, maxPlayers: number, user: User) {
         const options: IGame = {
             gameId: nanoid(6),
             name: name,
             password: password,
             maxPlayers: maxPlayers,
-            map: map
+            map: map,
+            admin: user
         }
         let game: Game = new Game(this.io, options);
 
@@ -69,6 +72,9 @@ export class JSLServer {
                 console.log(`JDL-Server started on port ${JSLServer.PORT}`);
             });
 
+            this.account = new Account(this.io);
+            this.account.connect();
+
             this.lobby = new Lobby(this.io);
             this.lobby.connect();
 
@@ -85,8 +91,12 @@ export class JSLServer {
         });
     }
 
-    public getGames() {
+    public getGames(): Map<GameId, Game> {
         return this.games;
+    }
+
+    public getDatabase(): MongoDBConnection {
+        return this.mongo;
     }
 
     public static getInstance(): JSLServer {

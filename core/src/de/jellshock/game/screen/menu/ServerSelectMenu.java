@@ -16,14 +16,17 @@ import de.jellshock.network.Game;
 import de.jellshock.network.Maps;
 import de.jellshock.network.lobby.LobbySocket;
 import io.socket.client.IO;
+import lombok.Getter;
 
 import java.net.URI;
 import java.util.List;
 
+@Getter
 public class ServerSelectMenu extends AbstractMenuScreen {
 
     private final LobbySocket lobbySocket;
     private final Skin skin;
+    private final Texture backButtonTexture;
     private final Texture joinButtonTexture;
     private final Table listTable;
 
@@ -33,6 +36,20 @@ public class ServerSelectMenu extends AbstractMenuScreen {
         skin = new Skin(Gdx.files.internal(Constants.NEON_SKIN_PATH));
 
         joinButtonTexture = new Texture(Gdx.files.internal("menu/play.png"));
+
+        backButtonTexture = new Texture("menu/left-arrow.png");
+        ImageButton button = new ImageButton(new TextureRegionDrawable(backButtonTexture));
+        button.setSize(30, 30);
+        button.setPosition(10, Gdx.graphics.getHeight() - 50);
+
+        button.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                button.setVisible(false);
+                setSlideScreen(MenuScreen.class, Direction.LEFT);
+            }
+        });
+        stage.addActor(button);
 
         lobbySocket = connect();
 
@@ -80,20 +97,6 @@ public class ServerSelectMenu extends AbstractMenuScreen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
         stage.setViewport(viewport);
-
-        backButtonTexture = new Texture("menu/left-arrow.png");
-        ImageButton button = new ImageButton(new TextureRegionDrawable(backButtonTexture));
-        button.setSize(30, 30);
-        button.setPosition(10, Gdx.graphics.getHeight() - 50);
-
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                button.setVisible(false);
-                setSlideScreen(new MenuScreen(), Direction.LEFT);
-            }
-        });
-        stage.addActor(button);
     }
 
     public void serverListTable() {
@@ -163,7 +166,7 @@ public class ServerSelectMenu extends AbstractMenuScreen {
                         return;
                     }
                     if (passwordField.getText().length() > 12) {
-                        DialogUtils.error("Password can not be longer than 12 characters", stage, skin);
+                        DialogUtils.error("Password can't be longer than 12 characters", stage, skin);
                         return;
                     }
                     lobbySocket.createGame(serverField.getText(), passwordField.getText(), mapSelect.getSelected(), maxPlayerSelect.getSelected());
@@ -202,8 +205,9 @@ public class ServerSelectMenu extends AbstractMenuScreen {
 
     @Override
     public void dispose() {
+        backButtonTexture.dispose();
         joinButtonTexture.dispose();
         skin.dispose();
-        stage.dispose();
+        super.dispose();
     }
 }

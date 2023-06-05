@@ -28,14 +28,14 @@ public class MenuScreen extends AbstractMenuScreen {
         offlineButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                JellShock.getInstance().setScreen(new FirstLevel());
+                JellShock.getInstance().setScreen(LevelSelectScreen.class);
             }
         });
 
         onlineButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                JellShock.getInstance().setScreen(new ServerSelectMenu());
+                JellShock.getInstance().setScreen(CreateAccountMenu.class);
             }
         });
 
@@ -47,21 +47,13 @@ public class MenuScreen extends AbstractMenuScreen {
             }
         });
 
-        TextButton uiTest = new TextButton("UI Test Screen", textButtonStyle);
-        uiTest.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                JellShock.getInstance().setScreen(new CreateAccountMenu());
-            }
-        });
-
         TextButton settingsButton = new TextButton("Settings", textButtonStyle);
         settingsButton.setSize(100, 80);
 
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                setSlideScreen(new SettingsScreen(), Direction.RIGHT);
+                JellShock.getInstance().setScreen(SettingsScreen.class);
             }
         });
 
@@ -72,8 +64,6 @@ public class MenuScreen extends AbstractMenuScreen {
         table.add(settingsButton);
         table.row();
         table.add(testButton);
-        table.row();
-        table.add(uiTest);
         table.setFillParent(true);
 
         stage.addActor(table);

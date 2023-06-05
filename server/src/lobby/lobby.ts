@@ -1,7 +1,8 @@
 import { Socket } from "../socket";
-import { Namespace, Server, Socket as IOSocket } from "socket.io";
+import { Server, Socket as IOSocket } from "socket.io";
 import { Game } from "../game/game";
 import { JSLServer } from "../server";
+import {User} from "../model/user";
 
 export class Lobby extends Socket {
 
@@ -15,20 +16,26 @@ export class Lobby extends Socket {
         socket.emit("list", ...gameJSON);
     }
 
-    registerEvents(io: IOSocket): void {
-        io.on("reload", (): void => {
+    async registerEvents(socket: IOSocket): Promise<void> {
+        socket.on("reload", (): void => {
             let games: Game[] = Array.from(JSLServer.getInstance().getGames().values());
             let gameJSON: any = games.map(game=> game.toJSON());
-            io.emit("list", ...gameJSON);
+            socket.emit("list", ...gameJSON);
         });
 
-        io.on("create", (...args): void => {
-            const { name, password, map, maxPlayers } = args[0];
-            JSLServer.getInstance().createGame(name, password, map, maxPlayers);
+        socket.on("create", async (...args): Promise<void> => {
+            const {name, password, map, maxPlayers} = args[0];
+            const user = await User.findUser(args[1]);
+            if (!user) {
+                socket.emit("err");
+                return;
+            }
+            await JSLServer.getInstance().createGame(name, password, map, maxPlayers, user);
         });
 
-        io.on("join", (...args): void => {
+        socket.on("join", (...args): void => {
             JSLServer.getInstance().joinGame(args[0], args[1]);
+            // Name, Password
         });
     }
 }

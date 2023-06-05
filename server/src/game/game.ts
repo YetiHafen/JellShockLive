@@ -13,6 +13,7 @@ class Game extends Socket {
     public maxPlayers: number = 8;
     public gameState: GameState = GameState.LOBBY;
 
+    public admin: User;
     public users: User[];
 
     constructor(io: Server, iGame: IGame) {
@@ -22,6 +23,7 @@ class Game extends Socket {
         this.password = iGame.password;
         this.maxPlayers = iGame.maxPlayers;
         this.map = iGame.map;
+        this.admin = iGame.admin;
     }
 
     onConnection(socket: IOSocket): void {
@@ -47,11 +49,12 @@ class Game extends Socket {
 }
 
 interface IGame {
-    gameId: GameId
-    name: string
-    password?: string;
-    maxPlayers?: number
-    map: Maps;
+    gameId: GameId,
+    name: string,
+    password?: string,
+    maxPlayers?: number,
+    map: Maps,
+    admin: User;
 }
 
 enum GameState {

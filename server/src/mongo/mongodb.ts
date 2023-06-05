@@ -1,8 +1,9 @@
 import * as mongodb from "mongodb";
-import {Role} from "../model/user";
 import * as process from "process";
+import {OptionalId} from "mongodb";
+import {User} from "../lobby/account";
 
-export const collections: { users?: mongodb.Collection<User> } = {};
+export const collections: { users?: mongodb.Collection<OptionalId<User>> } = {};
 
 export class MongoDBConnection {
 
@@ -16,7 +17,7 @@ export class MongoDBConnection {
         await this.client.connect();
 
         const database = this.client.db(process.env.DATABASE_NAME);
-        collections.users = database.collection<User>(process.env.USER_COLLECTION_NAME);
+        collections.users = database.collection<OptionalId<User>>(process.env.USER_COLLECTION_NAME);
 
         console.log(`Successfully connected to database: ${database.databaseName}`);
     }
@@ -24,11 +25,4 @@ export class MongoDBConnection {
     get mongoClient(): mongodb.MongoClient {
         return this.client;
     }
-}
-
-export interface User {
-    id?: mongodb.ObjectId,
-    name: string,
-    role: Role,
-    ip: string
 }

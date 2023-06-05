@@ -17,7 +17,7 @@ export abstract class Socket {
         });
     }
 
-    abstract onConnection(io: IOSocket): void;
+    abstract onConnection(socket: IOSocket): void;
 
-    abstract registerEvents(io: IOSocket): void;
+    abstract registerEvents(socket: IOSocket): void;
 }

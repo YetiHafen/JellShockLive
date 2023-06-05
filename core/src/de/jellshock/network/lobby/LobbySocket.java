@@ -2,7 +2,9 @@ package de.jellshock.network.lobby;
 
 import com.badlogic.gdx.Gdx;
 import com.google.gson.Gson;
+import de.jellshock.JellShock;
 import de.jellshock.game.screen.menu.ServerSelectMenu;
+import de.jellshock.game.util.DialogUtils;
 import de.jellshock.network.AbstractSocket;
 import de.jellshock.network.Game;
 import de.jellshock.network.Maps;
@@ -24,7 +26,6 @@ public class LobbySocket extends AbstractSocket {
     private static final int RELOAD_TIMEOUT = 1000;
     private long lastReload;
     private final List<Game> games;
-
     private final ServerSelectMenu menu;
 
     public LobbySocket(URI uri, IO.Options options, ServerSelectMenu menu) {
@@ -49,16 +50,22 @@ public class LobbySocket extends AbstractSocket {
             });
         });
 
+        socket.on("err", args -> {
+            Gdx.app.postRunnable(() -> {
+                DialogUtils.error("Error while fetching user. Try again", menu.getStage(), menu.getSkin());
+            });
+        });
+
         // Keep alive reload
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
                 socket.emit("reload");
             }
-        }, 0, 5 * 1000);
+        }, 0, 4 * 1000);
     }
 
-    public void joinGame(String gameId) {
+    public void joinGame(String gameId, String name) {
         socket.emit("join", gameId);
     }
 
@@ -67,7 +74,8 @@ public class LobbySocket extends AbstractSocket {
                 .put("name", serverName)
                 .put("password", password)
                 .put("map", map.getName())
-                .put("maxPlayers", maxPlayers);
+                .put("maxPlayers", maxPlayers)
+                .put("admin", JellShock.getInstance().getCreateAccountMenu().getName());
 
         socket.emit("create", game);
     }
