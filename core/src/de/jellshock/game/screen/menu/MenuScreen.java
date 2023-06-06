@@ -28,7 +28,7 @@ public class MenuScreen extends AbstractMenuScreen {
         offlineButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                JellShock.getInstance().setScreen(LevelSelectScreen.class);
+                JellShock.getInstance().setScreen(FirstLevel.class);
             }
         });
 

@@ -101,7 +101,7 @@ public abstract class GameScreen extends AbstractScreen {
         batch.dispose();
         world.dispose();
         player.dispose();
-        shotProjectile.dispose();
-        batch.dispose();
+        if(shotProjectile != null)
+            shotProjectile.dispose();
     }
 }

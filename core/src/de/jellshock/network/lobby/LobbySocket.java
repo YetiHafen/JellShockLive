@@ -3,6 +3,7 @@ package de.jellshock.network.lobby;
 import com.badlogic.gdx.Gdx;
 import com.google.gson.Gson;
 import de.jellshock.JellShock;
+import de.jellshock.game.screen.menu.CreateAccountMenu;
 import de.jellshock.game.screen.menu.ServerSelectMenu;
 import de.jellshock.game.util.DialogUtils;
 import de.jellshock.network.AbstractSocket;
@@ -75,7 +76,7 @@ public class LobbySocket extends AbstractSocket {
                 .put("password", password)
                 .put("map", map.getName())
                 .put("maxPlayers", maxPlayers)
-                .put("admin", JellShock.getInstance().getCreateAccountMenu().getName());
+                .put("admin", JellShock.getInstance().getScreen(CreateAccountMenu.class).getName());
 
         socket.emit("create", game);
     }
