@@ -40,6 +40,7 @@ public class OnlineScreen extends GameScreen {
     }
 
     public void connect(String gameId) {
+        if (gameSocket != null) return;
         gameSocket = new GameSocket(URI.create(Constants.SERVER_URL), gameId, IO.Options.builder().build(), this);
         new Thread(gameSocket::connect).start();
     }
