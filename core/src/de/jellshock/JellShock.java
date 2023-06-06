@@ -56,8 +56,10 @@ public class JellShock extends Game {
 		return screenClass.cast(screen);
 	}
 
-	public void setScreen(Class<? extends Screen> screenClass) {
-		setScreen(getScreen(screenClass));
+	public <T extends Screen> T setScreen(Class<T> screenClass) {
+		T screen = getScreen(screenClass);
+		setScreen(screen);
+		return screen;
 	}
 
 
