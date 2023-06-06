@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -64,8 +65,18 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
             case TOP -> directionY = Gdx.graphics.getHeight();
             case BOTTOM -> directionY = -Gdx.graphics.getHeight();
         }
-        stage.addAction(Actions.sequence(Actions.moveBy(directionX, directionY, 0.4f),
-                Actions.run(() -> JellShock.getInstance().setScreen(screen))));
+        int finalDirectionY = directionY;
+        int finalDirectionX = directionX;
+        stage.addAction(
+                Actions.sequence(
+                        Actions.moveBy(directionX, directionY, 0.4f),
+                        Actions.run(() -> {
+                            JellShock.getInstance().setScreen(screen);
+                            // restore stage positioning
+                            stage.addAction(Actions.moveBy(-finalDirectionX, -finalDirectionY, 0));
+                        })
+                )
+        );
     }
 
     public abstract void update(float delta);
