@@ -17,9 +17,6 @@ export class Account extends Socket {
             console.log(arg1);
             console.log(args2);
             let ack = await this.checkUser(arg1, args2);
-            if (ack === "ok" || ack === "nok") {
-
-            }
             callback({
                 status: ack
             });
@@ -29,10 +26,10 @@ export class Account extends Socket {
     async checkUser(name: string, password: string): Promise<string> {
         try {
             const user = await collections.users.findOne({ name: name });
-            console.log(user);
+            if (user && password != user.password) return "nok";
             if (user) return "ok";
             await this.insertUser(name, password);
-            return "nok";
+            return "ok";
         } catch (err) {
             console.error(err);
             return "err";

@@ -1,14 +1,16 @@
 package de.jellshock.game.vehicle;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+import de.jellshock.Constants;
+import de.jellshock.JellShock;
 import de.jellshock.game.rendering.IRenderConsumer;
 import de.jellshock.game.weapon.abstraction.AbstractWeapon;
-import de.jellshock.game.world.Map;
 import de.jellshock.game.world.World;
 
 import java.lang.reflect.Constructor;
@@ -29,15 +31,16 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
     private float position = 0;
     private final World world;
 
-    private float scale = 0.16F;
+    private static final float SCALE = 0.16F;
     private static final int SLOPE_05DX = 10;
 
     public Tank(Color color, World world) {
         this.color = color;
         this.world = world;
-        chassisTexture = new Texture("tank/chassis_round.png");
-        trackTexture = new Texture("tank/track_classic.png");
-        gunTexture = new Texture("tank/gun_dainty.png");
+        AssetManager manager = JellShock.getInstance().getAssetManager();
+        chassisTexture = manager.get(Constants.CHASSIS_PATH, Texture.class);
+        trackTexture = manager.get(Constants.TRACK_PATH, Texture.class);
+        gunTexture = manager.get(Constants.GUN_PATH, Texture.class);
         track = new TextureRegion(trackTexture);
         chassis = new TextureRegion(chassisTexture);
         gun = new TextureRegion(gunTexture);
@@ -68,14 +71,14 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
         float x = position;
         float y = world.getMap().getMapHeight((int) x);
 
-        float chassisWidth = chassisTexture.getWidth() * scale;
-        float chassisHeight = chassisTexture.getHeight() * scale;
+        float chassisWidth = chassisTexture.getWidth() * SCALE;
+        float chassisHeight = chassisTexture.getHeight() * SCALE;
 
-        float trackWidth = trackTexture.getWidth() * scale;
-        float trackHeight = trackTexture.getHeight() * scale;
+        float trackWidth = trackTexture.getWidth() * SCALE;
+        float trackHeight = trackTexture.getHeight() * SCALE;
 
-        float gunHeight = gunTexture.getHeight() * scale;
-        float gunLength = gunTexture.getWidth() * scale;
+        float gunHeight = gunTexture.getHeight() * SCALE;
+        float gunLength = gunTexture.getWidth() * SCALE;
 
         float chassisXOffset = -chassisWidth / 2;
         float trackXOffset = -trackWidth / 2;

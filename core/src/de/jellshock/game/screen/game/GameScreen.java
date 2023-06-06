@@ -2,10 +2,14 @@ package de.jellshock.game.screen.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import de.jellshock.Constants;
+import de.jellshock.JellShock;
 import de.jellshock.game.event.key.KeyEventManager;
 import de.jellshock.game.event.key.KeyInputProcessor;
 import de.jellshock.game.player.Player;
@@ -38,6 +42,7 @@ public abstract class GameScreen extends AbstractScreen {
     public GameScreen(World world, String playerName) {
         super(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         batch = new SpriteBatch();
+        loadAssets();
 
         this.world = world;
         player = new Player(playerName, world);
@@ -59,8 +64,18 @@ public abstract class GameScreen extends AbstractScreen {
         renderObjects.add(menuBar);
     }
 
-    @Override
-    public void show() {
+    private void loadAssets() {
+        AssetManager manager = JellShock.getInstance().getAssetManager();
+
+        // Load tank textures
+        manager.load(Constants.CHASSIS_PATH, Texture.class);
+        manager.load(Constants.TRACK_PATH, Texture.class);
+        manager.load(Constants.GUN_PATH, Texture.class);
+
+        // Load projectiles
+        manager.load(Constants.SHOT_PATH, Texture.class);
+
+        manager.finishLoading();
     }
 
     @Override

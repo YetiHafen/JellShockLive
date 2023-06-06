@@ -1,3 +1,3 @@
-import { JSLServer} from "./server";
+import { JSLServer } from "./server";
 
 new JSLServer();
