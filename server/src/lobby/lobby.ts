@@ -24,8 +24,8 @@ export class Lobby extends Socket {
         });
 
         socket.on("create", async (...args): Promise<void> => {
-            const {name, password, map, maxPlayers} = args[0];
-            const user = await User.findUser(args[1]);
+            const {name, password, map, maxPlayers, admin} = args[0];
+            const user: User = await User.findUser(admin);
             if (!user) {
                 socket.emit("err");
                 return;

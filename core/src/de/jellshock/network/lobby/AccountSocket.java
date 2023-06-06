@@ -34,9 +34,13 @@ public class AccountSocket extends AbstractSocket {
     public void emitAccountData(String name, String password) {
         socket.emit("data", name, password, (Ack) args -> {
             String status = ((JSONObject) args[0]).getString("status");
-            if (status.equals("ok") || status.equals("nok")) {
+            if (status.equals("ok")) {
                 Gdx.app.postRunnable(() -> {
                     JellShock.getInstance().setScreen(ServerSelectMenu.class);
+                });
+            } else if (status.equals("nok")) {
+                Gdx.app.postRunnable(() -> {
+                    DialogUtils.error("Password is wrong", accountMenu.getStage(), accountMenu.getSkin());
                 });
             } else {
                 Gdx.app.postRunnable(() -> {

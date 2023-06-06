@@ -2,6 +2,7 @@ package de.jellshock.game.weapon.implementation.single;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import de.jellshock.Constants;
 import de.jellshock.JellShock;
 import de.jellshock.game.weapon.Weapon;
 import de.jellshock.game.weapon.WeaponType;
@@ -23,6 +24,6 @@ public class ShotProjectile extends SingleProjectile {
 
     @Override
     protected Texture getTexture() {
-        return new Texture("shot.png");
+        return JellShock.getInstance().getAssetManager().get(Constants.SHOT_PATH);
     }
 }

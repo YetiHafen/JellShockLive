@@ -4,24 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
+import de.jellshock.Constants;
 import de.jellshock.game.rendering.IRenderConsumer;
 import lombok.Getter;
 
 @Getter
 public class Background implements IRenderConsumer<SpriteBatch>, Disposable {
 
-    private final String path;
     private final Texture backgroundTexture;
     private final Map map;
 
     public Background(Map map) {
-        this("background/sky.png", map);
-    }
-
-    public Background(String path, Map map) {
-        this.path = path;
         this.map = map;
-        backgroundTexture = new Texture(path);
+        backgroundTexture = new Texture(Constants.BACKGROUND_PATH);
     }
 
     @Override
