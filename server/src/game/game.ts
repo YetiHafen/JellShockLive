@@ -14,10 +14,10 @@ class Game extends Socket {
     public gameState: GameState = GameState.LOBBY;
 
     public admin: User;
-    public users: User[];
+    public users: User[] = [];
 
     constructor(io: Server, iGame: IGame) {
-        super("/game/" + iGame.gameId, io);
+        super(`/${iGame.gameId}`, io);
         this.gameId = iGame.gameId;
         this.name = iGame.name;
         this.password = iGame.password;
@@ -26,8 +26,13 @@ class Game extends Socket {
         this.admin = iGame.admin;
     }
 
-    onConnection(socket: IOSocket): void {
-        // GameState changes
+    async onConnection(socket: IOSocket): Promise<void> {
+        socket.on("join", async (arg): Promise<void> => {
+            const user: User = await User.findUser(arg[0]);
+            this.users.push(user);
+            this.playerCount++;
+            console.log(this.users);
+        });
     }
 
     registerEvents(io: IOSocket): void {

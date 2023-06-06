@@ -12,12 +12,12 @@ public class GameSocket extends AbstractSocket {
     private final OnlineScreen onlineScreen;
 
     public GameSocket(URI uri, String gameId, IO.Options options, OnlineScreen online) {
-        super(uri, options, "game/" + gameId);
+        super(uri, options, "/" + gameId);
         this.onlineScreen = online;
     }
 
     @Override
     public void onConnection(Socket socket) {
-
+        socket.emit("join", onlineScreen.getName());
     }
 }

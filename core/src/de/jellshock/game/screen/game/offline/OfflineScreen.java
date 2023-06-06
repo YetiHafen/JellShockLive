@@ -1,13 +1,12 @@
 package de.jellshock.game.screen.game.offline;
 
 import de.jellshock.game.screen.game.GameScreen;
-import de.jellshock.game.world.MapType;
 import de.jellshock.game.world.World;
 
 public abstract class OfflineScreen extends GameScreen {
 
     public OfflineScreen(World world) {
-        super(world, "Test");
+        super(world);
     }
 
     @Override

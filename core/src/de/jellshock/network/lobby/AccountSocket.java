@@ -36,7 +36,9 @@ public class AccountSocket extends AbstractSocket {
             String status = ((JSONObject) args[0]).getString("status");
             if (status.equals("ok")) {
                 Gdx.app.postRunnable(() -> {
-                    JellShock.getInstance().setScreen(ServerSelectMenu.class);
+                    ServerSelectMenu selectMenu = JellShock.getInstance().setScreen(ServerSelectMenu.class);
+                    selectMenu.setName(name);
+                    selectMenu.setPassword(password);
                 });
             } else if (status.equals("nok")) {
                 Gdx.app.postRunnable(() -> {

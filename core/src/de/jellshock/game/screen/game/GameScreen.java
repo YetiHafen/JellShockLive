@@ -39,13 +39,13 @@ public abstract class GameScreen extends AbstractScreen {
 
     protected ShotProjectile shotProjectile;
 
-    public GameScreen(World world, String playerName) {
+    public GameScreen(World world) {
         super(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         batch = new SpriteBatch();
         loadAssets();
 
         this.world = world;
-        player = new Player(playerName, world);
+        player = new Player("", world);
 
         menuBar = new MenuBar(this);
 

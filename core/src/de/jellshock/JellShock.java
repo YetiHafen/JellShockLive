@@ -1,20 +1,16 @@
 package de.jellshock;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import de.jellshock.game.screen.AbstractScreen;
-import de.jellshock.game.screen.game.offline.OfflineScreen;
-import de.jellshock.game.screen.game.online.OnlineScreen;
-import de.jellshock.game.screen.menu.*;
+import de.jellshock.game.screen.menu.MenuScreen;
 import de.jellshock.game.weapon.WeaponManager;
 import de.jellshock.user.User;
 import lombok.Getter;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @Getter
 public class JellShock extends Game {

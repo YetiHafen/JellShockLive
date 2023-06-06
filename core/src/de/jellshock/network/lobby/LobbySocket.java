@@ -3,12 +3,13 @@ package de.jellshock.network.lobby;
 import com.badlogic.gdx.Gdx;
 import com.google.gson.Gson;
 import de.jellshock.JellShock;
-import de.jellshock.game.screen.menu.CreateAccountMenu;
+import de.jellshock.game.screen.game.online.OnlineScreen;
 import de.jellshock.game.screen.menu.ServerSelectMenu;
 import de.jellshock.game.util.DialogUtils;
 import de.jellshock.network.AbstractSocket;
 import de.jellshock.network.Game;
 import de.jellshock.network.Maps;
+import io.socket.client.Ack;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import lombok.Getter;
@@ -67,7 +68,22 @@ public class LobbySocket extends AbstractSocket {
     }
 
     public void joinGame(String gameId, String name) {
-        socket.emit("join", gameId);
+        socket.emit("join", gameId, name, (Ack) args -> {
+            String status = ((JSONObject) args[0]).getString("status");
+            System.out.println(status);
+            Gdx.app.postRunnable(() -> {
+                if (status.equals("max")) {
+                    DialogUtils.error("Server is full", menu.getStage(), menu.getSkin());
+                } else if (status.equals("started")) {
+                    DialogUtils.error("Server has started", menu.getStage(), menu.getSkin());
+                } else {
+                    OnlineScreen onlineScreen = JellShock.getInstance().setScreen(OnlineScreen.class);
+                    onlineScreen.setName(menu.getName());
+                    onlineScreen.setPassword(menu.getPassword());
+                    onlineScreen.connect(gameId);
+                }
+            });
+        });
     }
 
     public void createGame(String serverName, String password, Maps map, int maxPlayers) {
@@ -76,7 +92,7 @@ public class LobbySocket extends AbstractSocket {
                 .put("password", password)
                 .put("map", map.getName())
                 .put("maxPlayers", maxPlayers)
-                .put("admin", JellShock.getInstance().getScreen(CreateAccountMenu.class).getName());
+                .put("admin", menu.getName());
 
         socket.emit("create", game);
     }

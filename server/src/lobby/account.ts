@@ -14,8 +14,6 @@ export class Account extends Socket {
 
     async registerEvents(io: IOSocket): Promise<void> {
         io.on("data", async (arg1, args2, callback): Promise<void> => {
-            console.log(arg1);
-            console.log(args2);
             let ack = await this.checkUser(arg1, args2);
             callback({
                 status: ack
@@ -38,7 +36,7 @@ export class Account extends Socket {
 
     async insertUser(name: string, password: string): Promise<void> {
         try {
-            const result =  await collections.users.insertOne({
+            await collections.users.insertOne({
                 name: name,
                 password: password
             });

@@ -7,22 +7,29 @@ import de.jellshock.game.world.MapType;
 import de.jellshock.game.world.World;
 import de.jellshock.network.game.GameSocket;
 import io.socket.client.IO;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class OnlineScreen extends GameScreen {
 
     private final List<Player> onlinePlayers;
 
-    private final GameSocket gameSocket;
+    private GameSocket gameSocket;
 
-    public OnlineScreen(String gameId) {
-        super(new World("Test", MapType.MOUNTAIN), "Test");
+    @Setter
+    private String name;
+    @Setter
+    private String password;
+
+    public OnlineScreen() {
+        super(new World("Test", MapType.MOUNTAIN));
+        world.generateWorld();
         onlinePlayers = new ArrayList<>();
-
-        gameSocket = connect(gameId);
     }
 
     @Override
@@ -32,10 +39,9 @@ public class OnlineScreen extends GameScreen {
         }
     }
 
-    public GameSocket connect(String gameId) {
-        GameSocket socket = new GameSocket(URI.create(Constants.SERVER_URL), gameId, IO.Options.builder().build(), this);
-        new Thread(socket::connect).start();
-        return socket;
+    public void connect(String gameId) {
+        gameSocket = new GameSocket(URI.create(Constants.SERVER_URL), gameId, IO.Options.builder().build(), this);
+        new Thread(gameSocket::connect).start();
     }
 
     @Override

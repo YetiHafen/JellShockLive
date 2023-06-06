@@ -17,6 +17,7 @@ import de.jellshock.network.Maps;
 import de.jellshock.network.lobby.LobbySocket;
 import io.socket.client.IO;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.net.URI;
 import java.util.List;
@@ -29,6 +30,11 @@ public class ServerSelectMenu extends AbstractMenuScreen {
     private final Texture backButtonTexture;
     private final Texture joinButtonTexture;
     private final Table listTable;
+
+    @Setter
+    private String name;
+    @Setter
+    private String password;
 
     public ServerSelectMenu() {
         super(false);
@@ -114,7 +120,6 @@ public class ServerSelectMenu extends AbstractMenuScreen {
     }
 
     public void postServers(List<Game> gameList) {
-        // ConcurrentModificationException ka woher die kommt. Will das jetzt nicht fixen
         for (Game game : gameList) {
             Image joinImage = new Image(joinButtonTexture);
             joinImage.setScaling(Scaling.fit);
@@ -122,7 +127,8 @@ public class ServerSelectMenu extends AbstractMenuScreen {
             joinImage.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    System.out.println("Joined " + game.getGameId());
+                    System.out.println("Clicked");
+                    lobbySocket.joinGame(game.getGameId(), name);
                 }
             });
             listTable.add(joinImage).height(30).width(30);

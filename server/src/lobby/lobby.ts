@@ -33,9 +33,13 @@ export class Lobby extends Socket {
             await JSLServer.getInstance().createGame(name, password, map, maxPlayers, user);
         });
 
-        socket.on("join", (...args): void => {
-            JSLServer.getInstance().joinGame(args[0], args[1]);
-            // Name, Password
+        socket.on("join", async (arg0, args1, callback): Promise<void> => {
+            let user: User = await User.findUser(args1);
+            const result: string = await JSLServer.getInstance().checkJoinGame(arg0);
+
+            callback({
+                status: result
+            });
         });
     }
 }

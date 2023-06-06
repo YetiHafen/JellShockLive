@@ -43,17 +43,24 @@ export class JSLServer {
             admin: user
         }
         let game: Game = new Game(this.io, options);
+        game.connect();
 
         this.games.set(options.gameId, game);
 
-        setTimeout(() => {
+        setTimeout((): void => {
             if (!this.games.has(options.gameId)) return;
             this.checkGameEnd(game);
         }, 5000);
     }
 
-    public joinGame(gameId: string, user: User) {
+    public async checkJoinGame(gameId: string): Promise<string> {
         let game: Game = this.findGame(gameId);
+
+        if (game.playerCount === game.maxPlayers) return "max";
+        if (game.gameState != GameState.LOBBY) return "started";
+
+
+        return "ok";
     }
 
     public findGame(gameId: string): Game | undefined {
@@ -67,8 +74,8 @@ export class JSLServer {
     }
 
     private listen(): void {
-        this.mongo.connect().then(() => {
-            this.server.listen(JSLServer.PORT, () => {
+        this.mongo.connect().then((): void => {
+            this.server.listen(JSLServer.PORT, (): void => {
                 console.log(`JDL-Server started on port ${JSLServer.PORT}`);
             });
 
@@ -78,14 +85,14 @@ export class JSLServer {
             this.lobby = new Lobby(this.io);
             this.lobby.connect();
 
-            this.io.on('connection', (socket: any) => {
-                console.log("Client connected");
+            this.io.on('connection', (socket: any): void => {
+                console.log(`Client {${socket.id}} connected`);
 
-                socket.on('disconnect', (reason: any) => {
+                socket.on('disconnect', (reason: any): void => {
                     console.log('Client disconnected Reason: ' + reason);
                 });
             });
-        }).catch((error: Error) => {
+        }).catch((error: Error): void => {
             console.error('Database connection failed', error);
             process.exit();
         });
