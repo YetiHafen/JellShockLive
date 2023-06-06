@@ -45,4 +45,8 @@ public abstract class AbstractSocket {
     public boolean isConnected() {
         return socket.connected();
     }
+
+    public void close() {
+        socket.close();
+    }
 }

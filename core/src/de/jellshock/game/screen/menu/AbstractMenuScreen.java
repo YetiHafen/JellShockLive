@@ -90,7 +90,8 @@ public abstract class AbstractMenuScreen extends AbstractScreen {
     @Override
     public void dispose() {
         backgroundTexture.dispose();
-        logoTexture.dispose();
+        if (logoTexture != null)
+            logoTexture.dispose();
         stage.dispose();
         spriteBatch.dispose();
     }

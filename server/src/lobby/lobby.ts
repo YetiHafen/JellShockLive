@@ -25,7 +25,7 @@ export class Lobby extends Socket {
 
         socket.on("create", async (...args): Promise<void> => {
             const {name, password, map, maxPlayers, admin} = args[0];
-            const user: User = await User.findUser(admin);
+            const user: User = await User.findUser(admin, socket.id);
             if (!user) {
                 socket.emit("err");
                 return;
@@ -34,7 +34,6 @@ export class Lobby extends Socket {
         });
 
         socket.on("join", async (arg0, args1, callback): Promise<void> => {
-            let user: User = await User.findUser(args1);
             const result: string = await JSLServer.getInstance().checkJoinGame(arg0);
 
             callback({

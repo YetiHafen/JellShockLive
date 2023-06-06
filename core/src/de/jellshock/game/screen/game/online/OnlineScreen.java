@@ -46,6 +46,7 @@ public class OnlineScreen extends GameScreen {
 
     @Override
     public void dispose() {
+        gameSocket.close();
         super.dispose();
     }
 }

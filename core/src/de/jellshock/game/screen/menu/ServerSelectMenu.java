@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -127,7 +128,7 @@ public class ServerSelectMenu extends AbstractMenuScreen {
             joinImage.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    System.out.println("Clicked");
+                    joinImage.setTouchable(Touchable.disabled);
                     lobbySocket.joinGame(game.getGameId(), name);
                 }
             });
@@ -214,6 +215,7 @@ public class ServerSelectMenu extends AbstractMenuScreen {
         backButtonTexture.dispose();
         joinButtonTexture.dispose();
         skin.dispose();
+        lobbySocket.close();
         super.dispose();
     }
 }

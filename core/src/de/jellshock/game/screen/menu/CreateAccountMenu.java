@@ -130,7 +130,8 @@ public class CreateAccountMenu extends AbstractMenuScreen {
 
     @Override
     public void dispose() {
-        super.dispose();
         backButtonTexture.dispose();
+        accountSocket.close();
+        super.dispose();
     }
 }

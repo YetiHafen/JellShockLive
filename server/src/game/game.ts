@@ -28,15 +28,23 @@ class Game extends Socket {
 
     async onConnection(socket: IOSocket): Promise<void> {
         socket.on("join", async (arg): Promise<void> => {
-            const user: User = await User.findUser(arg[0]);
-            this.users.push(user);
-            this.playerCount++;
-            console.log(this.users);
+            const user: User = await User.findUser(arg, socket.id);
+            if (user) {
+                this.users.push(user);
+                this.playerCount++;
+            } else {
+                socket.emit("err");
+            }
         });
     }
 
-    registerEvents(io: IOSocket): void {
-
+    registerEvents(socket: IOSocket): void {
+        socket.on("disconnect", (): void => {
+            let user: User = this.users.find(user => user.sessionId === socket.id);
+            console.log(`Client {${user.name}} disconnected`);
+            this.users = this.users.filter(user => user.sessionId !== socket.id);
+            this.playerCount--;
+        });
     }
 
     toJSON(): any {
