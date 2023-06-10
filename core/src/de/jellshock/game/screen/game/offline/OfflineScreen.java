@@ -10,10 +10,6 @@ public abstract class OfflineScreen extends GameScreen {
     }
 
     @Override
-    public void show() {
-    }
-
-    @Override
     public void update(float delta) {
         if (shotProjectile != null) {
             shotProjectile.render(batch);

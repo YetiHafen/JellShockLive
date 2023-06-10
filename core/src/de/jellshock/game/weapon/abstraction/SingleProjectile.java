@@ -37,6 +37,5 @@ public abstract class SingleProjectile extends AbstractWeapon {
 
     @Override
     public void dispose() {
-        texture.dispose();
     }
 }

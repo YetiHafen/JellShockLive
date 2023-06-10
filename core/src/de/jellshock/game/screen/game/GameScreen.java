@@ -79,6 +79,13 @@ public abstract class GameScreen extends AbstractScreen {
     }
 
     @Override
+    public void show() {
+        super.show();
+        Gdx.input.setInputProcessor(menuBar.getStage());
+        System.out.println(Gdx.input.getInputProcessor());
+    }
+
+    @Override
     public void render(float delta) {
         inputProcessor.keyPressed();
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
@@ -107,7 +114,9 @@ public abstract class GameScreen extends AbstractScreen {
         camera.zoom = mapWidth / (float) Gdx.graphics.getWidth();
         camera.position.x = mapWidth / 2F;
         camera.position.y = camera.zoom * Gdx.graphics.getHeight() / 2;
-        camera.position.y -= 200;
+        int cameraOffset = 200;
+        camera.position.y -= cameraOffset;
+        menuBar.setHeight(cameraOffset, camera.zoom);
         super.resize(width, height);
     }
 

@@ -127,8 +127,5 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
 
     @Override
     public void dispose() {
-        chassisTexture.dispose();
-        trackTexture.dispose();
-        gunTexture.dispose();
     }
 }
