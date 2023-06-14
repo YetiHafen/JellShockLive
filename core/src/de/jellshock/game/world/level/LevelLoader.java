@@ -21,7 +21,7 @@ public class LevelLoader {
      * pixels[width] -> height
      */
     public static void createLevel(String name, int width, int height, int[] pixels) {
-        String path = Gdx.files.getLocalStoragePath() + "assets/level/" + name + fileExtension;
+        String path = Gdx.files.getLocalStoragePath() + "level/" + name + fileExtension;
         try (FileWriter writer = new FileWriter(path)) {
             long start = System.nanoTime();
             writer.write("name: " + name + "\nwidth: " + width + "\nheight: " + height + "\n");
@@ -35,6 +35,8 @@ public class LevelLoader {
             Gdx.app.error("Level Map Error", "Can't create the level map " + e);
         }
     }
+
+
 
     public static void generateLevel(String name, int width, int height) {
         World world = new World(name, new Map(width, MapType.MOUNTAIN));

@@ -11,25 +11,26 @@ public class KeyInputProcessor {
         this.manager = manager;
     }
 
-    public void keyPressed() {
+    public KeyEvent keyPressed() {
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            manager.dispatchEvent(new KeyEvent(KeyEvent.EventType.MOVE_LEFT));
+            return manager.dispatchEvent(new KeyEvent(KeyEvent.EventType.MOVE_LEFT));
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            manager.dispatchEvent(new KeyEvent(KeyEvent.EventType.MOVE_RIGHT));
+            return manager.dispatchEvent(new KeyEvent(KeyEvent.EventType.MOVE_RIGHT));
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            manager.dispatchEvent(new KeyEvent(KeyEvent.EventType.GUN_ROTATION_LEFT));
+            return manager.dispatchEvent(new KeyEvent(KeyEvent.EventType.GUN_ROTATION_LEFT));
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            manager.dispatchEvent(new KeyEvent(KeyEvent.EventType.GUN_ROTATION_RIGHT));
+            return manager.dispatchEvent(new KeyEvent(KeyEvent.EventType.GUN_ROTATION_RIGHT));
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            manager.dispatchEvent(new KeyEvent(KeyEvent.EventType.GUN_POWER_UP));
+            return manager.dispatchEvent(new KeyEvent(KeyEvent.EventType.GUN_POWER_UP));
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            manager.dispatchEvent(new KeyEvent(KeyEvent.EventType.GUN_POWER_DOWN));
+            return manager.dispatchEvent(new KeyEvent(KeyEvent.EventType.GUN_POWER_DOWN));
         }
+        return null;
     }
 
 }

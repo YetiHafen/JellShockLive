@@ -19,7 +19,8 @@ public class KeyEventManager {
         listeners.remove(listener);
     }
 
-    public void dispatchEvent(KeyEvent event) {
+    public KeyEvent dispatchEvent(KeyEvent event) {
         listeners.forEach(listener -> listener.handleKeyEvent(event));
+        return event;
     }
 }

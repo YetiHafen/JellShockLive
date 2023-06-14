@@ -1,5 +1,6 @@
 package de.jellshock.game.screen.game.offline;
 
+import de.jellshock.game.event.key.KeyEvent;
 import de.jellshock.game.screen.game.GameScreen;
 import de.jellshock.game.world.World;
 
@@ -10,7 +11,7 @@ public abstract class OfflineScreen extends GameScreen {
     }
 
     @Override
-    public void update(float delta) {
+    public void update(float delta, KeyEvent event) {
         if (shotProjectile != null) {
             shotProjectile.render(batch);
         }

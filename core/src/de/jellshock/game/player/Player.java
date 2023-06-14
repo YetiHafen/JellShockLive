@@ -18,12 +18,21 @@ public class Player implements KeyEventListener, Disposable {
     private final String name;
     // TODO: Elo
     private final Tank tank;
-    private final HashSet<AbstractWeapon> weapons;
+    private Team team;
+    private HashSet<AbstractWeapon> weapons;
 
     public Player(String name, World world) {
         this.name = name;
         tank = new Tank(Color.CYAN, world);
         weapons = new HashSet<>();
+        team = Team.DEFAULT;
+    }
+
+    // Online players
+    public Player(String name, Team team, World world) {
+        this.name = name;
+        this.tank = new Tank(team.getColor(), world);
+        this.team = team;
     }
 
     @Override
@@ -35,6 +44,10 @@ public class Player implements KeyEventListener, Disposable {
             case GUN_ROTATION_LEFT -> tank.setGunRotation(tank.getGunRotation() + 100 * delta);
             case GUN_ROTATION_RIGHT -> tank.setGunRotation(tank.getGunRotation() - 100 * delta);
         }
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
     @Override

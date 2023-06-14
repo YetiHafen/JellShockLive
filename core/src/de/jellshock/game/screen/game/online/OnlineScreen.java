@@ -1,6 +1,7 @@
 package de.jellshock.game.screen.game.online;
 
 import de.jellshock.Constants;
+import de.jellshock.game.event.key.KeyEvent;
 import de.jellshock.game.player.Player;
 import de.jellshock.game.screen.game.GameScreen;
 import de.jellshock.game.world.MapType;
@@ -33,10 +34,24 @@ public class OnlineScreen extends GameScreen {
     }
 
     @Override
-    public void update(float delta) {
+    public void update(float delta, KeyEvent event) {
+        /*
+        switch (event.getType()) {
+
+        }*/
         if (shotProjectile != null) {
             shotProjectile.render(batch);
         }
+    }
+
+    public void addPlayer(Player player) {
+        onlinePlayers.add(player);
+        renderObjects.add(player.getTank());
+    }
+
+    public void removePlayer(Player player) {
+        onlinePlayers.remove(player);
+        renderObjects.remove(player.getTank());
     }
 
     public void connect(String gameId) {
@@ -48,6 +63,7 @@ public class OnlineScreen extends GameScreen {
     @Override
     public void dispose() {
         gameSocket.close();
+        onlinePlayers.forEach(Player::dispose);
         super.dispose();
     }
 }

@@ -53,13 +53,12 @@ export class JSLServer {
         }, 5000);
     }
 
-    public async checkJoinGame(gameId: string): Promise<string> {
+    public async checkJoinGame(gameId: string, password: string): Promise<string> {
         let game: Game = this.findGame(gameId);
 
         if (game.playerCount === game.maxPlayers) return "max";
         if (game.gameState != GameState.LOBBY) return "started";
-
-
+        if (game.password != password) return "pw";
         return "ok";
     }
 

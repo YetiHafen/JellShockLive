@@ -34,7 +34,7 @@ export class Lobby extends Socket {
         });
 
         socket.on("join", async (arg0, args1, callback): Promise<void> => {
-            const result: string = await JSLServer.getInstance().checkJoinGame(arg0);
+            const result: string = await JSLServer.getInstance().checkJoinGame(arg0, args1);
 
             callback({
                 status: result

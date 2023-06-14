@@ -34,4 +34,8 @@ public class Game {
         return GameState.getById(gameState);
     }
 
+    public boolean hasPassword() {
+        return password != null && !password.isEmpty();
+    }
+
 }

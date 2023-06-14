@@ -67,20 +67,20 @@ public class LobbySocket extends AbstractSocket {
         }, 0, 4 * 1000);
     }
 
-    public void joinGame(String gameId, String name) {
-        socket.emit("join", gameId, name, (Ack) args -> {
+    public void joinGame(String gameId, String password) {
+        socket.emit("join", gameId, password, (Ack) args -> {
             String status = ((JSONObject) args[0]).getString("status");
-            System.out.println(status);
             Gdx.app.postRunnable(() -> {
-                if (status.equals("max")) {
-                    DialogUtils.error("Server is full", menu.getStage(), menu.getSkin());
-                } else if (status.equals("started")) {
-                    DialogUtils.error("Server has started", menu.getStage(), menu.getSkin());
-                } else {
-                    OnlineScreen onlineScreen = JellShock.getInstance().setScreen(OnlineScreen.class);
-                    onlineScreen.setName(menu.getName());
-                    onlineScreen.setPassword(menu.getPassword());
-                    onlineScreen.connect(gameId);
+                switch (status) {
+                    case "max" -> DialogUtils.error("Server is full", menu.getStage(), menu.getSkin());
+                    case "started" -> DialogUtils.error("Server has started", menu.getStage(), menu.getSkin());
+                    case "pw" -> DialogUtils.error("Password incorrect", menu.getStage(), menu.getSkin());
+                    default -> {
+                        OnlineScreen onlineScreen = JellShock.getInstance().setScreen(OnlineScreen.class);
+                        onlineScreen.setName(menu.getName());
+                        onlineScreen.setPassword(menu.getPassword());
+                        onlineScreen.connect(gameId);
+                    }
                 }
             });
         });

@@ -43,7 +43,7 @@ public class MenuScreen extends AbstractMenuScreen {
         testButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                LevelLoader.generateLevel(UUID.randomUUID().toString(), 3000, MapType.MOUNTAIN.getAmplitude());
+                LevelLoader.generateLevel("brego", 3000, MapType.MOUNTAIN.getAmplitude());
             }
         });
 

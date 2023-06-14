@@ -129,7 +129,36 @@ public class ServerSelectMenu extends AbstractMenuScreen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     joinImage.setTouchable(Touchable.disabled);
-                    lobbySocket.joinGame(game.getGameId(), name);
+                    if (game.hasPassword()) {
+                        Label passwordLabel = new Label("This server has a password. Enter it to join the server", skin);
+                        TextField passwordField = new TextField("", skin);
+
+                        Dialog passwordDialog = new Dialog("Password", skin) {
+                            @Override
+                            protected void result(Object object) {
+                                if ((Boolean) object) {
+                                    joinImage.setTouchable(Touchable.enabled);
+                                    if (passwordField.getText().isEmpty()) {
+                                        DialogUtils.error("Password can't be empty", stage, skin);
+                                        return;
+                                    }
+                                    lobbySocket.joinGame(game.getGameId(), passwordField.getText());
+                                }
+                            }
+                        };
+                        passwordDialog.setModal(true);
+                        passwordDialog.setMovable(false);
+                        passwordDialog.setResizable(false);
+
+                        passwordDialog.getContentTable().add(passwordLabel).row();
+                        passwordDialog.getContentTable().add(passwordField);
+                        passwordDialog.button("OK", true).button("Cancel", false)
+                                .key(Input.Keys.ENTER, true).key(Input.Keys.ESCAPE, false);
+                        passwordDialog.show(stage);
+                        stage.setKeyboardFocus(passwordLabel);
+                        return;
+                    }
+                    lobbySocket.joinGame(game.getGameId(), null);
                 }
             });
             listTable.add(joinImage).height(30).width(30);

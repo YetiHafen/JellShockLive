@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import de.jellshock.Constants;
 import de.jellshock.JellShock;
+import de.jellshock.game.event.key.KeyEvent;
 import de.jellshock.game.event.key.KeyEventManager;
 import de.jellshock.game.event.key.KeyInputProcessor;
 import de.jellshock.game.player.Player;
@@ -28,7 +29,7 @@ public abstract class GameScreen extends AbstractScreen {
 
     protected final SpriteBatch batch;
     protected final KeyEventManager keyEventManager;
-    protected final KeyInputProcessor inputProcessor;
+    protected final KeyInputProcessor keyInput;
 
     protected final World world;
     protected final Player player;
@@ -53,7 +54,7 @@ public abstract class GameScreen extends AbstractScreen {
         registerRenderObjects();
 
         keyEventManager = new KeyEventManager();
-        inputProcessor = new KeyInputProcessor(keyEventManager);
+        keyInput = new KeyInputProcessor(keyEventManager);
 
         keyEventManager.registerKeyListener(player);
     }
@@ -87,7 +88,7 @@ public abstract class GameScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
-        inputProcessor.keyPressed();
+        KeyEvent event = keyInput.keyPressed();
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             if (shotProjectile != null) {
                 shotProjectile.dispose();
@@ -102,11 +103,12 @@ public abstract class GameScreen extends AbstractScreen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         renderObjects.forEach(render -> render.render(batch));
-        update(delta);
+        update(delta, event);
         batch.end();
     }
 
-    public abstract void update(float delta);
+
+    public abstract void update(float delta, KeyEvent event);
 
     @Override
     public void resize(int width, int height) {
