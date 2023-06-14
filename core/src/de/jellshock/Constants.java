@@ -4,6 +4,7 @@ public class Constants {
     public static final String SERVER_URL = "ws://localhost:3000";
 
     public static final String NEON_SKIN_PATH = "neon/skin/neon-ui.json";
+    public static final String JELLY_SKIN_PATH = "jelly/skin/jelly-ui.json";
 
     public static final String BACKGROUND_PATH = "background/sky.png";
 

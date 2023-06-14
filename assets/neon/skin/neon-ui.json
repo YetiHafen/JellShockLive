@@ -417,7 +417,6 @@ WindowStyle: {
 	default: {
 		background: window-c
 		titleFont: font
-		titleFont: font
 	}
 }
 }

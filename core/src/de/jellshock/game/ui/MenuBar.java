@@ -32,17 +32,19 @@ public class MenuBar extends HudElement {
         height = (int) (gameScreen.getWorld().getMap().getMapHeight() * 0.2);
 
 
-        skin = new Skin(Gdx.files.internal(Constants.NEON_SKIN_PATH));
+        skin = new Skin(Gdx.files.internal(Constants.JELLY_SKIN_PATH));
+        TextButton.TextButtonStyle textButtonStyle = skin.get(TextButton.TextButtonStyle.class);
+
 
         //getTable().setDebug(true);
 
-        ImageButton ib = new ImageButton(skin);
+        //ImageButton ib = new ImageButton(skin);
         TextButton tb = new TextButton("BUTTON", skin);
         TextField t = new TextField("asdf", skin);
         //tb.setColor(1,0,0,1);
         tb.align(Align.topLeft);
         getTable().add(t).expand().fill().uniform();
-        getTable().add(ib).expand().fill().center().uniform();
+        //getTable().add(ib).expand().fill().center().uniform();
         getTable().add(tb).expand().fill().uniform();
         getTable().setBounds(0, -height, Gdx.graphics.getWidth(), height);
 

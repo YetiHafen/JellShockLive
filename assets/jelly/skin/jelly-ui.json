@@ -1,0 +1,178 @@
+{
+BitmapFont: {
+	font: {
+		file: font.fnt
+	}
+	font-over: {
+		file: font.fnt
+	}
+	font-pressed: {
+		file: font.fnt
+	}
+}
+Color: {
+	red: {
+		r: 1,
+		g: 0,
+		b: 0,
+		a: 1
+	}
+	darkred: {
+		a: 1.0,
+		b: 0.0,
+		g: 0.0,
+		r: 0.61960787
+	}
+	yellow: {
+		hex: "#ffd600ff"
+	}
+	darkyellow: {
+		hex: "#ab9000ff"
+	}
+	green: {
+		hex: "#10CE00"
+	}
+	darkgreen: {
+		hex: "#0C9700"
+	}
+	lightblue: {
+		hex: "#1870F4"
+	}
+	blue: {
+		hex: "#00479B"
+	}
+	darkblue1: {
+		hex: "#003068"
+	}
+	darkblue2: {
+		hex: "#00244F"
+	}
+	gray: {
+		hex: "#242424"
+	}
+	lightgray: {
+		hex: "#838383"
+	}
+	black: {
+		hex: "#000000"
+	}
+
+	selected: {
+		r: 0
+		g: .4
+		b: .4
+		a: 1
+	}
+	white: {
+		a: 1.0,
+		b: 1.0,
+		g: 1.0,
+		r: 1.0
+	}
+}
+
+TintedDrawable: {
+	button: {
+		name: button
+		color: white
+	}
+	button-red: {
+		name: button
+		color: red
+	}
+	button-yellow: {
+		name: button
+		color: yellow
+	}
+	button-green: {
+		name: button
+		color: green
+	}
+	button-blue: {
+		name: button
+		color: blue
+	}
+	window: {
+		name: window
+		color: gray
+	}
+}
+
+ButtonStyle: {
+	default: {
+		up: button
+		down: button-red
+		over: button-blue
+	}
+}
+
+TextButtonStyle: {
+	default: {
+		font: font
+		fontColor: black
+		//downFontColor: text-selected
+		up: button
+		down: button
+		over: button
+	}
+	red: {
+		font: font
+		fontColor: darkred
+		up: button-red
+		down: button-red
+		over: button-red
+	}
+	yellow: {
+		font: font
+		fontColor: darkyellow
+		up: button-yellow
+		down: button-yellow
+		over: button-yellow
+	}
+	green: {
+		font: font
+		fontColor: darkgreen
+		up: button-green
+		down: button-green
+		over: button-green
+	}
+	blue: {
+		font: font
+		fontColor: darkblue1
+		up: button-blue
+		down: button-blue
+		over: button-blue
+	}
+}
+
+LabelStyle: {
+	default: {
+		font: font
+		fontColor: white
+	}
+	over: {
+		font: font-over
+		fontColor: white
+	}
+	pressed: {
+		font: font-pressed
+		fontColor: white
+	}
+}
+
+TextFieldStyle: {
+	default: {
+		font: font
+		fontColor: white
+		background: textfield
+		cursor: white
+	}
+}
+
+WindowStyle: {
+	default: {
+		background: window
+		titleFont: font
+	}
+}
+}
