@@ -34,14 +34,16 @@ public class MenuBar extends HudElement {
 
         skin = new Skin(Gdx.files.internal(Constants.NEON_SKIN_PATH));
 
-        getTable().setDebug(true);
+        //getTable().setDebug(true);
 
         ImageButton ib = new ImageButton(skin);
         TextButton tb = new TextButton("BUTTON", skin);
         TextField t = new TextField("asdf", skin);
         //tb.setColor(1,0,0,1);
         tb.align(Align.topLeft);
-        getTable().add(t, ib, tb);
+        getTable().add(t).expand().fill().uniform();
+        getTable().add(ib).expand().fill().center().uniform();
+        getTable().add(tb).expand().fill().uniform();
         getTable().setBounds(0, -height, Gdx.graphics.getWidth(), height);
 
         AssetManager manager = JellShock.getInstance().getAssetManager();
