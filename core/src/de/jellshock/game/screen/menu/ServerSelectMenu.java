@@ -26,7 +26,7 @@ import java.util.List;
 @Getter
 public class ServerSelectMenu extends AbstractMenuScreen {
 
-    private final LobbySocket lobbySocket;
+    private LobbySocket lobbySocket;
     private final Skin skin;
     private final Texture backButtonTexture;
     private final Texture joinButtonTexture;
@@ -104,6 +104,12 @@ public class ServerSelectMenu extends AbstractMenuScreen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
         stage.setViewport(viewport);
+        lobbySocket = connect();
+    }
+
+    @Override
+    public void hide() {
+        lobbySocket.close();
     }
 
     public void serverListTable() {
@@ -228,6 +234,8 @@ public class ServerSelectMenu extends AbstractMenuScreen {
     }
 
     public LobbySocket connect() {
+        if (lobbySocket != null && !lobbySocket.isConnected()) new Thread(lobbySocket::connect).start();
+        if (lobbySocket != null) return lobbySocket;
         LobbySocket socket = new LobbySocket(URI.create(Constants.SERVER_URL), IO.Options.builder().build(), this);
         new Thread(socket::connect).start();
         return socket;

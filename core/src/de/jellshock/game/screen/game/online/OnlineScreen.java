@@ -44,6 +44,11 @@ public class OnlineScreen extends GameScreen {
         }
     }
 
+    @Override
+    public void hide() {
+        gameSocket.close();
+    }
+
     public void addPlayer(Player player) {
         onlinePlayers.add(player);
         renderObjects.add(player.getTank());

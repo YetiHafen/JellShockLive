@@ -111,10 +111,13 @@ public class CreateAccountMenu extends AbstractMenuScreen {
 
     @Override
     public void hide() {
+        accountSocket.close();
         super.hide();
     }
 
     public AccountSocket connect() {
+        if (accountSocket != null && !accountSocket.isConnected()) new Thread(accountSocket::connect).start();
+        if (accountSocket != null) return accountSocket;
         AccountSocket socket = new AccountSocket(URI.create(Constants.SERVER_URL), IO.Options.builder().build(), this);
         new Thread(socket::connect).start();
         return socket;
