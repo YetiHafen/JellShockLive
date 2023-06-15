@@ -3,15 +3,16 @@ package de.jellshock.game.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import de.jellshock.Constants;
 import de.jellshock.JellShock;
-import de.jellshock.game.rendering.IRenderConsumer;
 import de.jellshock.game.screen.game.GameScreen;
 import lombok.Getter;
 
@@ -24,32 +25,37 @@ public class MenuBar extends HudElement {
     private final Texture texture;
     private final Skin skin;
 
-
     public MenuBar(GameScreen gameScreen) {
         super(gameScreen, new Vector2(1, 1));
 
         width = gameScreen.getWorld().getMap().getMapWidth();
         height = (int) (gameScreen.getWorld().getMap().getMapHeight() * 0.2);
-
-
         skin = new Skin(Gdx.files.internal(Constants.JELLY_SKIN_PATH));
-        TextButton.TextButtonStyle textButtonStyle = skin.get(TextButton.TextButtonStyle.class);
 
-
-        //getTable().setDebug(true);
-
-        //ImageButton ib = new ImageButton(skin);
-        TextButton tb = new TextButton("BUTTON", skin);
-        TextField t = new TextField("asdf", skin);
-        //tb.setColor(1,0,0,1);
-        tb.align(Align.topLeft);
-        getTable().add(t).expand().fill().uniform();
-        //getTable().add(ib).expand().fill().center().uniform();
-        getTable().add(tb).expand().fill().uniform();
-        getTable().setBounds(0, -height, Gdx.graphics.getWidth(), height);
+        // Table Background
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.valueOf("#232323"));
+        pixmap.fill();
+        getTable().setBackground(new TextureRegionDrawable(new Texture(pixmap)));
 
         AssetManager manager = JellShock.getInstance().getAssetManager();
         texture = manager.get(Constants.CHASSIS_PATH);
+
+        TextButton itemsButton = new TextButton("Items", skin.get("yellow", TextButton.TextButtonStyle.class));
+
+        Table weaponTable = new Table();
+        TextButton weaponsButton = new TextButton("Weapons", skin.get("flat-blue", TextButton.TextButtonStyle.class));
+        TextButton waa = new TextButton("Weapons", skin.get("flat-blue", TextButton.TextButtonStyle.class));
+        weaponTable.add(weaponsButton).row();
+        weaponTable.add(waa);
+
+        TextButton fireButton = new TextButton("FIRE", skin.get("green", TextButton.TextButtonStyle.class));
+        fireButton.align(Align.topLeft);
+
+        getTable().add(itemsButton).expand().fill().uniform();
+        getTable().add(weaponTable).padLeft(15).fill().uniform();
+        getTable().add(fireButton).padLeft(10).expand().fill().uniform();
+        getTable().setBounds(0, -height, Gdx.graphics.getWidth(), height);
     }
 
     public void setHeight(int barHeight, float cameraZoom) {

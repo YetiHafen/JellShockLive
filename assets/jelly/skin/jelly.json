@@ -96,6 +96,10 @@ TintedDrawable: {
 		name: window
 		color: gray
 	}
+	button-flat-blue: {
+		name: buttonflat
+		color: blue
+	}
 }
 
 ButtonStyle: {
@@ -143,6 +147,13 @@ TextButtonStyle: {
 		down: button-blue
 		over: button-blue
 	}
+	flat-blue: {
+		font: font
+		fontColor: darkblue1
+		up: button-flat-blue
+		down: button-flat-blue
+		over: button-flat-blue
+	}
 }
 
 LabelStyle: {
@@ -157,15 +168,6 @@ LabelStyle: {
 	pressed: {
 		font: font-pressed
 		fontColor: white
-	}
-}
-
-TextFieldStyle: {
-	default: {
-		font: font
-		fontColor: white
-		background: textfield
-		cursor: white
 	}
 }
 
