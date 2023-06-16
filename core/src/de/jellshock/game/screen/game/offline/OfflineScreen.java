@@ -10,6 +10,7 @@ public abstract class OfflineScreen extends GameScreen {
     public OfflineScreen(World world) {
         super(world);
         player.setTeam(Team.CYAN);
+        player.getTank().setPosition(50);
         menuBar.setTankColor(getPlayer().getTeam().getColor());
     }
 

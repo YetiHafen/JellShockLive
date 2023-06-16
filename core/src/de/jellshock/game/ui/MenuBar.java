@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import de.jellshock.Constants;
+import de.jellshock.JellShock;
 import de.jellshock.game.screen.game.GameScreen;
 import lombok.Getter;
 
@@ -26,7 +27,7 @@ public class MenuBar extends HudElement {
 
         width = gameScreen.getWorld().getMap().getMapWidth();
         height = (int) (gameScreen.getWorld().getMap().getMapHeight() * 0.2);
-        skin = new Skin(Gdx.files.internal(Constants.JELLY_SKIN_PATH));
+        skin = JellShock.getInstance().getAssetManager().get(Constants.JELLY_SKIN_PATH);
 
         // Table Background
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
@@ -64,7 +65,6 @@ public class MenuBar extends HudElement {
     }
 
     public void setHeight(int barHeight, float cameraZoom) {
-        System.out.println(Gdx.input.getInputProcessor());
         this.height = barHeight;
         table.setBounds(0, -barHeight, Gdx.graphics.getWidth() * cameraZoom, barHeight);
         stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -76,7 +76,7 @@ public class MenuBar extends HudElement {
 
     @Override
     public void dispose() {
-        super.dispose();
         skin.dispose();
+        super.dispose();
     }
 }

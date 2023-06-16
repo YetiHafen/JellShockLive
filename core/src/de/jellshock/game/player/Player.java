@@ -20,6 +20,7 @@ public class Player implements KeyEventListener, Disposable {
     private final Tank tank;
     private Team team;
     private HashSet<AbstractWeapon> weapons;
+    private int health;
 
     public Player(String name, World world) {
         this.name = name;

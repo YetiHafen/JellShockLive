@@ -28,7 +28,7 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
     private int amplitude;
 
     private final int MAX_SLOPE = 10;
-    public final int DEFAULT_MAX_SIZE = 3000;
+    public static final int DEFAULT_MAP_SIZE = 3000;
 
     @Setter
     private boolean mapChanged = false;

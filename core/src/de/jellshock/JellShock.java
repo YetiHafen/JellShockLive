@@ -38,8 +38,8 @@ public class JellShock extends Game {
 
 		setScreen(MenuScreen.class);
 
-		String path = Gdx.files.getLocalStoragePath();
-		TexturePacker.process(path + "jelly/raw", path + "jelly/skin", "jelly");
+		/*String path = Gdx.files.getLocalStoragePath();
+		TexturePacker.process(path + "jelly/raw", path + "jelly/skin", "jelly");*/
 	}
 
 	public <T extends Screen> T getScreen(Class<T> screenClass) {

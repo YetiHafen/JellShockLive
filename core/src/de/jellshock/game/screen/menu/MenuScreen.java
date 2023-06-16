@@ -1,6 +1,7 @@
 package de.jellshock.game.screen.menu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -11,8 +12,6 @@ import de.jellshock.JellShock;
 import de.jellshock.game.screen.game.offline.level.impl.FirstLevel;
 import de.jellshock.game.world.MapType;
 import de.jellshock.game.world.level.LevelLoader;
-
-import java.util.UUID;
 
 public class MenuScreen extends AbstractMenuScreen {
 
@@ -43,7 +42,7 @@ public class MenuScreen extends AbstractMenuScreen {
         testButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                LevelLoader.generateLevel("brego", 3000, MapType.MOUNTAIN.getAmplitude());
+                LevelLoader.generateCosLevel("level_4", 3000, MapType.MOUNTAIN.getAmplitude() * 3);
             }
         });
 
@@ -67,12 +66,26 @@ public class MenuScreen extends AbstractMenuScreen {
         table.setFillParent(true);
 
         stage.addActor(table);
+
+        loadAssets();
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
         stage.setViewport(viewport);
+
+        loadAssets();
+    }
+
+    private void loadAssets() {
+        AssetManager manager = JellShock.getInstance().getAssetManager();
+
+        // Load skin textures
+        manager.load(Constants.JELLY_SKIN_PATH, Skin.class);
+        manager.load(Constants.NEON_SKIN_PATH, Skin.class);
+
+        manager.finishLoading();
     }
 
     @Override

@@ -4,9 +4,9 @@ import de.jellshock.game.screen.game.offline.level.Level;
 
 public class SecondLevel extends Level {
 
-    private static final String levelName = "level2";
+    private static final String levelName = "level_2";
 
     public SecondLevel() {
-        super(loadWorldFromLvlPath(levelName), 1);
+        super(loadWorldFromLvlPath(levelName), 2, 1);
     }
 }

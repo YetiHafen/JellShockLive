@@ -1,13 +1,10 @@
 {
 BitmapFont: {
-	font: {
-		file: fonts/font.fnt
+	font-32: {
+		file: fonts/32/font.fnt
 	}
-	font-over: {
-		file: fonts/font.fnt
-	}
-	font-pressed: {
-		file: fonts/font.fnt
+	font-50: {
+		file: fonts/50/font.fnt
 	}
 }
 Color: {
@@ -127,7 +124,7 @@ ButtonStyle: {
 
 TextButtonStyle: {
 	default: {
-		font: font
+		font: font-50
 		fontColor: black
 		//downFontColor: text-selected
 		up: button
@@ -135,56 +132,56 @@ TextButtonStyle: {
 		over: button
 	}
 	red: {
-		font: font
+		font: font-50
 		fontColor: darkred
 		up: button-red
 		down: button-red
 		over: button-red
 	}
 	yellow: {
-		font: font
+		font: font-50
 		fontColor: darkyellow
 		up: button-yellow
 		down: button-yellow
 		over: button-yellow
 	}
 	green: {
-		font: font
+		font: font-50
 		fontColor: darkgreen
 		up: button-green
 		down: button-green
 		over: button-green
 	}
 	blue: {
-		font: font
+		font: font-50
 		fontColor: darkblue1
 		up: button-blue
 		down: button-blue
 		over: button-blue
 	}
 	flat-blue: {
-		font: font
+		font: font-32
 		fontColor: white
 		up: button-flat-blue
 		down: button-flat-blue
 		over: button-flat-blue
 	}
 	flat-red: {
-		font: font
+		font: font-32
 		fontColor: red
 		up: button-flat-red
 		down: button-flat-red
 		over: button-flat-red
 	}
 	box-blue: {
-		font: font
+		font: font-32
 		fontColor: white
 		up: box
 		down: box
 		over: box
 	}
 	rectangle: {
-		font: font
+		font: font-32
 		fontColor: white
 		up: rectangle
 		down: rectangle
@@ -194,15 +191,7 @@ TextButtonStyle: {
 
 LabelStyle: {
 	default: {
-		font: font
-		fontColor: white
-	}
-	over: {
-		font: font-over
-		fontColor: white
-	}
-	pressed: {
-		font: font-pressed
+		font: font-32
 		fontColor: white
 	}
 }
@@ -210,7 +199,7 @@ LabelStyle: {
 WindowStyle: {
 	default: {
 		background: window
-		titleFont: font
+		titleFont: font-32
 	}
 }
 }

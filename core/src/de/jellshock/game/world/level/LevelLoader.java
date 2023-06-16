@@ -43,13 +43,13 @@ public class LevelLoader {
     }
 
     public static void generateCosLevel(String name, int width, int height) {
-        int[] pixels;
+        int[] pixels = new int[Map.DEFAULT_MAP_SIZE];
 
-        for(int i = 0; i < Map.DEFAULT_MAX_SIZE; i++) {
-            pixels[i] = (Math.cos(i) * 2) + 300;
+        for (int i = 0; i < Map.DEFAULT_MAP_SIZE; i++) {
+            pixels[i] = (int) (2 * Math.cos(((double) i / width) * Math.PI * 5) * 100) + 300;
         }
 
-        createLevel(name, width, height * 2, pixels);
+        createLevel(name, width, height, pixels);
     }
 
     public static World loadLevel(FileHandle file) {

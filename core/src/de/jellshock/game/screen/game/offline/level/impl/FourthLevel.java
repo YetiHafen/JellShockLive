@@ -2,16 +2,13 @@ package de.jellshock.game.screen.game.offline.level.impl;
 
 import de.jellshock.game.screen.game.offline.level.Level;
 
-public class FirstLevel extends Level {
+public class FourthLevel extends Level {
 
-    private static final String levelName = "level_1";
+    private static final String levelName = "level_4";
 
-    public FirstLevel() {
+    public FourthLevel() {
         super(loadWorldFromLvlPath(levelName), 1, 1);
 
         setBotPosition(0, 1500);
     }
-
-
-
 }
