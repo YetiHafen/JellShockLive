@@ -15,8 +15,8 @@ public class HudElement implements IRenderConsumer<SpriteBatch>, Disposable {
     private final GameScreen gameScreen;
     private final Vector2 position;
 
-    private final Table table;
-    private final Stage stage;
+    protected final Table table;
+    protected final Stage stage;
 
     public HudElement(GameScreen gameScreen, Vector2 position) {
         this.gameScreen = gameScreen;

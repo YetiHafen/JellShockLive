@@ -1,13 +1,13 @@
 {
 BitmapFont: {
 	font: {
-		file: font.fnt
+		file: fonts/font.fnt
 	}
 	font-over: {
-		file: font.fnt
+		file: fonts/font.fnt
 	}
 	font-pressed: {
-		file: font.fnt
+		file: fonts/font.fnt
 	}
 }
 Color: {
@@ -45,7 +45,7 @@ Color: {
 		hex: "#003068"
 	}
 	darkblue2: {
-		hex: "#00244F"
+		hex: "#00244fe9"
 	}
 	gray: {
 		hex: "#242424"
@@ -55,6 +55,9 @@ Color: {
 	}
 	black: {
 		hex: "#000000"
+	}
+	gray2: {
+		hex: "#464646"
 	}
 
 	selected: {
@@ -98,7 +101,19 @@ TintedDrawable: {
 	}
 	button-flat-blue: {
 		name: buttonflat
-		color: blue
+		color: darkblue1
+	}
+	button-flat-red: {
+		name: buttonflat
+		color: darkred
+	}
+	box: {
+		name: box
+		color: darkblue2
+	}
+	rectangle: {
+		name: rectangle
+		color: gray2
 	}
 }
 
@@ -149,10 +164,31 @@ TextButtonStyle: {
 	}
 	flat-blue: {
 		font: font
-		fontColor: darkblue1
+		fontColor: white
 		up: button-flat-blue
 		down: button-flat-blue
 		over: button-flat-blue
+	}
+	flat-red: {
+		font: font
+		fontColor: red
+		up: button-flat-red
+		down: button-flat-red
+		over: button-flat-red
+	}
+	box-blue: {
+		font: font
+		fontColor: white
+		up: box
+		down: box
+		over: box
+	}
+	rectangle: {
+		font: font
+		fontColor: white
+		up: rectangle
+		down: rectangle
+		over: rectangle
 	}
 }
 
