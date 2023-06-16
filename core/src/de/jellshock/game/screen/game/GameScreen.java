@@ -17,6 +17,7 @@ import de.jellshock.game.player.Player;
 import de.jellshock.game.rendering.IRenderConsumer;
 import de.jellshock.game.screen.AbstractScreen;
 import de.jellshock.game.ui.MenuBar;
+import de.jellshock.game.ui.hud.StrengthWheel;
 import de.jellshock.game.weapon.implementation.single.ShotProjectile;
 import de.jellshock.game.world.World;
 import lombok.Getter;
@@ -35,6 +36,7 @@ public abstract class GameScreen extends AbstractScreen {
     protected final Player player;
 
     protected MenuBar menuBar;
+    protected StrengthWheel playerStrengthWheel;
 
     protected final List<IRenderConsumer<SpriteBatch>> renderObjects;
 
@@ -49,6 +51,7 @@ public abstract class GameScreen extends AbstractScreen {
         player = new Player("", world);
 
         menuBar = new MenuBar(this);
+        playerStrengthWheel = new StrengthWheel(this);
 
         renderObjects = new ArrayList<>();
         registerRenderObjects();
@@ -63,6 +66,7 @@ public abstract class GameScreen extends AbstractScreen {
         renderObjects.add(world);
         renderObjects.add(player.getTank());
         renderObjects.add(menuBar);
+        renderObjects.add(playerStrengthWheel);
     }
 
     private void loadAssets() {
@@ -102,11 +106,15 @@ public abstract class GameScreen extends AbstractScreen {
         batch.begin();
         camera.update();
         batch.setProjectionMatrix(camera.combined);
+        if (event != null) {
+            switch (event.getType()) {
+                case MOVE_LEFT, MOVE_RIGHT -> playerStrengthWheel.updatePosition(player.getTank().getParentPosition());
+            }
+        }
         renderObjects.forEach(render -> render.render(batch));
         update(delta, event);
         batch.end();
     }
-
 
     public abstract void update(float delta, KeyEvent event);
 
@@ -127,6 +135,8 @@ public abstract class GameScreen extends AbstractScreen {
         batch.dispose();
         world.dispose();
         player.dispose();
+        menuBar.dispose();
+        playerStrengthWheel.dispose();
         if(shotProjectile != null)
             shotProjectile.dispose();
     }

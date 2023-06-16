@@ -114,6 +114,11 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
         this.position = Math.max(SLOPE_05DX, Math.min(world.getMap().getMapWidth() - SLOPE_05DX - 1, position));
     }
 
+    public Vector2 getParentPosition() {
+        int pos = (int) (position - 200);
+        return new Vector2(pos, world.getMap().getMapHeight((int) position));
+    }
+
     public float getPosition() {
         return position;
     }
