@@ -36,12 +36,20 @@ public class LevelLoader {
         }
     }
 
-
-
     public static void generateLevel(String name, int width, int height) {
         World world = new World(name, new Map(width, MapType.MOUNTAIN));
         world.getMap().generateMap();
         createLevel(name, width, height * 2, world.getMap().getWorldMap());
+    }
+
+    public static void generateCosLevel(String name, int width, int height) {
+        int[] pixels;
+
+        for(int i = 0; i < Map.DEFAULT_MAX_SIZE; i++) {
+            pixels[i] = (Math.cos(i) * 2) + 300;
+        }
+
+        createLevel(name, width, height * 2, pixels);
     }
 
     public static World loadLevel(FileHandle file) {

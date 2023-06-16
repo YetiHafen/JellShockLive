@@ -27,7 +27,9 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
     private float frequency;
     private int amplitude;
 
-    private final int maxSlope = 10;
+    private final int MAX_SLOPE = 10;
+    public final int DEFAULT_MAX_SIZE = 3000;
+
     @Setter
     private boolean mapChanged = false;
     private final boolean levelMap;
@@ -130,7 +132,7 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
         int heightPrev = worldMap[0];
         for(int i = 0; i < worldMap.length; i++) {
             int slope = Math.abs(worldMap[i] - heightPrev);
-            if(slope > maxSlope) {
+            if(slope > MAX_SLOPE) {
                 int x1 = Math.max(0, i - slope);
                 int x2 = Math.min(worldMap.length - 1, i + slope);
                 smoothRange(x1, x2);
