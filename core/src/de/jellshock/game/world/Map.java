@@ -100,6 +100,7 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
                     pixmap.drawPixel(x, y);
                 } else {
                     pixmap.setBlending(Pixmap.Blending.None);
+                    pixmap.setColor(Color.CLEAR);
                     pixmap.drawPixel(x, y);
                 }
             }
