@@ -35,7 +35,9 @@ public class StrengthWheel extends HudElement implements IRenderConsumer<SpriteB
 
     @Override
     public void render(SpriteBatch spriteBatch) {
-        spriteBatch.draw(wheelTexture, position.x, position.y);
+        Vector2 position = getGameScreen().getPlayer().getTank().getParentPosition();
+        if (!position.epsilonEquals(this.position)) updatePosition(position);
+        spriteBatch.draw(wheelTexture, this.position.x, this.position.y);
     }
 
     @Override

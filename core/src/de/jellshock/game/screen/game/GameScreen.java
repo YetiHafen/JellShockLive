@@ -103,7 +103,7 @@ public abstract class GameScreen extends AbstractScreen {
             if (shotProjectile != null) {
                 shotProjectile.dispose();
             }
-            shotProjectile = (ShotProjectile) player.getTank().shootProjectile(5, ShotProjectile.class);
+            shotProjectile = player.getTank().shootProjectile(player.getStrength(), ShotProjectile.class);
         }
         if (shotProjectile != null) {
             shotProjectile.update(delta);

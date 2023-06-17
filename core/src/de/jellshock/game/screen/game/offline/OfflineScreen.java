@@ -20,9 +20,4 @@ public abstract class OfflineScreen extends GameScreen {
             shotProjectile.render(batch);
         }
     }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-    }
 }
