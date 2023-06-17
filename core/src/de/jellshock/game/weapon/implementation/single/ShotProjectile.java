@@ -12,14 +12,14 @@ import de.jellshock.game.weapon.abstraction.SingleProjectile;
 public class ShotProjectile extends SingleProjectile {
 
     public ShotProjectile() {
-        super("Shot", Color.CYAN);
+        super("Shot", Color.CYAN, 10);
         JellShock.getInstance().getWeaponManager().register(this);
         setGravity(400);
     }
 
     @Override
     protected void onMapCollision() {
-        world.getMap().addCircleDamage((int) position.x, 0, 200);
+        world.getMap().addCircleDamage((int) position.x, 0, 60);
     }
 
     @Override

@@ -22,28 +22,13 @@ public class CreateAccountMenu extends AbstractMenuScreen {
 
     private final AccountSocket accountSocket;
 
-    private final ImageButton button;
-
     public CreateAccountMenu() {
-        super(false);
+        super(false, true);
         Gdx.input.setInputProcessor(stage);
 
         accountSocket = connect();
 
-        button = new ImageButton(new TextureRegionDrawable(backButtonTexture));
-        button.setSize(30, 30);
-        button.setPosition(10, Gdx.graphics.getHeight() - 50);
-
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                button.setVisible(false);
-                setSlideScreen(MenuScreen.class, Direction.LEFT);
-            }
-        });
-        stage.addActor(button);
-
-        skin = new Skin(Gdx.files.internal(Constants.NEON_SKIN_PATH));
+        skin = JellShock.getInstance().getAssetManager().get(Constants.NEON_SKIN_PATH);
         Table table = new Table(skin);
         float width = Gdx.graphics.getWidth();
         float height = Gdx.graphics.getHeight();
@@ -100,7 +85,6 @@ public class CreateAccountMenu extends AbstractMenuScreen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
         stage.setViewport(viewport);
-        button.setVisible(true);
     }
 
     @Override
@@ -133,7 +117,6 @@ public class CreateAccountMenu extends AbstractMenuScreen {
 
     @Override
     public void dispose() {
-        backButtonTexture.dispose();
         accountSocket.close();
         super.dispose();
     }

@@ -3,14 +3,19 @@ package de.jellshock.game.weapon.abstraction;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import lombok.Getter;
 
 public abstract class SingleProjectile extends AbstractWeapon {
 
     protected Texture texture;
 
-    public SingleProjectile(String name, Color color) {
+    @Getter
+    protected int damage;
+
+    public SingleProjectile(String name, Color color, int damage) {
         super(name, color);
         this.texture = getTexture();
+        this.damage = damage;
     }
 
     protected abstract Texture getTexture();

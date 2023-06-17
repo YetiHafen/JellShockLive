@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 import de.jellshock.Constants;
+import de.jellshock.JellShock;
 import de.jellshock.game.rendering.IRenderConsumer;
 import lombok.Getter;
 
@@ -16,7 +17,7 @@ public class Background implements IRenderConsumer<SpriteBatch>, Disposable {
 
     public Background(Map map) {
         this.map = map;
-        backgroundTexture = new Texture(Constants.BACKGROUND_PATH);
+        backgroundTexture = JellShock.getInstance().getAssetManager().get(Constants.BACKGROUND_PATH);
     }
 
     @Override

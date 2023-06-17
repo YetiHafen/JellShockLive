@@ -1,7 +1,6 @@
 package de.jellshock.game.screen.menu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -74,26 +73,12 @@ public class MenuScreen extends AbstractMenuScreen {
         table.setFillParent(true);
 
         stage.addActor(table);
-
-        loadAssets();
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
         stage.setViewport(viewport);
-
-        loadAssets();
-    }
-
-    private void loadAssets() {
-        AssetManager manager = JellShock.getInstance().getAssetManager();
-
-        // Load skin textures
-        manager.load(Constants.JELLY_SKIN_PATH, Skin.class);
-        manager.load(Constants.NEON_SKIN_PATH, Skin.class);
-
-        manager.finishLoading();
     }
 
     @Override

@@ -4,14 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import de.jellshock.Constants;
+import de.jellshock.JellShock;
 import de.jellshock.game.util.DialogUtils;
 import de.jellshock.network.Game;
 import de.jellshock.network.Maps;
@@ -28,7 +27,6 @@ public class ServerSelectMenu extends AbstractMenuScreen {
 
     private LobbySocket lobbySocket;
     private final Skin skin;
-    private final Texture backButtonTexture;
     private final Texture joinButtonTexture;
     private final Table listTable;
 
@@ -38,24 +36,10 @@ public class ServerSelectMenu extends AbstractMenuScreen {
     private String password;
 
     public ServerSelectMenu() {
-        super(false);
-        skin = new Skin(Gdx.files.internal(Constants.NEON_SKIN_PATH));
+        super(false, true);
+        skin = JellShock.getInstance().getAssetManager().get(Constants.NEON_SKIN_PATH);
 
-        joinButtonTexture = new Texture(Gdx.files.internal("menu/play.png"));
-
-        backButtonTexture = new Texture("menu/left-arrow.png");
-        ImageButton button = new ImageButton(new TextureRegionDrawable(backButtonTexture));
-        button.setSize(30, 30);
-        button.setPosition(10, Gdx.graphics.getHeight() - 50);
-
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                button.setVisible(false);
-                setSlideScreen(MenuScreen.class, Direction.LEFT);
-            }
-        });
-        stage.addActor(button);
+        joinButtonTexture = JellShock.getInstance().getAssetManager().get(Constants.PLAY_BUTTON_PATH);
 
         lobbySocket = connect();
 
@@ -248,7 +232,6 @@ public class ServerSelectMenu extends AbstractMenuScreen {
 
     @Override
     public void dispose() {
-        backButtonTexture.dispose();
         joinButtonTexture.dispose();
         skin.dispose();
         lobbySocket.close();

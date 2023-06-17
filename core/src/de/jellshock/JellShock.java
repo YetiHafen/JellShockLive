@@ -3,7 +3,7 @@ package de.jellshock;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import de.jellshock.game.screen.menu.MenuScreen;
+import de.jellshock.game.screen.menu.LoadingScreen;
 import de.jellshock.game.weapon.WeaponManager;
 import de.jellshock.user.User;
 import lombok.Getter;
@@ -34,7 +34,7 @@ public class JellShock extends Game {
 		assetManager = new AssetManager();
 		weaponManager = new WeaponManager();
 
-		setScreen(MenuScreen.class);
+		setScreen(LoadingScreen.class);
 
 		/*String path = Gdx.files.getLocalStoragePath();
 		TexturePacker.process(path + "jelly/raw", path + "jelly/skin", "jelly");*/
