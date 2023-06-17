@@ -1,10 +1,8 @@
 package de.jellshock;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import de.jellshock.game.screen.menu.MenuScreen;
 import de.jellshock.game.weapon.WeaponManager;
 import de.jellshock.user.User;
@@ -62,7 +60,6 @@ public class JellShock extends Game {
 		setScreen(screen);
 		return screen;
 	}
-
 
 	@Override
 	public void dispose() {

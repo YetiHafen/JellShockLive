@@ -15,19 +15,29 @@ import de.jellshock.game.world.level.LevelLoader;
 
 public class MenuScreen extends AbstractMenuScreen {
 
+    private final Skin skin;
+
     public MenuScreen() {
         Table table = new Table();
 
-        Skin skin = new Skin(Gdx.files.internal(Constants.NEON_SKIN_PATH));
+        skin = new Skin(Gdx.files.internal(Constants.NEON_SKIN_PATH));
         TextButton.TextButtonStyle textButtonStyle = skin.get(TextButton.TextButtonStyle.class);
 
         TextButton offlineButton = new TextButton("Play!", textButtonStyle);
+        TextButton offlineTestButton = new TextButton("Offline Test!", textButtonStyle);
         TextButton onlineButton = new TextButton("Online!", textButtonStyle);
 
         offlineButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 JellShock.getInstance().setScreen(FirstLevel.class);
+            }
+        });
+
+        offlineTestButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                JellShock.getInstance().setScreen(LevelSelectScreen.class);
             }
         });
 
@@ -56,12 +66,10 @@ public class MenuScreen extends AbstractMenuScreen {
             }
         });
 
-        table.add(offlineButton);
-        table.row();
-        table.add(onlineButton);
-        table.row();
-        table.add(settingsButton);
-        table.row();
+        table.add(offlineButton).row();
+        table.add(offlineTestButton).row();
+        table.add(onlineButton).row();
+        table.add(settingsButton).row();
         table.add(testButton);
         table.setFillParent(true);
 
@@ -100,6 +108,7 @@ public class MenuScreen extends AbstractMenuScreen {
 
     @Override
     public void dispose() {
+        skin.dispose();
         super.dispose();
     }
 }

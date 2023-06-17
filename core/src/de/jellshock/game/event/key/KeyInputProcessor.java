@@ -27,10 +27,10 @@ public class KeyInputProcessor {
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             return manager.dispatchEvent(new KeyEvent(KeyEvent.EventType.GUN_ROTATION_RIGHT));
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
             return manager.dispatchEvent(new KeyEvent(KeyEvent.EventType.GUN_POWER_UP));
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
             return manager.dispatchEvent(new KeyEvent(KeyEvent.EventType.GUN_POWER_DOWN));
         }
         return null;

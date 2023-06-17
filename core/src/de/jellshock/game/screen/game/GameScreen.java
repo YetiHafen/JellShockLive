@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import de.jellshock.Constants;
@@ -17,6 +18,7 @@ import de.jellshock.game.player.Player;
 import de.jellshock.game.rendering.IRenderConsumer;
 import de.jellshock.game.screen.AbstractScreen;
 import de.jellshock.game.ui.MenuBar;
+import de.jellshock.game.ui.hud.StrengthTriangle;
 import de.jellshock.game.ui.hud.StrengthWheel;
 import de.jellshock.game.weapon.implementation.single.ShotProjectile;
 import de.jellshock.game.world.World;
@@ -24,6 +26,7 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 @Getter
 public abstract class GameScreen extends AbstractScreen {
@@ -36,7 +39,8 @@ public abstract class GameScreen extends AbstractScreen {
     protected final Player player;
 
     protected MenuBar menuBar;
-    protected StrengthWheel playerStrengthWheel;
+    protected StrengthWheel strengthWheel;
+    protected StrengthTriangle strengthTriangle;
 
     protected final List<IRenderConsumer<SpriteBatch>> renderObjects;
 
@@ -51,7 +55,8 @@ public abstract class GameScreen extends AbstractScreen {
         player = new Player("", world);
 
         menuBar = new MenuBar(this);
-        playerStrengthWheel = new StrengthWheel(this);
+        strengthWheel = new StrengthWheel(this);
+        strengthTriangle = new StrengthTriangle(this);
 
         renderObjects = new ArrayList<>();
         registerRenderObjects();
@@ -65,8 +70,9 @@ public abstract class GameScreen extends AbstractScreen {
     private void registerRenderObjects() {
         renderObjects.add(world);
         renderObjects.add(player.getTank());
+        renderObjects.add(strengthWheel);
+        renderObjects.add(strengthTriangle);
         renderObjects.add(menuBar);
-        renderObjects.add(playerStrengthWheel);
     }
 
     private void loadAssets() {
@@ -108,7 +114,12 @@ public abstract class GameScreen extends AbstractScreen {
         batch.setProjectionMatrix(camera.combined);
         if (event != null) {
             switch (event.getType()) {
-                case MOVE_LEFT, MOVE_RIGHT -> playerStrengthWheel.updatePosition(player.getTank().getParentPosition());
+                case MOVE_LEFT, MOVE_RIGHT -> {
+                    Vector2 pos = player.getTank().getParentPosition();
+                    strengthWheel.updatePosition(pos);
+                    strengthTriangle.updatePosition(pos);
+                }
+                case GUN_POWER_UP, GUN_POWER_DOWN -> strengthTriangle.updateStrength(player.getStrength());
             }
         }
         renderObjects.forEach(render -> render.render(batch));
@@ -136,7 +147,7 @@ public abstract class GameScreen extends AbstractScreen {
         world.dispose();
         player.dispose();
         menuBar.dispose();
-        playerStrengthWheel.dispose();
+        strengthWheel.dispose();
         if(shotProjectile != null)
             shotProjectile.dispose();
     }

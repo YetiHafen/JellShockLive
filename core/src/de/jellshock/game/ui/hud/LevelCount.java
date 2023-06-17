@@ -11,7 +11,6 @@ import de.jellshock.game.ui.HudElement;
 
 public class LevelCount extends HudElement {
 
-    private final GameScreen gameScreen;
     private final Skin skin;
 
     private static final int TEXT_HEIGHT = 50;
@@ -20,14 +19,11 @@ public class LevelCount extends HudElement {
 
     public LevelCount(GameScreen gameScreen, int level) {
         super(gameScreen, new Vector2(0, Gdx.graphics.getHeight()));
-        this.gameScreen = gameScreen;
 
         skin = JellShock.getInstance().getAssetManager().get(Constants.JELLY_SKIN_PATH);
 
         levelLabel = new Label("Level " + level, skin);
         table.add(levelLabel);
-
-        //table.setDebug(true);
     }
 
     public void setPosition(float height) {
@@ -38,6 +34,5 @@ public class LevelCount extends HudElement {
     @Override
     public void dispose() {
         skin.dispose();
-        super.dispose();
     }
 }

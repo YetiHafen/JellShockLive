@@ -20,7 +20,9 @@ public class Player implements KeyEventListener, Disposable {
     private final Tank tank;
     private Team team;
     private HashSet<AbstractWeapon> weapons;
-    private int health;
+
+    private int health = 100;
+    private int strength = 0;
 
     public Player(String name, World world) {
         this.name = name;
@@ -44,11 +46,29 @@ public class Player implements KeyEventListener, Disposable {
             case MOVE_RIGHT -> tank.moveX(100 * delta);
             case GUN_ROTATION_LEFT -> tank.setGunRotation(tank.getGunRotation() + 100 * delta);
             case GUN_ROTATION_RIGHT -> tank.setGunRotation(tank.getGunRotation() - 100 * delta);
+            case GUN_POWER_UP -> {
+                if (strength == 100) return;
+                strength++;
+            }
+            case GUN_POWER_DOWN -> {
+                if (strength == 1) return;
+                strength--;
+            }
         }
     }
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public void setHealth(int health) {
+        if (health > 100) return;
+        this.health = health;
+    }
+
+    public void setStrength(int strength) {
+        if (strength > 100) return;
+        this.strength = strength;
     }
 
     @Override

@@ -39,7 +39,6 @@ public class ServerSelectMenu extends AbstractMenuScreen {
 
     public ServerSelectMenu() {
         super(false);
-        stage = new Stage();
         skin = new Skin(Gdx.files.internal(Constants.NEON_SKIN_PATH));
 
         joinButtonTexture = new Texture(Gdx.files.internal("menu/play.png"));

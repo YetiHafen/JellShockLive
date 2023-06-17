@@ -17,20 +17,20 @@ public class StrengthWheel extends HudElement implements IRenderConsumer<SpriteB
 
     public StrengthWheel(GameScreen gameScreen) {
         super(gameScreen, new Vector2());
-
-        position = gameScreen.getPlayer().getTank().getParentPosition();
-        position.y -= 200;
+        position = new Vector2();
 
         wheel = new Pixmap(600, 600, Pixmap.Format.RGBA8888);
         wheel.setBlending(Pixmap.Blending.None);
         wheel.setColor(1, 1, 1, 0.2f);
         wheel.fillCircle(300, 300, 300);
         wheelTexture = new Texture(wheel);
+
+        updatePosition(gameScreen.getPlayer().getTank().getParentPosition());
     }
 
     public void updatePosition(Vector2 position) {
-        this.position.x = position.x;
-        this.position.y = position.y - 200;
+        this.position.x = position.x - wheel.getWidth() / 2F;
+        this.position.y = position.y - wheel.getHeight() / 2F;
     }
 
     @Override
@@ -42,6 +42,5 @@ public class StrengthWheel extends HudElement implements IRenderConsumer<SpriteB
     public void dispose() {
         wheel.dispose();
         wheelTexture.dispose();
-        super.dispose();
     }
 }
