@@ -51,8 +51,6 @@ public class LevelSelectScreen extends AbstractMenuScreen {
         listAllLevels();
 
         stage.addActor(table);
-
-        //stage.setDebugAll(true);
     }
 
     public void listAllLevels() {

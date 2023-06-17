@@ -19,9 +19,6 @@ public abstract class Level extends OfflineScreen {
 
     private final LevelCount levelCount;
 
-    @Getter
-    private boolean completed; // TODO
-
     public Level(World world, int level, int botCount) {
         super(world);
         this.world = world;
