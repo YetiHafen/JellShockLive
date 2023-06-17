@@ -46,10 +46,10 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
         gun = new TextureRegion(gunTexture);
     }
 
-    public AbstractWeapon shootProjectile(float power, Class<? extends AbstractWeapon> projectileType) {
+    public <T extends AbstractWeapon> T shootProjectile(float power, Class<T> projectileType) {
         try {
-            Constructor<? extends AbstractWeapon> constructor = projectileType.getDeclaredConstructor();
-            AbstractWeapon projectile = constructor.newInstance();
+            Constructor<T> constructor = projectileType.getDeclaredConstructor();
+            T projectile = constructor.newInstance();
 
             float trackHeight = trackTexture.getHeight() * SCALE;
             float gunPosX = (float) (position + trackHeight * -Math.sin(calculateRotation()));
