@@ -4,10 +4,10 @@ import de.jellshock.game.screen.game.offline.level.Level;
 
 public class FourthLevel extends Level {
 
-    private static final String levelName = "level_4";
+    public static final int level = 4;
 
     public FourthLevel() {
-        super(loadWorldFromLvlPath(levelName), 1, 1);
+        super(loadWorldFromLvl(level), 1, 1);
 
         setBotPosition(0, 1500);
     }

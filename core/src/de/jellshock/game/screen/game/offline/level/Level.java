@@ -7,6 +7,7 @@ import de.jellshock.game.screen.game.offline.OfflineScreen;
 import de.jellshock.game.ui.hud.LevelCount;
 import de.jellshock.game.world.World;
 import de.jellshock.game.world.level.LevelLoader;
+import lombok.Getter;
 
 import java.util.UUID;
 
@@ -17,6 +18,9 @@ public abstract class Level extends OfflineScreen {
     protected final int botCount;
 
     private final LevelCount levelCount;
+
+    @Getter
+    private boolean completed; // TODO
 
     public Level(World world, int level, int botCount) {
         super(world);
@@ -37,8 +41,8 @@ public abstract class Level extends OfflineScreen {
         bots.forEach(bot -> renderObjects.add(bot.getTank()));
     }
 
-    public static World loadWorldFromLvlPath(String levelName) {
-        return LevelLoader.loadLevel(Gdx.files.internal("level/" + levelName + ".level"));
+    public static World loadWorldFromLvl(int levelName) {
+        return LevelLoader.loadLevel(Gdx.files.internal("level/level_" + levelName + ".level"));
     }
 
     @Override

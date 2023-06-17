@@ -4,9 +4,9 @@ import de.jellshock.game.screen.game.offline.level.Level;
 
 public class ThirdLevel extends Level {
 
-    private static final String levelName = "level_3";
+    public static final int level = 3;
 
     public ThirdLevel() {
-        super(loadWorldFromLvlPath(levelName), 3, 1);
+        super(loadWorldFromLvl(level), 3, 1);
     }
 }

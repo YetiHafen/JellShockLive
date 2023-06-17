@@ -1,5 +1,14 @@
 package de.jellshock;
 
+import de.jellshock.game.screen.game.offline.level.Level;
+import de.jellshock.game.screen.game.offline.level.impl.FirstLevel;
+import de.jellshock.game.screen.game.offline.level.impl.FourthLevel;
+import de.jellshock.game.screen.game.offline.level.impl.SecondLevel;
+import de.jellshock.game.screen.game.offline.level.impl.ThirdLevel;
+
+import java.util.Arrays;
+import java.util.List;
+
 public class Constants {
     public static final String SERVER_URL = "ws://localhost:3000";
 
@@ -22,5 +31,19 @@ public class Constants {
 
     // Guns
     public static final String SHOT_PATH = "weapon/shot/shot.png";
+
+    public static final List<Class<? extends Level>> LEVELS = Arrays.asList(
+            FirstLevel.class,
+            SecondLevel.class,
+            ThirdLevel.class,
+            FourthLevel.class
+    );
+
+    public static final List<String> IMAGE_LEVEL_PATHS = Arrays.asList(
+            "level/images/level_1.png",
+            "level/images/level_2.png",
+            "level/images/level_3.png",
+            "level/images/level_4.png"
+    );
 
 }
