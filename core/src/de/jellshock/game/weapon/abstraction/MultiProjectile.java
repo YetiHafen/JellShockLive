@@ -4,10 +4,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import de.jellshock.JellShock;
+import de.jellshock.game.player.Entity;
+import de.jellshock.game.player.Player;
 import de.jellshock.util.Pair;
 import lombok.Getter;
 
 import java.util.HashMap;
+import java.util.List;
 
 public abstract class MultiProjectile extends AbstractWeapon {
 
@@ -80,10 +84,5 @@ public abstract class MultiProjectile extends AbstractWeapon {
             vectorPair.setValue(vectorPair.getValue().add(velocity));
         });
         super.setVelocity(velocity);
-    }
-
-    @Override
-    public void dispose() {
-        projectiles.forEach((texture, v) -> texture.dispose());
     }
 }

@@ -19,7 +19,6 @@ public class Bot extends Entity implements Disposable {
 
     private final HealthBar healthBar;
 
-    private int health = 100;
     private int strength = 0;
 
     public Bot(GameScreen gameScreen, String name, World world) {

@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Disposable;
 import de.jellshock.Constants;
 import de.jellshock.JellShock;
 import de.jellshock.game.rendering.IRenderConsumer;
+import de.jellshock.game.screen.game.GameScreen;
 import de.jellshock.game.weapon.abstraction.AbstractWeapon;
 import de.jellshock.game.world.World;
 import lombok.Getter;
@@ -33,8 +34,8 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
     private float position = 0;
     private final World world;
 
-    private static final float SCALE = 0.16F;
-    private static final int SLOPE_05DX = 10;
+    public static final float SCALE = 0.16F;
+    public static final int SLOPE_05DX = 10;
 
     public Tank(Color color, World world) {
         this.color = color;
@@ -48,10 +49,11 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
         gun = new TextureRegion(gunTexture);
     }
 
-    public <T extends AbstractWeapon> T shootProjectile(float power, Class<T> projectileType) {
+    public <T extends AbstractWeapon> T shootProjectile(GameScreen gameScreen, float power, Class<T> projectileType) {
         try {
             Constructor<T> constructor = projectileType.getDeclaredConstructor();
             T projectile = constructor.newInstance();
+            projectile.setGameScreen(gameScreen);
 
             float trackHeight = trackTexture.getHeight() * SCALE;
             float gunPosX = (float) (position + trackHeight * -Math.sin(calculateRotation()));

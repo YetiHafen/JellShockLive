@@ -4,29 +4,33 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
 import de.jellshock.Constants;
 import de.jellshock.JellShock;
+import de.jellshock.game.player.Player;
 import de.jellshock.game.screen.game.GameScreen;
 import lombok.Getter;
 
 @Getter
 public class MenuBar extends HudElement {
 
-    private final Image image;
+    private final Player player;
+
+    private final Image tankImage;
     private final int width;
     private int height;
 
+    private final TextButton tankButton;
+
     private final Skin skin;
 
-    public MenuBar(GameScreen gameScreen) {
+    public MenuBar(GameScreen gameScreen, Player player) {
         super(gameScreen);
+        this.player = player;
 
         width = gameScreen.getWorld().getMap().getMapWidth();
         height = (int) (gameScreen.getWorld().getMap().getMapHeight() * 0.2);
@@ -39,11 +43,20 @@ public class MenuBar extends HudElement {
         table.setBackground(new TextureRegionDrawable(new Texture(pixmap)));
 
         Texture tankTexture = new Texture(Gdx.files.internal("tank/tank_complete.png"));
-        image = new Image(tankTexture);
+        tankImage = new Image(tankTexture);
         TextButton userInfo = new TextButton("", skin.get("rectangle", TextButton.TextButtonStyle.class));
-        userInfo.add(image).width(200).height(100).center();
+        userInfo.add(tankImage).width(200).height(100).center();
 
-        TextButton tankInfo = new TextButton("Tank", skin.get("rectangle", TextButton.TextButtonStyle.class));
+/*        Texture fuelCounterTexture = JellShock.getInstance().getAssetManager().get(Constants.FUEL_BUTTON_PATH, Texture.class);
+        ImageButton.ImageButtonStyle buttonStyle = new ImageButton.ImageButtonStyle();
+        buttonStyle.imageUp = new TextureRegionDrawable(fuelCounterTexture);
+        ImageButton fuelButton = new ImageButton(buttonStyle);*/
+
+/*        fuelPointerImage = new Image(JellShock.getInstance().getAssetManager().get(Constants.FUEL_POINTER_PATH, Texture.class));
+        fuelPointerImage.setScaling(Scaling.fit);
+        fuelButton.add(fuelPointerImage);*/
+
+        tankButton = new TextButton(String.valueOf(player.getFuel()), skin.get("rectangle", TextButton.TextButtonStyle.class));
 
         TextButton itemsButton = new TextButton("Items", skin.get("yellow", TextButton.TextButtonStyle.class));
 
@@ -60,11 +73,18 @@ public class MenuBar extends HudElement {
         fireButton.align(Align.topLeft);
 
         table.add(userInfo).expandX().uniform();
-        table.add(tankInfo).expandX().uniform();
+        table.add(tankButton).expandX().uniform();
         table.add(itemsButton).expandX().uniform();
         table.add(weaponTable).padLeft(15).uniform();
         table.add(fireButton).padLeft(10).expand().uniform();
         table.setBounds(0, -height, Gdx.graphics.getWidth(), height);
+    }
+
+    /*public static final float FUEL_DEGREES = 1.8f;*/
+
+    public void updateFuel(float fuel) {
+        tankButton.setText(String.valueOf(fuel));
+        /*fuelPointerImage.rotateBy(- (0.2f * (Player.START_TANK_VALUE - fuel)));*/
     }
 
     public void setHeight(int barHeight, float cameraZoom) {
@@ -74,7 +94,7 @@ public class MenuBar extends HudElement {
     }
 
     public void setTankColor(Color color) {
-        image.setColor(color);
+        tankImage.setColor(color);
     }
 
 

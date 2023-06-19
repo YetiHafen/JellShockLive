@@ -92,6 +92,10 @@ TintedDrawable: {
 		name: button
 		color: blue
 	}
+	button-gray: {
+		name: button
+		color: gray2
+	}
 	window: {
 		name: window
 		color: gray
@@ -162,6 +166,13 @@ TextButtonStyle: {
 		up: button-blue
 		down: button-blue
 		over: button-blue
+	}
+	gray: {
+		font: font-50
+		fontColor: white
+		up: button-gray
+		down: button-gray
+		over: button-gray
 	}
 	flat-blue: {
 		font: font-32

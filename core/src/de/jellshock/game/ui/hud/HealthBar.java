@@ -10,6 +10,7 @@ import de.jellshock.JellShock;
 import de.jellshock.game.player.Entity;
 import de.jellshock.game.screen.game.GameScreen;
 import de.jellshock.game.ui.HudElement;
+import de.jellshock.game.vehicle.Tank;
 
 public class HealthBar extends HudElement {
 
@@ -23,11 +24,11 @@ public class HealthBar extends HudElement {
     private final Pixmap basePixmap;
     private Pixmap pixmap;
 
-    private Vector2 position;
+    private final Vector2 position;
 
-    public HealthBar(GameScreen gameScreen, Entity player) {
+    public HealthBar(GameScreen gameScreen, Entity entity) {
         super(gameScreen);
-        this.player = player;
+        this.player = entity;
         position = new Vector2();
 
         Texture baseTexture = JellShock.getInstance().getAssetManager().get(Constants.HEALTH_BAR_PATH);
@@ -36,13 +37,14 @@ public class HealthBar extends HudElement {
         pixmap = basePixmap;
         baseTexture.dispose();
 
-        updatePosition(player.getTank().getParentPosition());
+        updatePosition(entity.getTank().getParentPosition());
         updateHealth(health);
     }
 
     public void updatePosition(Vector2 position) {
-        int offset = (player.getTank().getChassisTexture().getHeight() * 3) + (player.getTank().getTrackTexture().getHeight() * 3);
-        this.position.x = position.x;
+        float scaling  = Tank.SCALE;
+        int offset = (int) ((player.getTank().getChassisTexture().getHeight() * scaling) + (player.getTank().getTrackTexture().getHeight() * scaling)) + 15;
+        this.position.x = position.x - ((player.getTank().getChassisTexture().getWidth() * scaling) / 2);
         this.position.y = position.y + offset;
     }
 
@@ -66,7 +68,7 @@ public class HealthBar extends HudElement {
     public void render(SpriteBatch batch) {
         Vector2 position = getGameScreen().getPlayer().getTank().getParentPosition();
         if (!position.epsilonEquals(this.position)) updatePosition(position);
-        batch.draw(texture, position.x, position.y, texture.getWidth(), texture.getHeight());
+        batch.draw(texture, this.position.x, this.position.y, texture.getWidth(), texture.getHeight());
     }
 
     @Override

@@ -26,6 +26,9 @@ public class Constants {
     public static final String DIALOG_PATH = "jelly/raw/dialog.png";
     public static final String HEALTH_BAR_PATH = "health-bar.png";
 
+    public static final String FUEL_BUTTON_PATH = "fuel/button-fuel.png";
+    public static final String FUEL_POINTER_PATH = "fuel/pointer.png";
+
     // Tank
     public static final String CHASSIS_PATH = "tank/chassis_round.png";
     public static final String TRACK_PATH = "tank/track_classic.png";

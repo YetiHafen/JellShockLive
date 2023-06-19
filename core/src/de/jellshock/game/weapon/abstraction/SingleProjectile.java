@@ -48,9 +48,4 @@ public abstract class SingleProjectile extends AbstractWeapon {
         return position.y < world.getMap().getMapHeight((int) position.x);
     }
 
-
-    @Override
-    public void dispose() {
-        texture.dispose();
-    }
 }

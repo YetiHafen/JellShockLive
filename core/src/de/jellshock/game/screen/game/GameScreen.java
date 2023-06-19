@@ -14,6 +14,7 @@ import de.jellshock.JellShock;
 import de.jellshock.game.event.key.KeyEvent;
 import de.jellshock.game.event.key.KeyEventManager;
 import de.jellshock.game.event.key.KeyInputProcessor;
+import de.jellshock.game.player.Entity;
 import de.jellshock.game.player.Player;
 import de.jellshock.game.rendering.IRenderConsumer;
 import de.jellshock.game.screen.AbstractScreen;
@@ -38,6 +39,7 @@ public abstract class GameScreen extends AbstractScreen {
 
     protected final World world;
     protected final Player player;
+    protected final List<Entity> entities;
 
     protected MenuBar menuBar;
     protected StrengthWheel strengthWheel;
@@ -56,7 +58,10 @@ public abstract class GameScreen extends AbstractScreen {
         this.world = world;
         player = new Player(this, "", world);
 
-        menuBar = new MenuBar(this);
+        entities = new ArrayList<>();
+        entities.add(player);
+
+        menuBar = new MenuBar(this, player);
         strengthWheel = new StrengthWheel(this);
         strengthTriangle = new StrengthTriangle(this);
         escapeWindow = new EscapeWindow(this);
@@ -97,7 +102,6 @@ public abstract class GameScreen extends AbstractScreen {
     public void show() {
         super.show();
         Gdx.input.setInputProcessor(menuBar.getStage());
-        System.out.println(Gdx.input.getInputProcessor());
     }
 
     @Override
@@ -106,7 +110,7 @@ public abstract class GameScreen extends AbstractScreen {
         if (event != null) {
             if (event.getType() == KeyEvent.EventType.SHOT) {
                 if (shotProjectile != null) shotProjectile.dispose();
-                shotProjectile = player.getTank().shootProjectile(player.getStrength(), FiveBallProjectile.class);
+                shotProjectile = player.getTank().shootProjectile(this, player.getStrength(), FiveBallProjectile.class);
             }
         }
         if (shotProjectile != null) {
@@ -119,10 +123,13 @@ public abstract class GameScreen extends AbstractScreen {
         if (event != null) {
             switch (event.getType()) {
                 case MOVE_LEFT, MOVE_RIGHT -> {
+                    if (player.getFuel() == 0) return;
                     Vector2 pos = player.getTank().getParentPosition();
                     strengthWheel.updatePosition(pos);
                     strengthTriangle.updatePosition(pos);
                     player.getHealthBar().updatePosition(pos);
+                    player.setFuel(getPlayer().getFuel() - 0.2f);
+                    menuBar.updateFuel(player.getFuel());
                 }
                 case GUN_POWER_UP, GUN_POWER_DOWN -> strengthTriangle.updateStrength(player.getStrength());
                 case GUN_ROTATION_LEFT, GUN_ROTATION_RIGHT -> strengthTriangle.updateAngle(Math.toRadians(player.getTank().getGunRotation()));

@@ -45,6 +45,9 @@ public class LoadingScreen extends AbstractScreen {
         manager.load(Constants.DIALOG_PATH, Texture.class);
         manager.load(Constants.HEALTH_BAR_PATH, Texture.class);
 
+        manager.load(Constants.FUEL_BUTTON_PATH, Texture.class);
+        manager.load(Constants.FUEL_POINTER_PATH, Texture.class);
+
         // Load gun textures
 
         manager.finishLoadingAsset(Constants.MENU_BACKGROUND_PATH);

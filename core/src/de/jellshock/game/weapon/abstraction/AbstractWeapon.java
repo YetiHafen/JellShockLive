@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import de.jellshock.game.rendering.IRenderConsumer;
+import de.jellshock.game.screen.game.GameScreen;
 import de.jellshock.game.world.World;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +13,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class AbstractWeapon implements IRenderConsumer<SpriteBatch>, Disposable {
+
+    protected GameScreen gameScreen;
 
     protected String name;
 
@@ -32,6 +35,4 @@ public abstract class AbstractWeapon implements IRenderConsumer<SpriteBatch>, Di
     }
 
     public abstract void update(float delta);
-
-
 }

@@ -32,6 +32,8 @@ public abstract class Level extends OfflineScreen {
             bot.randomSpawn();
             bot.getTank().setGunRotation(100);
 
+            entities.add(bot);
+
             renderObjects.add(bot.getTank());
             renderObjects.add(bot.getHealthBar());
 

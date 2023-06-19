@@ -13,6 +13,7 @@ import de.jellshock.game.weapon.WeaponType;
 import de.jellshock.game.weapon.abstraction.AbstractWeapon;
 import de.jellshock.game.world.World;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashSet;
 
@@ -26,9 +27,10 @@ public class Player extends Entity implements KeyEventListener, Disposable {
 
     private final HealthBar healthBar;
 
-    private int health = 100;
     private int strength = 0;
-    private int tankCapacity = 500;
+
+    public static final int START_TANK_VALUE = 100;
+    private float fuel = 100;
 
     public Player(GameScreen gameScreen, String name, World world) {
         super(new Tank(Color.CYAN, world));
@@ -68,8 +70,14 @@ public class Player extends Entity implements KeyEventListener, Disposable {
     public void handleKeyEvent(KeyEvent event) {
         float delta = Gdx.graphics.getDeltaTime();
         switch (event.getType()) {
-            case MOVE_LEFT -> tank.moveX(-100 * delta);
-            case MOVE_RIGHT -> tank.moveX(100 * delta);
+            case MOVE_LEFT -> {
+                if (fuel == 0) return;
+                tank.moveX(-100 * delta);
+            }
+            case MOVE_RIGHT -> {
+                if (fuel == 0) return;
+                tank.moveX(100 * delta);
+            }
             case GUN_ROTATION_LEFT -> tank.setGunRotation(tank.getGunRotation() + 100 * delta);
             case GUN_ROTATION_RIGHT -> tank.setGunRotation(tank.getGunRotation() - 100 * delta);
             case GUN_POWER_UP -> {
@@ -87,14 +95,14 @@ public class Player extends Entity implements KeyEventListener, Disposable {
         this.team = team;
     }
 
-    public void setHealth(int health) {
-        if (health > 100) return;
-        this.health = health;
-    }
-
     public void setStrength(int strength) {
         if (strength > 100) return;
         this.strength = strength;
+    }
+
+    public void setFuel(float fuel) {
+        if (fuel > 100 || fuel < 0) return;
+        this.fuel = fuel;
     }
 
     @Override
