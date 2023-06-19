@@ -15,7 +15,9 @@ import de.jellshock.game.world.World;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 @Getter
 public class Player extends Entity implements KeyEventListener, Disposable {
@@ -23,19 +25,19 @@ public class Player extends Entity implements KeyEventListener, Disposable {
     private final String name;
     // TODO: Elo
     private Team team;
-    private HashSet<Class<? extends AbstractWeapon>> weapons;
+    private List<Class<? extends AbstractWeapon>> weapons;
 
     private final HealthBar healthBar;
 
     private int strength = 0;
 
-    public static final int START_TANK_VALUE = 100;
-    private float fuel = 100;
+    public static final int START_TANK_VALUE = 500;
+    private int fuel = START_TANK_VALUE;
 
     public Player(GameScreen gameScreen, String name, World world) {
         super(new Tank(Color.CYAN, world));
         this.name = name;
-        weapons = new HashSet<>();
+        weapons = new ArrayList<>();
         team = Team.DEFAULT;
 
         healthBar = new HealthBar(gameScreen, this);
@@ -100,8 +102,8 @@ public class Player extends Entity implements KeyEventListener, Disposable {
         this.strength = strength;
     }
 
-    public void setFuel(float fuel) {
-        if (fuel > 100 || fuel < 0) return;
+    public void setFuel(int fuel) {
+        if (fuel > START_TANK_VALUE || fuel < 0) return;
         this.fuel = fuel;
     }
 

@@ -1,5 +1,6 @@
 package de.jellshock.game.screen.game;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
@@ -7,6 +8,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Null;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import de.jellshock.Constants;
@@ -63,7 +67,7 @@ public abstract class GameScreen extends AbstractScreen {
 
         menuBar = new MenuBar(this, player);
         strengthWheel = new StrengthWheel(this);
-        strengthTriangle = new StrengthTriangle(this);
+        strengthTriangle = new StrengthTriangle(this, player);
         escapeWindow = new EscapeWindow(this);
 
         renderObjects = new ArrayList<>();
@@ -107,6 +111,15 @@ public abstract class GameScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         KeyEvent event = keyInput.keyPressed();
+        final GameScreen screen = this;
+        menuBar.getFireButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (shotProjectile != null) shotProjectile.dispose();
+                shotProjectile = player.getTank().shootProjectile(screen, player.getStrength(), FiveBallProjectile.class);
+                if (shotProjectile != null) shotProjectile.update(delta);
+            }
+        });
         if (event != null) {
             if (event.getType() == KeyEvent.EventType.SHOT) {
                 if (shotProjectile != null) shotProjectile.dispose();
@@ -128,7 +141,7 @@ public abstract class GameScreen extends AbstractScreen {
                     strengthWheel.updatePosition(pos);
                     strengthTriangle.updatePosition(pos);
                     player.getHealthBar().updatePosition(pos);
-                    player.setFuel(getPlayer().getFuel() - 0.2f);
+                    player.setFuel(getPlayer().getFuel() - 1);
                     menuBar.updateFuel(player.getFuel());
                 }
                 case GUN_POWER_UP, GUN_POWER_DOWN -> strengthTriangle.updateStrength(player.getStrength());

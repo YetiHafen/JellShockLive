@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
@@ -13,7 +15,12 @@ import de.jellshock.Constants;
 import de.jellshock.JellShock;
 import de.jellshock.game.player.Player;
 import de.jellshock.game.screen.game.GameScreen;
+import de.jellshock.game.weapon.abstraction.AbstractWeapon;
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 @Getter
 public class MenuBar extends HudElement {
@@ -25,6 +32,7 @@ public class MenuBar extends HudElement {
     private int height;
 
     private final TextButton tankButton;
+    private final TextButton fireButton;
 
     private final Skin skin;
 
@@ -62,14 +70,36 @@ public class MenuBar extends HudElement {
 
         Table weaponTable = new Table();
         TextButton weaponsButton = new TextButton("Weapons", skin.get("flat-red", TextButton.TextButtonStyle.class));
-        TextButton weaponInfoButton = new TextButton("Strike", skin.get("flat-blue", TextButton.TextButtonStyle.class));
-        TextButton test = new TextButton("1", skin.get("box-blue", TextButton.TextButtonStyle.class));
+
+        List<Class<? extends AbstractWeapon>> weapons = player.getWeapons();
+        List<String> names = new ArrayList<>(2);
+        weapons.forEach(clazz -> {
+            try {
+                names.add((String) weapons.get(0).getField("name").get(null));
+            } catch (IllegalAccessException | NoSuchFieldException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        final int[] val = {0};
+        TextButton weaponInfoButton = new TextButton("Single Shot", skin.get("flat-blue", TextButton.TextButtonStyle.class));
+        weaponsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                String[] names = {"Single Shot", "Five Ball"};
+                weaponInfoButton.setText(names[val[0]]);
+                if (val[0] == 1) val[0] = 0;
+                else val[0] = 1;
+            }
+        });
+
+        TextButton test = new TextButton("∞", skin.get("box-blue", TextButton.TextButtonStyle.class));
         weaponInfoButton.add(test).width(79).height(70).padRight(10);
 
         weaponTable.add(weaponsButton).height(84).padBottom(10).row();
         weaponTable.add(weaponInfoButton).height(84);
 
-        TextButton fireButton = new TextButton("FIRE", skin.get("green", TextButton.TextButtonStyle.class));
+        fireButton = new TextButton("FIRE", skin.get("green", TextButton.TextButtonStyle.class));
         fireButton.align(Align.topLeft);
 
         table.add(userInfo).expandX().uniform();

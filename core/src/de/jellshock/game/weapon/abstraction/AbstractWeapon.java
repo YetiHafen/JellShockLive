@@ -16,8 +16,6 @@ public abstract class AbstractWeapon implements IRenderConsumer<SpriteBatch>, Di
 
     protected GameScreen gameScreen;
 
-    protected String name;
-
     protected Color color;
     protected World world;
 
@@ -29,8 +27,7 @@ public abstract class AbstractWeapon implements IRenderConsumer<SpriteBatch>, Di
 
     protected float gravity = 9.81F;
 
-    public AbstractWeapon(String name, Color color) {
-        this.name = name;
+    public AbstractWeapon(Color color) {
         this.color = color;
     }
 

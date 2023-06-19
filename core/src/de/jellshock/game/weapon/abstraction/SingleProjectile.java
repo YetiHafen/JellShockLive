@@ -13,8 +13,8 @@ public abstract class SingleProjectile extends AbstractWeapon {
     @Getter
     protected int damage;
 
-    public SingleProjectile(String name, Color color, int damage) {
-        super(name, color);
+    public SingleProjectile(Color color, int damage) {
+        super(color);
         this.texture = getTexture();
         this.damage = damage;
     }

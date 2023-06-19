@@ -21,8 +21,8 @@ public abstract class MultiProjectile extends AbstractWeapon {
     @Getter
     protected int damage;
 
-    public MultiProjectile(String name, Color color, int index, int damage) {
-        super(name, color);
+    public MultiProjectile(Color color, int index, int damage) {
+        super(color);
         this.projectiles = new HashMap<>();
         for (int i = 0; i < index; i++) {
             this.projectiles.put(getBaseTexture(), Pair.pair(new Vector2(0, 20 * i), new Vector2(0 ,0)));

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.bullet.collision.CollisionJNI;
 import com.badlogic.gdx.utils.Disposable;
+import de.jellshock.game.player.Player;
 import de.jellshock.game.rendering.IRenderConsumer;
 import de.jellshock.game.screen.game.GameScreen;
 import de.jellshock.game.ui.HudElement;
@@ -26,17 +27,19 @@ public class StrengthTriangle extends HudElement implements IRenderConsumer<Spri
     private int strength = DEFAULT_STRENGTH;
     private double angle = 0;
 
-    public StrengthTriangle(GameScreen gameScreen) {
+    public StrengthTriangle(GameScreen gameScreen, Player player) {
         super(gameScreen);
 
         position = new Vector2();
 
         int strengthLength = strength * LENGTH_MULTIPLIER;
 
-        triangle = new Pixmap(100, 100, Pixmap.Format.RGBA8888);
+        triangle = new Pixmap(600, 600, Pixmap.Format.RGBA8888);
         triangle.setColor(Color.RED);
         
         triangleTexture = new Texture(triangle);
+
+        updatePosition(player.getTank().getParentPosition());
     }
 
     private void draw() {
@@ -47,7 +50,9 @@ public class StrengthTriangle extends HudElement implements IRenderConsumer<Spri
         int hWidth = triangle.getWidth() / 2;
         int hHeight = triangle.getHeight() / 2;
 
-        triangle.setColor(0xFF0000FF);
+        //triangle.setColor(0xFF0000FF);
+        triangle.setColor(1, 1, 1, 0.4f);
+
         /*for(double d = angle - angleOffset; d < angle + angleOffset; d += 0.1) {
             double sin = Math.sin(d);
             double cos = Math.cos(d);
@@ -58,8 +63,6 @@ public class StrengthTriangle extends HudElement implements IRenderConsumer<Spri
             triangle.drawPixel(x, y);
         }
         //triangle.fill();*/
-
-
 
         for(int y = -hHeight; y < hHeight; y++) {
             for(int x = -hWidth; x < hWidth; x++) {
@@ -95,9 +98,8 @@ public class StrengthTriangle extends HudElement implements IRenderConsumer<Spri
             }
         }
 
-
-        triangleTexture.dispose();
-        triangleTexture = new Texture(triangle);
+        if (triangleTexture == null) triangleTexture = new Texture(triangle);
+        triangleTexture.draw(triangle, 0, 0);
     }
 
     public void updateStrength(int strength) {
@@ -115,9 +117,8 @@ public class StrengthTriangle extends HudElement implements IRenderConsumer<Spri
     }
 
     public void updatePosition(Vector2 position) {
-        System.out.println(position);
-        this.position.x = position.x;
-        this.position.y = position.y;
+        this.position.x = position.x - triangle.getWidth() / 2F;
+        this.position.y = position.y - triangle.getHeight() / 2F;
     }
 
     @Override
