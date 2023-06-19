@@ -125,6 +125,7 @@ public abstract class GameScreen extends AbstractScreen {
                     player.getHealthBar().updatePosition(pos);
                 }
                 case GUN_POWER_UP, GUN_POWER_DOWN -> strengthTriangle.updateStrength(player.getStrength());
+                case GUN_ROTATION_LEFT, GUN_ROTATION_RIGHT -> strengthTriangle.updateAngle(Math.toRadians(player.getTank().getGunRotation()));
                 case ESCAPE -> escapeWindow.toggleWindow();
             }
         }

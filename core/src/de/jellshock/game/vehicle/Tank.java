@@ -133,7 +133,7 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
     }
 
     public void setGunRotation(float gunRotation) {
-        this.gunRotation = gunRotation;
+        this.gunRotation = (gunRotation + 360) % 360;
     }
 
     @Override
