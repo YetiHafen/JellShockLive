@@ -7,7 +7,6 @@ import de.jellshock.game.screen.game.offline.OfflineScreen;
 import de.jellshock.game.ui.hud.LevelCount;
 import de.jellshock.game.world.World;
 import de.jellshock.game.world.level.LevelLoader;
-import lombok.Getter;
 
 import java.util.UUID;
 
@@ -29,13 +28,15 @@ public abstract class Level extends OfflineScreen {
         renderObjects.add(levelCount);
 
         for (int i = 0; i < botCount; i++) {
-            Bot bot = new Bot(UUID.randomUUID().toString(), world);
+            Bot bot = new Bot(this, UUID.randomUUID().toString(), world);
             bot.randomSpawn();
             bot.getTank().setGunRotation(100);
+
+            renderObjects.add(bot.getTank());
+            renderObjects.add(bot.getHealthBar());
+
             bots.add(bot);
         }
-
-        bots.forEach(bot -> renderObjects.add(bot.getTank()));
     }
 
     public static World loadWorldFromLvl(int levelName) {

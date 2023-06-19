@@ -1,6 +1,8 @@
 package de.jellshock.game.screen.game.offline.level.impl;
 
 import de.jellshock.game.screen.game.offline.level.Level;
+import de.jellshock.game.weapon.implementation.multi.FiveBallProjectile;
+import de.jellshock.game.weapon.implementation.single.ShotProjectile;
 
 public class FirstLevel extends Level {
 
@@ -9,6 +11,9 @@ public class FirstLevel extends Level {
     public FirstLevel() {
         super(loadWorldFromLvl(level), 1, 1);
 
+        player.registerWeapon(FiveBallProjectile.class);
+
         setBotPosition(0, 1500);
+        bots.get(0).registerWeapon(ShotProjectile.class);
     }
 }

@@ -33,6 +33,12 @@ public class KeyInputProcessor {
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
             return manager.dispatchEvent(new KeyEvent(KeyEvent.EventType.GUN_POWER_DOWN));
         }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            return manager.dispatchEvent(new KeyEvent(KeyEvent.EventType.ESCAPE));
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            return manager.dispatchEvent(new KeyEvent(KeyEvent.EventType.SHOT));
+        }
         return null;
     }
 

@@ -21,7 +21,6 @@ public abstract class AbstractWeapon implements IRenderConsumer<SpriteBatch>, Di
     protected int damage;
     protected int damageRadius;
 
-    // projectile position
     protected Vector2 position;
     protected Vector2 velocity;
 
@@ -32,10 +31,7 @@ public abstract class AbstractWeapon implements IRenderConsumer<SpriteBatch>, Di
         this.color = color;
     }
 
-    public void update(float delta) {
-        velocity.y -= gravity * delta;
+    public abstract void update(float delta);
 
-        position.x += velocity.x * delta;
-        position.y += velocity.y * delta;
-    }
+
 }

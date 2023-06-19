@@ -13,7 +13,6 @@ public class ShotProjectile extends SingleProjectile {
 
     public ShotProjectile() {
         super("Shot", Color.CYAN, 10);
-        JellShock.getInstance().getWeaponManager().register(this);
         setGravity(400);
     }
 

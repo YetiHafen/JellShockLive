@@ -5,7 +5,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import de.jellshock.Constants;
@@ -23,7 +26,7 @@ public class MenuBar extends HudElement {
     private final Skin skin;
 
     public MenuBar(GameScreen gameScreen) {
-        super(gameScreen, new Vector2(1, 1));
+        super(gameScreen);
 
         width = gameScreen.getWorld().getMap().getMapWidth();
         height = (int) (gameScreen.getWorld().getMap().getMapHeight() * 0.2);
@@ -73,6 +76,7 @@ public class MenuBar extends HudElement {
     public void setTankColor(Color color) {
         image.setColor(color);
     }
+
 
     @Override
     public void dispose() {

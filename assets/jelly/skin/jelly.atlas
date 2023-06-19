@@ -1,40 +1,47 @@
 
 jelly.png
-size: 512, 512
+size: 1024, 1024
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
 box
   rotate: false
-  xy: 435, 433
+  xy: 435, 251
   size: 75, 75
   orig: 75, 75
   offset: 0, 0
   index: -1
 button
   rotate: false
-  xy: 2, 328
+  xy: 2, 146
   size: 431, 180
   orig: 431, 180
   offset: 0, 0
   index: -1
 buttonflat
   rotate: false
-  xy: 2, 242
+  xy: 2, 60
   size: 422, 84
   orig: 422, 84
   offset: 0, 0
   index: -1
+dialog
+  rotate: false
+  xy: 2, 328
+  size: 728, 459
+  orig: 728, 459
+  offset: 0, 0
+  index: -1
 rectangle
   rotate: false
-  xy: 2, 60
+  xy: 732, 607
   size: 206, 180
   orig: 206, 180
   offset: 0, 0
   index: -1
 white
   rotate: false
-  xy: 426, 325
+  xy: 426, 143
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
@@ -48,7 +55,7 @@ window
   index: -1
 window
   rotate: false
-  xy: 210, 184
+  xy: 732, 549
   size: 56, 56
   split: 17, 16, 17, 17
   pad: 16, 15, 16, 16

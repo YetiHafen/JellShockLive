@@ -1,9 +1,9 @@
 package de.jellshock.game.screen.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -17,16 +17,17 @@ import de.jellshock.game.event.key.KeyInputProcessor;
 import de.jellshock.game.player.Player;
 import de.jellshock.game.rendering.IRenderConsumer;
 import de.jellshock.game.screen.AbstractScreen;
+import de.jellshock.game.ui.EscapeWindow;
 import de.jellshock.game.ui.MenuBar;
 import de.jellshock.game.ui.hud.StrengthTriangle;
 import de.jellshock.game.ui.hud.StrengthWheel;
-import de.jellshock.game.weapon.implementation.single.ShotProjectile;
+import de.jellshock.game.weapon.abstraction.AbstractWeapon;
+import de.jellshock.game.weapon.implementation.multi.FiveBallProjectile;
 import de.jellshock.game.world.World;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 @Getter
 public abstract class GameScreen extends AbstractScreen {
@@ -41,10 +42,11 @@ public abstract class GameScreen extends AbstractScreen {
     protected MenuBar menuBar;
     protected StrengthWheel strengthWheel;
     protected StrengthTriangle strengthTriangle;
+    protected EscapeWindow escapeWindow;
 
     protected final List<IRenderConsumer<SpriteBatch>> renderObjects;
 
-    protected ShotProjectile shotProjectile;
+    protected AbstractWeapon shotProjectile;
 
     public GameScreen(World world) {
         super(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -52,11 +54,12 @@ public abstract class GameScreen extends AbstractScreen {
         loadAssets();
 
         this.world = world;
-        player = new Player("", world);
+        player = new Player(this, "", world);
 
         menuBar = new MenuBar(this);
         strengthWheel = new StrengthWheel(this);
         strengthTriangle = new StrengthTriangle(this);
+        escapeWindow = new EscapeWindow(this);
 
         renderObjects = new ArrayList<>();
         registerRenderObjects();
@@ -72,6 +75,7 @@ public abstract class GameScreen extends AbstractScreen {
         renderObjects.add(player.getTank());
         renderObjects.add(strengthWheel);
         renderObjects.add(strengthTriangle);
+        renderObjects.add(player.getHealthBar());
         renderObjects.add(menuBar);
     }
 
@@ -99,11 +103,11 @@ public abstract class GameScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         KeyEvent event = keyInput.keyPressed();
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            if (shotProjectile != null) {
-                shotProjectile.dispose();
+        if (event != null) {
+            if (event.getType() == KeyEvent.EventType.SHOT) {
+                if (shotProjectile != null) shotProjectile.dispose();
+                shotProjectile = player.getTank().shootProjectile(player.getStrength(), FiveBallProjectile.class);
             }
-            shotProjectile = player.getTank().shootProjectile(player.getStrength(), ShotProjectile.class);
         }
         if (shotProjectile != null) {
             shotProjectile.update(delta);
@@ -118,11 +122,22 @@ public abstract class GameScreen extends AbstractScreen {
                     Vector2 pos = player.getTank().getParentPosition();
                     strengthWheel.updatePosition(pos);
                     strengthTriangle.updatePosition(pos);
+                    player.getHealthBar().updatePosition(pos);
                 }
                 case GUN_POWER_UP, GUN_POWER_DOWN -> strengthTriangle.updateStrength(player.getStrength());
+                case ESCAPE -> escapeWindow.toggleWindow();
             }
         }
         renderObjects.forEach(render -> render.render(batch));
+        if (escapeWindow.isOpen()) {
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+            batch.draw(escapeWindow.getBlendScreenTexture(), 0, 0);
+            escapeWindow.render(batch);
+
+            Gdx.gl.glDisable(GL20.GL_BLEND);
+        }
         update(delta, event);
         batch.end();
     }
@@ -138,6 +153,7 @@ public abstract class GameScreen extends AbstractScreen {
         int cameraOffset = 200;
         camera.position.y -= cameraOffset;
         menuBar.setHeight(cameraOffset, camera.zoom);
+        escapeWindow.updateSize((int) (width * camera.zoom), (int) (height * camera.zoom));
         super.resize(width, height);
     }
 

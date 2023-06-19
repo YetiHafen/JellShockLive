@@ -13,14 +13,12 @@ import lombok.Getter;
 public class HudElement implements IRenderConsumer<SpriteBatch>, Disposable {
 
     private final GameScreen gameScreen;
-    private final Vector2 position;
 
     protected final Table table;
     protected final Stage stage;
 
-    public HudElement(GameScreen gameScreen, Vector2 position) {
+    public HudElement(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
-        this.position = position;
         stage = new Stage(gameScreen.getViewport());
         table = new Table();
         stage.addActor(table);

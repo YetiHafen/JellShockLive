@@ -16,7 +16,7 @@ public class StrengthWheel extends HudElement implements IRenderConsumer<SpriteB
     private final Texture wheelTexture;
 
     public StrengthWheel(GameScreen gameScreen) {
-        super(gameScreen, new Vector2());
+        super(gameScreen);
         position = new Vector2();
 
         wheel = new Pixmap(600, 600, Pixmap.Format.RGBA8888);

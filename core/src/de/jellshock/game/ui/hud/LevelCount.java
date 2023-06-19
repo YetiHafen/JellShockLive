@@ -18,7 +18,7 @@ public class LevelCount extends HudElement {
     private final Label levelLabel;
 
     public LevelCount(GameScreen gameScreen, int level) {
-        super(gameScreen, new Vector2(0, Gdx.graphics.getHeight()));
+        super(gameScreen);
 
         skin = JellShock.getInstance().getAssetManager().get(Constants.JELLY_SKIN_PATH);
 

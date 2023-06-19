@@ -52,11 +52,13 @@ public class OnlineScreen extends GameScreen {
     public void addPlayer(Player player) {
         onlinePlayers.add(player);
         renderObjects.add(player.getTank());
+        renderObjects.add(player.getHealthBar());
     }
 
     public void removePlayer(Player player) {
         onlinePlayers.remove(player);
         renderObjects.remove(player.getTank());
+        renderObjects.add(player.getHealthBar());
     }
 
     public void connect(String gameId) {

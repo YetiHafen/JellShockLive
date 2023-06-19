@@ -12,10 +12,12 @@ import de.jellshock.JellShock;
 import de.jellshock.game.rendering.IRenderConsumer;
 import de.jellshock.game.weapon.abstraction.AbstractWeapon;
 import de.jellshock.game.world.World;
+import lombok.Getter;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+@Getter
 public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
 
     private final Color color;

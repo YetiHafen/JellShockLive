@@ -112,6 +112,10 @@ TintedDrawable: {
 		name: rectangle
 		color: gray2
 	}
+	dialog: {
+		name: dialog
+		color: gray
+	}
 }
 
 ButtonStyle: {
@@ -186,6 +190,13 @@ TextButtonStyle: {
 		up: rectangle
 		down: rectangle
 		over: rectangle
+	}
+	dialog: {
+		font: font-32
+		fontColor: white
+		up: dialog
+		down: dialog
+		over: dialog
 	}
 }
 

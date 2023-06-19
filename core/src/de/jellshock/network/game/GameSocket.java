@@ -34,7 +34,7 @@ public class GameSocket extends AbstractSocket {
         socket.on(Package.JOIN.getValue(), args -> {
             Team team = Team.getTeamByPackage((int) args[1]);
             if (team == null) return;
-            Player player = new Player((String) args[0], team, onlineScreen.getWorld());
+            Player player = new Player(onlineScreen, (String) args[0], team, onlineScreen.getWorld());
             player.getTank().setPosition((int) args[2]);
             onlineScreen.addPlayer(player);
         });

@@ -23,6 +23,8 @@ public class Constants {
 
     // Game
     public static final String BACKGROUND_PATH = "background/sky.png";
+    public static final String DIALOG_PATH = "jelly/raw/dialog.png";
+    public static final String HEALTH_BAR_PATH = "health-bar.png";
 
     // Tank
     public static final String CHASSIS_PATH = "tank/chassis_round.png";

@@ -3,6 +3,7 @@ package de.jellshock.game.weapon.abstraction;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import lombok.Getter;
 
 public abstract class SingleProjectile extends AbstractWeapon {
@@ -31,7 +32,14 @@ public abstract class SingleProjectile extends AbstractWeapon {
 
             onMapCollision();
         }
-        batch.draw(texture, getPosition().x, getPosition().y, texture.getWidth(), texture.getHeight());
+        batch.draw(texture, position.x, position.y, texture.getWidth(), texture.getHeight());
+    }
+
+    public void update(float delta) {
+        velocity.y -= gravity * delta;
+
+        position.x += velocity.x * delta;
+        position.y += velocity.y * delta;
     }
 
     protected abstract void onMapCollision();
@@ -40,7 +48,9 @@ public abstract class SingleProjectile extends AbstractWeapon {
         return position.y < world.getMap().getMapHeight((int) position.x);
     }
 
+
     @Override
     public void dispose() {
+        texture.dispose();
     }
 }

@@ -13,7 +13,9 @@ public class KeyEvent {
         GUN_ROTATION_LEFT(Input.Keys.LEFT),
         GUN_ROTATION_RIGHT(Input.Keys.RIGHT),
         GUN_POWER_UP(Input.Keys.UP),
-        GUN_POWER_DOWN(Input.Keys.DOWN);
+        GUN_POWER_DOWN(Input.Keys.DOWN),
+        ESCAPE(Input.Keys.ESCAPE),
+        SHOT(Input.Keys.SPACE);
 
         private final int keyCode;
 

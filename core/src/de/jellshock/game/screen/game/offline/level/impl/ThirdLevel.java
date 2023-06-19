@@ -8,5 +8,7 @@ public class ThirdLevel extends Level {
 
     public ThirdLevel() {
         super(loadWorldFromLvl(level), 3, 1);
+
+        setBotPosition(0, 1000);
     }
 }

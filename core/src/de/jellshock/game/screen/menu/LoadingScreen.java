@@ -42,6 +42,8 @@ public class LoadingScreen extends AbstractScreen {
 
         // Load game background
         manager.load(Constants.BACKGROUND_PATH, Texture.class);
+        manager.load(Constants.DIALOG_PATH, Texture.class);
+        manager.load(Constants.HEALTH_BAR_PATH, Texture.class);
 
         // Load gun textures
 

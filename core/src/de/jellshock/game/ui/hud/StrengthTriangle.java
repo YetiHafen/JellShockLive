@@ -24,9 +24,9 @@ public class StrengthTriangle extends HudElement implements IRenderConsumer<Spri
     private int strength = DEFAULT_STRENGTH;
 
     public StrengthTriangle(GameScreen gameScreen) {
-        super(gameScreen, new Vector2());
+        super(gameScreen);
 
-        position = gameScreen.getStrengthWheel().getPosition();
+        position = new Vector2();
 
         int strengthLength = strength * LENGTH_MULTIPLIER;
 

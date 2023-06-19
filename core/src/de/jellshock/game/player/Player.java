@@ -5,7 +5,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Disposable;
 import de.jellshock.game.event.key.KeyEvent;
 import de.jellshock.game.event.key.KeyEventListener;
+import de.jellshock.game.screen.game.GameScreen;
+import de.jellshock.game.ui.hud.HealthBar;
 import de.jellshock.game.vehicle.Tank;
+import de.jellshock.game.weapon.Weapon;
+import de.jellshock.game.weapon.WeaponType;
 import de.jellshock.game.weapon.abstraction.AbstractWeapon;
 import de.jellshock.game.world.World;
 import lombok.Getter;
@@ -13,29 +17,51 @@ import lombok.Getter;
 import java.util.HashSet;
 
 @Getter
-public class Player implements KeyEventListener, Disposable {
+public class Player extends Entity implements KeyEventListener, Disposable {
 
     private final String name;
     // TODO: Elo
-    private final Tank tank;
     private Team team;
-    private HashSet<AbstractWeapon> weapons;
+    private HashSet<Class<? extends AbstractWeapon>> weapons;
+
+    private final HealthBar healthBar;
 
     private int health = 100;
     private int strength = 0;
+    private int tankCapacity = 500;
 
-    public Player(String name, World world) {
+    public Player(GameScreen gameScreen, String name, World world) {
+        super(new Tank(Color.CYAN, world));
         this.name = name;
-        tank = new Tank(Color.CYAN, world);
         weapons = new HashSet<>();
         team = Team.DEFAULT;
+
+        healthBar = new HealthBar(gameScreen, this);
     }
 
     // Online players
-    public Player(String name, Team team, World world) {
+    public Player(GameScreen gameScreen, String name, Team team, World world) {
+        super(new Tank(team.getColor(), world));
         this.name = name;
-        this.tank = new Tank(team.getColor(), world);
         this.team = team;
+
+        healthBar = new HealthBar(gameScreen, this);
+    }
+
+    public void registerWeapon(Class<? extends AbstractWeapon> weapon) {
+        if (weapons.contains(weapon)) return;
+        if (!weapon.isAnnotationPresent(Weapon.class))
+            throw new IllegalArgumentException(weapon.getSimpleName() + " is not annotated with " + Weapon.class);
+
+        weapons.add(weapon);
+    }
+
+    public WeaponType getWeaponType(Class<? extends AbstractWeapon> weapon) {
+        return weapon.getAnnotation(Weapon.class).type();
+    }
+
+    public boolean isWeaponDefault(Class<? extends AbstractWeapon> weapon) {
+        return weapon.getAnnotation(Weapon.class).enabledByDefault();
     }
 
     @Override
