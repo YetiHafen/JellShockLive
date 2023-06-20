@@ -93,8 +93,10 @@ public class MenuBar extends HudElement {
             }
         });
 
-        TextButton test = new TextButton("∞", skin.get("box-blue", TextButton.TextButtonStyle.class));
-        weaponInfoButton.add(test).width(79).height(70).padRight(10);
+        Image image = new Image(JellShock.getInstance().getAssetManager().get(Constants.SHOT_PATH, Texture.class));
+        TextButton icon = new TextButton("", skin.get("box-blue", TextButton.TextButtonStyle.class));
+        icon.add(image).padRight(icon.getWidth() / 2F - (image.getWidth() / 2F)).center();
+        weaponInfoButton.add(icon).width(79).height(70).padRight(10);
 
         weaponTable.add(weaponsButton).height(84).padBottom(10).row();
         weaponTable.add(weaponInfoButton).height(84);
@@ -102,8 +104,8 @@ public class MenuBar extends HudElement {
         fireButton = new TextButton("FIRE", skin.get("green", TextButton.TextButtonStyle.class));
         fireButton.align(Align.topLeft);
 
-        table.add(userInfo).expandX().uniform();
-        table.add(tankButton).expandX().uniform();
+        table.add(userInfo).uniform();
+        table.add(tankButton).uniform();
         table.add(itemsButton).expandX().uniform();
         table.add(weaponTable).padLeft(15).uniform();
         table.add(fireButton).padLeft(10).expand().uniform();
