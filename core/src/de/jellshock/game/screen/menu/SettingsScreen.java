@@ -53,6 +53,7 @@ public class SettingsScreen extends AbstractMenuScreen {
 
     @Override
     public void update(float delta) {
+        stage.act();
         stage.draw();
     }
 

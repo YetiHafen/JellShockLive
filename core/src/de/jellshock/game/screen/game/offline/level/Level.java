@@ -19,7 +19,7 @@ public abstract class Level extends OfflineScreen {
     private final LevelCount levelCount;
 
     public Level(World world, int level, int botCount) {
-        super(world);
+        super(world, botCount);
         this.world = world;
         this.botCount = botCount;
         this.bots = new Array<>(botCount);

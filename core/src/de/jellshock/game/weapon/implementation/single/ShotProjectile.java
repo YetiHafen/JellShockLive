@@ -22,10 +22,11 @@ public class ShotProjectile extends SingleProjectile {
     @Override
     protected void onMapCollision() {
         float y1 = world.getMap().getMapHeight((int) position.x);
-        world.getMap().addCircleDamage((int) position.x, 0, 60);
+        int radius = 80;
+        world.getMap().addCircleDamage((int) position.x, 0, radius);
 
-        float x1 = position.x - (60 + 10);
-        float x2 = position.x + (60 + 10);
+        float x1 = position.x - (radius + 10);
+        float x2 = position.x + (radius + 10);
         float y2 = world.getMap().getMapHeight((int) position.x);
 
         List<Entity> entities = gameScreen.getEntities();
