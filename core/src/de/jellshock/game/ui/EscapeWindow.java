@@ -57,7 +57,6 @@ public class EscapeWindow extends HudElement {
         System.out.printf("width: %d, height: %d \n", screenWidth, screenHeight);
         setTablePos();
 
-
         updateSize(screenWidth, screenHeight);
     }
 
