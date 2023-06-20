@@ -3,21 +3,28 @@ package de.jellshock.game.screen.game.offline;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import de.jellshock.game.event.key.KeyEvent;
-import de.jellshock.game.player.Player;
+import de.jellshock.game.player.Bot;
+import de.jellshock.game.player.Entity;
 import de.jellshock.game.player.Team;
 import de.jellshock.game.screen.game.GameScreen;
 import de.jellshock.game.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class OfflineScreen extends GameScreen {
 
     private int endScreenTimer = 0;
     private boolean end = false;
     private String file;
+    List<Entity> deadBots = new ArrayList<>();
+    private final int botCount;
 
     private Texture endTexture;
 
-    public OfflineScreen(World world) {
+    public OfflineScreen(World world, int botCount) {
         super(world);
+        this.botCount = botCount;
         player.setTeam(Team.CYAN);
         player.getTank().setPosition(50);
         menuBar.setTankColor(getPlayer().getTeam().getColor());
@@ -27,12 +34,15 @@ public abstract class OfflineScreen extends GameScreen {
     public void render(float delta) {
         entities.forEach(entity -> {
             if (entity.getHealth() == 0) {
-                if (entity instanceof Player) {
-                    end = true;
-                    file = "loss";
+                if (entity instanceof Bot) {
+                    deadBots.add(entity);
+                    if (deadBots.size() == botCount) {
+                        end = true;
+                        file = "win";
+                    }
                 } else {
                     end = true;
-                    file = "win";
+                    file = "loss";
                 }
             }
         });

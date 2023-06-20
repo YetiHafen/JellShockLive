@@ -1,7 +1,9 @@
 package de.jellshock.game.world;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
@@ -108,6 +110,7 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
 
         if (mapTexture == null) {
             mapTexture = new Texture(pixmap);
+            PixmapIO.writePNG(Gdx.files.local("map.png"), pixmap);
         }
         mapTexture.draw(pixmap, 0,0);
     }
