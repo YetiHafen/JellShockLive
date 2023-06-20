@@ -134,7 +134,7 @@ public abstract class GameScreen extends AbstractScreen {
         if (event != null) {
             switch (event.getType()) {
                 case MOVE_LEFT, MOVE_RIGHT -> {
-                    if (player.getFuel() == 0) return;
+                    if (player.getFuel() == 0) break;
                     Vector2 pos = player.getTank().getParentPosition();
                     strengthWheel.updatePosition(pos);
                     strengthTriangle.updatePosition(pos.x, pos.y);
