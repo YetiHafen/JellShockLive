@@ -114,14 +114,14 @@ public abstract class GameScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (shotProjectile != null) shotProjectile.dispose();
-                shotProjectile = player.getTank().shootProjectile(screen, player.getStrength(), FiveBallProjectile.class);
+                shotProjectile = player.getTank().shootProjectile(screen, player.getStrength(), menuBar.getSelectedWeapon());
                 if (shotProjectile != null) shotProjectile.update(delta);
             }
         });
         if (event != null) {
             if (event.getType() == KeyEvent.EventType.SHOT) {
                 if (shotProjectile != null) shotProjectile.dispose();
-                shotProjectile = player.getTank().shootProjectile(this, player.getStrength(), FiveBallProjectile.class);
+                shotProjectile = player.getTank().shootProjectile(this, player.getStrength(), menuBar.getSelectedWeapon());
             }
         }
         if (shotProjectile != null) {

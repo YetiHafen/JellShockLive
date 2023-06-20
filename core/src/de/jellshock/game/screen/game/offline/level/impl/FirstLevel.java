@@ -14,5 +14,7 @@ public class FirstLevel extends Level {
 
         setBotPosition(0, 1500);
         bots.get(0).registerWeapon(ShotProjectile.class);
+
+        menuBar.initPlayerWeapons(player);
     }
 }

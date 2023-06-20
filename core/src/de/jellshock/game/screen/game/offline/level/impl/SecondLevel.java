@@ -11,10 +11,14 @@ public class SecondLevel extends Level {
     public SecondLevel() {
         super(loadWorldFromLvl(level), 2, 2);
 
+        player.registerWeapon(ShotProjectile.class);
+        player.registerWeapon(FiveBallProjectile.class);
+
+        bots.get(0).registerWeapon(ShotProjectile.class);
+
         setBotPosition(0, 1500);
         setBotPosition(1, 2500);
 
-        bots.get(0).registerWeapon(ShotProjectile.class);
-        bots.get(1).registerWeapon(FiveBallProjectile.class);
+        menuBar.initPlayerWeapons(player);
     }
 }
