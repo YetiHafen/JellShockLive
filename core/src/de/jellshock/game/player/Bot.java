@@ -40,6 +40,10 @@ public class Bot extends Entity implements Disposable {
         tank.setPosition(ThreadLocalRandom.current().nextFloat(200, 2800));
     }
 
+    public int randomStrength() {
+        return ThreadLocalRandom.current().nextInt(10, 100);
+    }
+
     @Override
     public void dispose() {
         tank.dispose();

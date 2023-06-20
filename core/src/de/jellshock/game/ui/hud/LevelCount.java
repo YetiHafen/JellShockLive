@@ -1,7 +1,6 @@
 package de.jellshock.game.ui.hud;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import de.jellshock.Constants;
@@ -12,8 +11,6 @@ import de.jellshock.game.ui.HudElement;
 public class LevelCount extends HudElement {
 
     private final Skin skin;
-
-    private static final int TEXT_HEIGHT = 50;
 
     private final Label levelLabel;
 
@@ -27,7 +24,8 @@ public class LevelCount extends HudElement {
     }
 
     public void setPosition(float height) {
-        table.setBounds(0, height + 200, levelLabel.getWidth(), levelLabel.getHeight());
+        table.setBounds(20, height + 200, levelLabel.getWidth(),
+                levelLabel.getHeight());
         stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 

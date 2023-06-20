@@ -12,6 +12,7 @@ import de.jellshock.game.screen.game.GameScreen;
 import de.jellshock.game.ui.HudElement;
 import de.jellshock.game.vehicle.Tank;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -30,6 +31,9 @@ public class HealthBar extends HudElement {
     private Pixmap pixmap;
 
     private final Vector2 position;
+
+    @Setter
+    private boolean dead = false;
 
     public HealthBar(GameScreen gameScreen, Entity entity) {
         super(gameScreen);
@@ -77,9 +81,11 @@ public class HealthBar extends HudElement {
 
     @Override
     public void render(SpriteBatch batch) {
-        Vector2 position = entity.getTank().getParentPosition();
-        if (!position.epsilonEquals(this.position)) updatePosition(position);
-        batch.draw(texture, this.position.x, this.position.y, texture.getWidth(), texture.getHeight());
+        if (!dead) {
+            Vector2 position = entity.getTank().getParentPosition();
+            if (!position.epsilonEquals(this.position)) updatePosition(position);
+            batch.draw(texture, this.position.x, this.position.y, texture.getWidth(), texture.getHeight());
+        }
     }
 
     @Override

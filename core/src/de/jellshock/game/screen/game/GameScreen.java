@@ -53,6 +53,8 @@ public abstract class GameScreen extends AbstractScreen {
 
     protected AbstractWeapon shotProjectile;
 
+    protected boolean blocked = false;
+
     public GameScreen(World world) {
         super(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         batch = new SpriteBatch();
@@ -109,24 +111,30 @@ public abstract class GameScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
-        KeyEvent event = keyInput.keyPressed();
-        final GameScreen screen = this;
-        menuBar.getFireButton().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (shotProjectile != null) shotProjectile.dispose();
-                shotProjectile = player.getTank().shootProjectile(screen, player.getStrength(), menuBar.getSelectedWeapon());
-                if (shotProjectile != null) shotProjectile.update(delta);
-            }
-        });
-        if (event != null) {
-            if (event.getType() == KeyEvent.EventType.SHOT) {
-                if (shotProjectile != null) shotProjectile.dispose();
-                shotProjectile = player.getTank().shootProjectile(this, player.getStrength(), menuBar.getSelectedWeapon());
-            }
+        KeyEvent event = null;
+        if (!blocked) {
+            event = keyInput.keyPressed();
         }
-        if (shotProjectile != null) {
-            shotProjectile.update(delta);
+        final GameScreen screen = this;
+        if (!blocked) {
+            menuBar.getFireButton().addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    if (shotProjectile != null) shotProjectile.dispose();
+                    shotProjectile = player.getTank().shootProjectile(screen, player.getStrength(), menuBar.getSelectedWeapon());
+                    blocked = true;
+                }
+            });
+            if (event != null) {
+                if (event.getType() == KeyEvent.EventType.SHOT) {
+                    if (shotProjectile != null) shotProjectile.dispose();
+                    shotProjectile = player.getTank().shootProjectile(this, player.getStrength(), menuBar.getSelectedWeapon());
+                    blocked = true;
+                }
+            }
+            if (shotProjectile != null) {
+                shotProjectile.update(delta);
+            }
         }
         ScreenUtils.clear(Color.LIGHT_GRAY);
         batch.begin();

@@ -4,13 +4,15 @@ import de.jellshock.game.screen.game.GameScreen;
 import de.jellshock.game.ui.hud.HealthBar;
 import de.jellshock.game.vehicle.Tank;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public abstract class Entity {
 
     protected Tank tank;
 
-    private final HealthBar healthBar;
+    @Setter
+    private HealthBar healthBar;
 
     private int health = 100;
 
@@ -24,6 +26,5 @@ public abstract class Entity {
         if (health > 100) health = 100;
         if (health < 0) health = 0;
         this.health = health;
-        System.out.println(health);
     }
 }

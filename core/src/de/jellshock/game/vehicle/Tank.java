@@ -14,6 +14,7 @@ import de.jellshock.game.screen.game.GameScreen;
 import de.jellshock.game.weapon.abstraction.AbstractWeapon;
 import de.jellshock.game.world.World;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -21,7 +22,8 @@ import java.lang.reflect.InvocationTargetException;
 @Getter
 public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
 
-    private final Color color;
+    @Setter
+    private Color color;
     private final Texture chassisTexture;
     private final Texture trackTexture;
     private final Texture gunTexture;
@@ -79,8 +81,6 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
 
         float x = position;
         float y = world.getMap().getMapHeight((int) x);
-
-
 
         float chassisWidth = chassisTexture.getWidth() * SCALE;
         float chassisHeight = chassisTexture.getHeight() * SCALE;

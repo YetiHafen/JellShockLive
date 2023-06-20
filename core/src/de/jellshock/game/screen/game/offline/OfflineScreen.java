@@ -1,6 +1,7 @@
 package de.jellshock.game.screen.game.offline;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import de.jellshock.JellShock;
 import de.jellshock.game.event.key.KeyEvent;
@@ -19,7 +20,8 @@ public abstract class OfflineScreen extends GameScreen {
     private float endScreenTimer = 0;
     private boolean end = false;
     private String file;
-    List<Entity> deadBots = new ArrayList<>();
+    protected List<Entity> deadBots = new ArrayList<>();
+    protected List<Entity> entitiesToRemove = new ArrayList<>();
     private final int botCount;
 
     private Texture endTexture;
@@ -37,7 +39,10 @@ public abstract class OfflineScreen extends GameScreen {
         entities.forEach(entity -> {
             if (entity.getHealth() == 0) {
                 if (entity instanceof Bot) {
+                    entity.getTank().setColor(Color.GRAY);
+                    entity.getHealthBar().setDead(true);
                     deadBots.add(entity);
+                    entitiesToRemove.add(entity);
                     if (deadBots.size() == botCount) {
                         end = true;
                         file = "win";
@@ -48,6 +53,7 @@ public abstract class OfflineScreen extends GameScreen {
                 }
             }
         });
+        entities.removeAll(entitiesToRemove);
         super.render(delta);
         if (end) {
             printEndScreen(delta);

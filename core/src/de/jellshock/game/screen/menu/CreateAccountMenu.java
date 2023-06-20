@@ -40,7 +40,8 @@ public class CreateAccountMenu extends AbstractMenuScreen {
         Label userLabel = new Label("Username: ", skin);
         TextField userField = new TextField("", skin);
         Label passwordLabel = new Label("Password: ", skin);
-        TextField passwordField = new TextField("", skin);
+        TextField.TextFieldStyle passwordStyle = skin.get("password", TextField.TextFieldStyle.class);
+        TextField passwordField = new TextField("", passwordStyle);
         table.add(title).colspan(2).fillX().row();
         table.add(userLabel).pad(10);
         table.add(userField).row();
