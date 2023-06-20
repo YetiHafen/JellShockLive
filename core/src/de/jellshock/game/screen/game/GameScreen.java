@@ -1,6 +1,5 @@
 package de.jellshock.game.screen.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
@@ -10,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Null;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import de.jellshock.Constants;
@@ -139,13 +137,13 @@ public abstract class GameScreen extends AbstractScreen {
                     if (player.getFuel() == 0) return;
                     Vector2 pos = player.getTank().getParentPosition();
                     strengthWheel.updatePosition(pos);
-                    strengthTriangle.updatePosition(pos);
+                    strengthTriangle.updatePosition(pos.x, pos.y);
                     player.getHealthBar().updatePosition(pos);
                     player.setFuel(getPlayer().getFuel() - 1);
                     menuBar.updateFuel(player.getFuel());
                 }
-                case GUN_POWER_UP, GUN_POWER_DOWN -> strengthTriangle.updateStrength(player.getStrength());
-                case GUN_ROTATION_LEFT, GUN_ROTATION_RIGHT -> strengthTriangle.updateAngle(Math.toRadians(player.getTank().getGunRotation()));
+                case GUN_POWER_UP, GUN_POWER_DOWN -> strengthTriangle.setPower(player.getStrength() / 100.0);
+                case GUN_ROTATION_LEFT, GUN_ROTATION_RIGHT -> strengthTriangle.setAngle(Math.toRadians(player.getTank().getGunRotation()));
                 case ESCAPE -> escapeWindow.toggleWindow();
             }
         }

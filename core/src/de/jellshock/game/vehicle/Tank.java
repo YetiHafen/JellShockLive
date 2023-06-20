@@ -32,6 +32,7 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
     private float gunRotation = 0;
 
     private float position = 0;
+    private int yPos;
     private final World world;
 
     public static final float SCALE = 0.16F;
@@ -79,6 +80,8 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
 
         float x = position;
         float y = world.getMap().getMapHeight((int) x);
+
+
 
         float chassisWidth = chassisTexture.getWidth() * SCALE;
         float chassisHeight = chassisTexture.getHeight() * SCALE;

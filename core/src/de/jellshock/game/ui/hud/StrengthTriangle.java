@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.bullet.collision.CollisionJNI;
 import com.badlogic.gdx.utils.Disposable;
 import de.jellshock.game.player.Player;
 import de.jellshock.game.rendering.IRenderConsumer;
@@ -19,27 +18,31 @@ public class StrengthTriangle extends HudElement implements IRenderConsumer<Spri
     private final Vector2 position;
     private final Pixmap triangle;
     private Texture triangleTexture;
+    private final Player player;
 
     public static final int DEFAULT_STRENGTH = 40;
     public static final int LENGTH_MULTIPLIER = 50;
     public static final float TRIANGLE_WIDTH = 0.5F; // in radians
 
-    private int strength = DEFAULT_STRENGTH;
+    public static final int RESOLUTION = 200;
+    public static final int DISPLAY_WIDTH = 600;
+
     private double angle = 0;
+    private double power = 1;
 
     public StrengthTriangle(GameScreen gameScreen, Player player) {
         super(gameScreen);
+        this.player = player;
 
         position = new Vector2();
 
-        int strengthLength = strength * LENGTH_MULTIPLIER;
-
-        triangle = new Pixmap(600, 600, Pixmap.Format.RGBA8888);
+        triangle = new Pixmap(RESOLUTION, RESOLUTION, Pixmap.Format.RGBA8888);
         triangle.setColor(Color.RED);
         
         triangleTexture = new Texture(triangle);
 
-        updatePosition(player.getTank().getParentPosition());
+        Vector2 pos = player.getTank().getParentPosition();
+        updatePosition(pos.x, pos.y);
     }
 
     private void draw() {
@@ -47,16 +50,16 @@ public class StrengthTriangle extends HudElement implements IRenderConsumer<Spri
         triangle.fill();
 
         float angleOffset = TRIANGLE_WIDTH / 2;
-        int hWidth = triangle.getWidth() / 2;
-        int hHeight = triangle.getHeight() / 2;
+        int radius = RESOLUTION / 2;
+
 
         triangle.setColor(1, 1, 1, 0.4f);
 
         final double PI2 = Math.PI * 2;
 
-        for(int y = -hHeight; y < hHeight; y++) {
-            for(int x = -hWidth; x < hWidth; x++) {
-                if(x*x + y*y > hWidth * hWidth) continue;
+        for(int y = -radius; y < radius; y++) {
+            for(int x = -radius; x < radius; x++) {
+                if(x*x + y*y > (radius * radius) * power) continue;
 
                 double currentAngle = (Math.atan2(y, x) + PI2) % PI2;
 
@@ -73,7 +76,7 @@ public class StrengthTriangle extends HudElement implements IRenderConsumer<Spri
                 boolean edgeB = currentAngle + PI2 < boundB;
 
                 if(normalA && normalB || isEdgeA && edgeA || isEdgeB && edgeB)
-                    triangle.drawPixel(x + hWidth, -y + hHeight);
+                    triangle.drawPixel(x + radius, -y + radius);
             }
         }
 
@@ -81,28 +84,34 @@ public class StrengthTriangle extends HudElement implements IRenderConsumer<Spri
         triangleTexture.draw(triangle, 0, 0);
     }
 
-    public void updateStrength(int strength) {
-        if(this.strength != strength) {
-            this.strength = strength;
-            draw();
-        }
-    }
-
-    public void updateAngle(double angle) {
+    public void setAngle(double angle) {
         if(this.angle != angle) {
             this.angle = angle;
             draw();
         }
     }
 
-    public void updatePosition(Vector2 position) {
-        this.position.x = position.x - triangle.getWidth() / 2F;
-        this.position.y = position.y - triangle.getHeight() / 2F;
+    public void setPower(double power) {
+        if(this.power != power) {
+            this.power = power;
+            draw();
+        }
     }
+
+    public void updatePosition(float x, float y) {
+        this.position.x = x - DISPLAY_WIDTH / 2F;
+        this.position.y = y - DISPLAY_WIDTH / 2F;
+    }
+
+    public void updatePosition(Vector2 pos) {
+        updatePosition(pos.x, pos.y);
+    }
+
 
     @Override
     public void render(SpriteBatch spriteBatch) {
-        spriteBatch.draw(triangleTexture, position.x, position.y);
+        updatePosition(player.getTank().getParentPosition());
+        spriteBatch.draw(triangleTexture, position.x, position.y, DISPLAY_WIDTH, DISPLAY_WIDTH);
     }
 
     @Override
