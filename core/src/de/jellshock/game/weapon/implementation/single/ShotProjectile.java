@@ -15,7 +15,7 @@ import java.util.List;
 public class ShotProjectile extends SingleProjectile {
 
     public ShotProjectile() {
-        super(Color.CYAN, 10);
+        super(Color.CYAN, 20);
         setGravity(400);
     }
 
@@ -35,6 +35,7 @@ public class ShotProjectile extends SingleProjectile {
                 int height = world.getMap().getMapHeight((int) pos);
                 if (height < y1 && height > y2) {
                     entity.setHealth(entity.getHealth() - damage);
+                    entity.getHealthBar().updateHealth(entity.getHealth());
                 }
             }
         });

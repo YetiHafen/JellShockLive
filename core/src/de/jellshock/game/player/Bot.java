@@ -17,17 +17,13 @@ public class Bot extends Entity implements Disposable {
     private final World world;
     private Class<? extends AbstractWeapon> weapon;
 
-    private final HealthBar healthBar;
-
     private int strength = 0;
 
     public Bot(GameScreen gameScreen, String name, World world) {
-        super(new Tank(Color.RED, world));
+        super(gameScreen, new Tank(Color.RED, world));
         this.name = name;
         this.world = world;
         weapon = null;
-
-        healthBar = new HealthBar(gameScreen, this);
     }
 
     public void registerWeapon(Class<? extends AbstractWeapon> weapon) {

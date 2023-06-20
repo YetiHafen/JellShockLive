@@ -36,6 +36,7 @@ public class FiveBallProjectile extends MultiProjectile {
                 int height = world.getMap().getMapHeight((int) pos);
                 if (height < y1 && height > y2) {
                     entity.setHealth(entity.getHealth() - damage);
+                    entity.getHealthBar().updateHealth(entity.getHealth());
                 }
             }
         });

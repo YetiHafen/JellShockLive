@@ -8,9 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.jellshock.Constants;
 import de.jellshock.JellShock;
-import de.jellshock.game.screen.game.offline.level.impl.FirstLevel;
-import de.jellshock.game.world.MapType;
-import de.jellshock.game.world.level.LevelLoader;
 
 public class MenuScreen extends AbstractMenuScreen {
 
@@ -39,14 +36,6 @@ public class MenuScreen extends AbstractMenuScreen {
             }
         });
 
-        TextButton testButton = new TextButton("Generate Level", textButtonStyle);
-        testButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                LevelLoader.generateCosLevel("level_4", 3000, MapType.MOUNTAIN.getAmplitude() * 3);
-            }
-        });
-
         TextButton settingsButton = new TextButton("Settings", textButtonStyle);
         settingsButton.setSize(100, 80);
 
@@ -57,10 +46,18 @@ public class MenuScreen extends AbstractMenuScreen {
             }
         });
 
+/*        TextButton testButton = new TextButton("Generate Level", textButtonStyle);
+        testButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                LevelLoader.generateCosLevel("level_4", 3000, MapType.MOUNTAIN.getAmplitude() * 3);
+            }
+        });*/
+
         table.add(offlineButton).row();
         table.add(onlineButton).row();
         table.add(settingsButton).row();
-        table.add(testButton);
+        /*table.add(testButton);*/
         table.setFillParent(true);
 
         stage.addActor(table);

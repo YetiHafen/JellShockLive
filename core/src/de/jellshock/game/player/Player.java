@@ -27,29 +27,23 @@ public class Player extends Entity implements KeyEventListener, Disposable {
     private Team team;
     private List<Class<? extends AbstractWeapon>> weapons;
 
-    private final HealthBar healthBar;
-
     private int strength = 0;
 
     public static final int START_TANK_VALUE = 500;
     private int fuel = START_TANK_VALUE;
 
     public Player(GameScreen gameScreen, String name, World world) {
-        super(new Tank(Color.CYAN, world));
+        super(gameScreen, new Tank(Color.CYAN, world));
         this.name = name;
         weapons = new ArrayList<>();
         team = Team.DEFAULT;
-
-        healthBar = new HealthBar(gameScreen, this);
     }
 
     // Online players
     public Player(GameScreen gameScreen, String name, Team team, World world) {
-        super(new Tank(team.getColor(), world));
+        super(gameScreen, new Tank(team.getColor(), world));
         this.name = name;
         this.team = team;
-
-        healthBar = new HealthBar(gameScreen, this);
     }
 
     public void registerWeapon(Class<? extends AbstractWeapon> weapon) {

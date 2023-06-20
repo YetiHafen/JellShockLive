@@ -54,11 +54,17 @@ public class HealthBar extends HudElement {
         if (health > 100 || health < 0) return;
         this.health = health;
 
-        pixmap = basePixmap;
         for (int i = 0; i < health; i++) {
             for (int j = 0; j < HEALTH_HEIGHT; j++) {
                 pixmap.setColor(Color.GREEN);
                 pixmap.drawPixel(HEALTH_OFFSET + i, HEALTH_OFFSET + j);
+            }
+        }
+
+        for (int i = 0; i < 100 - health; i++) {
+            for (int j = 0; j < HEALTH_HEIGHT; j++) {
+                pixmap.setColor(Color.RED);
+                pixmap.drawPixel((HEALTH_HEIGHT + health) + i, HEALTH_OFFSET + j);
             }
         }
 
