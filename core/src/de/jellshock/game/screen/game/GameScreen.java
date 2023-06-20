@@ -26,6 +26,7 @@ import de.jellshock.game.ui.hud.StrengthTriangle;
 import de.jellshock.game.ui.hud.StrengthWheel;
 import de.jellshock.game.weapon.abstraction.AbstractWeapon;
 import de.jellshock.game.weapon.implementation.multi.FiveBallProjectile;
+import de.jellshock.game.weapon.implementation.single.ShotProjectile;
 import de.jellshock.game.world.World;
 import lombok.Getter;
 

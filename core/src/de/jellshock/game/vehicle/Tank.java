@@ -32,7 +32,6 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
     private float gunRotation = 0;
 
     private float position = 0;
-    private int yPos;
     private final World world;
 
     public static final float SCALE = 0.16F;
@@ -65,7 +64,7 @@ public class Tank implements IRenderConsumer<SpriteBatch>, Disposable {
             double rot = Math.toRadians(gunRotation);
             float vx = (float) Math.cos(rot);
             float vy = (float) Math.sin(rot);
-            Vector2 v = new Vector2(vx * power * 100, vy * power * 100);
+            Vector2 v = new Vector2(vx * power * 10, vy * power * 10);
             projectile.setVelocity(v);
             projectile.setWorld(world);
             return projectile;

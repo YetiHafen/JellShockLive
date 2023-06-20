@@ -28,7 +28,7 @@ public class StrengthTriangle extends HudElement implements IRenderConsumer<Spri
     public static final int DISPLAY_WIDTH = 600;
 
     private double angle = 0;
-    private double power = 1;
+    private double power = 0;
 
     public StrengthTriangle(GameScreen gameScreen, Player player) {
         super(gameScreen);

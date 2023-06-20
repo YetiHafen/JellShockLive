@@ -34,7 +34,7 @@ public class ShotProjectile extends SingleProjectile {
             float pos = entity.getTank().getPosition();
             if (pos > x1 && pos < x2) {
                 int height = world.getMap().getMapHeight((int) pos);
-                if (height < y1 && height > y2) {
+                if (height < y1 && height > y2 || y1 == y2) {
                     entity.setHealth(entity.getHealth() - damage);
                     entity.getHealthBar().updateHealth(entity.getHealth());
                 }
