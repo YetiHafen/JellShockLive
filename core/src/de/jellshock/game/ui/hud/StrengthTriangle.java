@@ -50,50 +50,29 @@ public class StrengthTriangle extends HudElement implements IRenderConsumer<Spri
         int hWidth = triangle.getWidth() / 2;
         int hHeight = triangle.getHeight() / 2;
 
-        //triangle.setColor(0xFF0000FF);
         triangle.setColor(1, 1, 1, 0.4f);
 
-        /*for(double d = angle - angleOffset; d < angle + angleOffset; d += 0.1) {
-            double sin = Math.sin(d);
-            double cos = Math.cos(d);
-
-            int x = (int) (cos * hWidth + hWidth);
-            int y = (int) (sin * hHeight + hHeight);
-            System.out.println("y = " + y + " x = " + x);
-            triangle.drawPixel(x, y);
-        }
-        //triangle.fill();*/
+        final double PI2 = Math.PI * 2;
 
         for(int y = -hHeight; y < hHeight; y++) {
             for(int x = -hWidth; x < hWidth; x++) {
                 if(x*x + y*y > hWidth * hWidth) continue;
 
-                double currentAngle = (Math.atan2(y, x) + 2 * Math.PI) % (2*Math.PI);
+                double currentAngle = (Math.atan2(y, x) + PI2) % PI2;
 
-                //if(angle > 0 && boundA < 0)
-                //if(boundA < 0 && currentAngle - Math.PI * 2 < boundA) continue;
+                double boundA = (angle - angleOffset);
+                double boundB = (angle + angleOffset);
 
+                boolean isEdgeA = boundA < 0;
+                boolean isEdgeB = boundB > PI2;
 
-                //if(currentAngle > boundB && (boundA < boundB)) continue;
+                boolean normalA = currentAngle > boundA;
+                boolean normalB = currentAngle < boundB;
 
-                //if(boundA < 0) currentAngle -= Math.PI * 2;
+                boolean edgeA = currentAngle - PI2 > boundA;
+                boolean edgeB = currentAngle + PI2 < boundB;
 
-                //if(currentAngle < boundA && boundA > 0) continue;
-
-                //if(centerAngle > this.angle + angleOffset) continue;
-                //if(centerAngle < this.angle - angleOffset) continue;
-
-                double boundA = (angle - angleOffset);// + 2 * Math.PI) % (Math.PI * 2);
-                double boundB = (angle + angleOffset);// + 2 * Math.PI) % (Math.PI * 2);
-
-                if(boundA < 0 && currentAngle > Math.PI)
-                    boundA += Math.PI * 2;
-
-                if(boundB > Math.PI * 2 && currentAngle < Math.PI)
-                    boundB -= Math.PI * 2;
-
-
-                if(currentAngle > boundA && currentAngle < boundB)
+                if(normalA && normalB || isEdgeA && edgeA || isEdgeB && edgeB)
                     triangle.drawPixel(x + hWidth, -y + hHeight);
             }
         }
