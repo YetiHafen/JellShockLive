@@ -26,6 +26,7 @@ import de.jellshock.game.ui.hud.StrengthTriangle;
 import de.jellshock.game.ui.hud.StrengthWheel;
 import de.jellshock.game.weapon.abstraction.AbstractWeapon;
 import de.jellshock.game.weapon.implementation.multi.FiveBallProjectile;
+import de.jellshock.game.weapon.implementation.single.ShotProjectile;
 import de.jellshock.game.world.World;
 import lombok.Getter;
 
@@ -121,7 +122,7 @@ public abstract class GameScreen extends AbstractScreen {
         if (event != null) {
             if (event.getType() == KeyEvent.EventType.SHOT) {
                 if (shotProjectile != null) shotProjectile.dispose();
-                shotProjectile = player.getTank().shootProjectile(this, player.getStrength(), FiveBallProjectile.class);
+                shotProjectile = player.getTank().shootProjectile(this, player.getStrength(), ShotProjectile.class);
             }
         }
         if (shotProjectile != null) {
