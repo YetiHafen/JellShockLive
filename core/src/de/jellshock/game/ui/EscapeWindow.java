@@ -14,7 +14,7 @@ import de.jellshock.game.screen.game.GameScreen;
 import lombok.Getter;
 
 @Getter
-public class EscapeWindow extends HudElement implements IRenderConsumer<SpriteBatch> {
+public class EscapeWindow extends HudElement {
 
     private boolean open;
     private final Skin skin;
@@ -24,8 +24,8 @@ public class EscapeWindow extends HudElement implements IRenderConsumer<SpriteBa
 
     private final Texture background;
 
-    private int width;
-    private int height;
+    private int screenWidth;
+    private int screenHeight;
 
     private final int buttonWidth;
     private final int buttonHeight;
@@ -34,8 +34,8 @@ public class EscapeWindow extends HudElement implements IRenderConsumer<SpriteBa
         super(gameScreen);
         open = false;
 
-        width = (int) (Gdx.graphics.getWidth() * gameScreen.getCamera().zoom);
-        height = (int) (Gdx.graphics.getHeight() * gameScreen.getCamera().zoom);
+        screenWidth = (int) (Gdx.graphics.getWidth() * gameScreen.getCamera().zoom);
+        screenHeight = (int) (Gdx.graphics.getHeight() * gameScreen.getCamera().zoom);
 
         AssetManager manager = JellShock.getInstance().getAssetManager();
         skin = manager.get(Constants.JELLY_SKIN_PATH);
@@ -54,23 +54,35 @@ public class EscapeWindow extends HudElement implements IRenderConsumer<SpriteBa
         buttonHeight = (int) resume.getHeight();
 
 
-        System.out.printf("width: %d, height: %d \n", width, height);
-        int x1 = width / 2 - background.getWidth() / 2;
-        int y1 = height / 2 - background.getHeight() / 2;
-        int x2 = width / 2 + background.getWidth() / 2;
-        int y2 = height / 2 + background.getHeight() / 2;
+        System.out.printf("width: %d, height: %d \n", screenWidth, screenHeight);
+        setTablePos();
 
 
-        //table.setPosition(width / 2F, height / 2F);
-        table.setBounds(x1, y1, x2, y2);
+        updateSize(screenWidth, screenHeight);
+    }
 
-
-        updateSize(width, height);
+    private void setTablePos() {
+        int x = screenWidth / 2 - background.getWidth() / 2;
+        int y = screenHeight / 2 - background.getHeight() / 2;
+        int width = background.getWidth();
+        int height = background.getHeight();
+        table.setBounds(x, y, width, height);
     }
 
     @Override
     public void render(SpriteBatch spriteBatch) {
-        spriteBatch.draw(background, (width + background.getWidth()) / 2F, (height + background.getHeight()) / 2F, buttonWidth + 200, buttonHeight * 3 + 200);
+        float camZoom = getGameScreen().getCamera().zoom;
+        screenWidth = (int) (Gdx.graphics.getWidth() * camZoom);
+        screenHeight = (int) (Gdx.graphics.getHeight() * camZoom);
+
+        int width = background.getWidth();
+        int height = background.getHeight();
+
+        int x = screenWidth / 2 - width / 2;
+        int y = screenHeight / 2 - height / 2;
+
+        setTablePos();
+
         super.render(spriteBatch);
     }
 
