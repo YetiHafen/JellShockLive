@@ -10,9 +10,6 @@ public abstract class SingleProjectile extends AbstractWeapon {
 
     protected Texture texture;
 
-    @Getter
-    protected int damage;
-
     public SingleProjectile(Color color, int damage) {
         super(color);
         this.texture = getTexture();

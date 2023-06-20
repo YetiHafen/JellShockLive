@@ -18,9 +18,6 @@ public abstract class MultiProjectile extends AbstractWeapon {
     // entry <position, velocity>
     protected final HashMap<Texture, Pair<Vector2, Vector2>> projectiles;
 
-    @Getter
-    protected int damage;
-
     public MultiProjectile(Color color, int index, int damage) {
         super(color);
         this.projectiles = new HashMap<>();

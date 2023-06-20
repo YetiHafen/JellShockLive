@@ -16,7 +16,7 @@ import java.util.List;
 public class FiveBallProjectile extends MultiProjectile {
 
     public FiveBallProjectile() {
-        super(Color.RED, 5, 12);
+        super(Color.RED, 5, 100);
         setGravity(400);
     }
 

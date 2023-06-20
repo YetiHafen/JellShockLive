@@ -29,7 +29,6 @@ public abstract class Level extends OfflineScreen {
 
         for (int i = 0; i < botCount; i++) {
             Bot bot = new Bot(this, UUID.randomUUID().toString(), world);
-            bot.randomSpawn();
             bot.getTank().setGunRotation(100);
 
             entities.add(bot);

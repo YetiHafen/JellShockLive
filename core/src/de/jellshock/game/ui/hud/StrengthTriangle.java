@@ -22,7 +22,7 @@ public class StrengthTriangle extends HudElement implements IRenderConsumer<Spri
 
     public static final int DEFAULT_STRENGTH = 40;
     public static final int LENGTH_MULTIPLIER = 50;
-    public static final float TRIANGLE_WIDTH = 1F; // in radians
+    public static final float TRIANGLE_WIDTH = 0.5F; // in radians
 
     private int strength = DEFAULT_STRENGTH;
     private double angle = 0;

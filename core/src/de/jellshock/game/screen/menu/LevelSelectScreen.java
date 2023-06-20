@@ -21,7 +21,7 @@ public class LevelSelectScreen extends AbstractMenuScreen {
     private final Table levelTable;
 
     public LevelSelectScreen() {
-        super(false);
+        super(false, true);
         skin = JellShock.getInstance().getAssetManager().get(Constants.NEON_SKIN_PATH);
 
         Table table = new Table();
