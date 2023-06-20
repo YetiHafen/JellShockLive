@@ -15,7 +15,7 @@ import java.util.List;
 public class ShotProjectile extends SingleProjectile {
 
     public ShotProjectile() {
-        super(Color.CYAN, 20);
+        super(Color.CYAN, 12);
         setGravity(400);
     }
 
