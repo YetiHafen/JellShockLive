@@ -134,8 +134,9 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
         for(int i = 0; i < worldMap.length; i++) {
             int slope = Math.abs(worldMap[i] - heightPrev);
             if(slope > MAX_SLOPE) {
-                int x1 = Math.max(0, i - slope);
-                int x2 = Math.min(worldMap.length - 1, i + slope);
+                int distance = 40;
+                int x1 = Math.max(0, i - distance);
+                int x2 = Math.min(worldMap.length - 1, i + distance);
                 smoothRange(x1, x2);
             }
             heightPrev = worldMap[i];
