@@ -13,6 +13,9 @@ import de.jellshock.game.ui.HudElement;
 import de.jellshock.game.vehicle.Tank;
 import lombok.Getter;
 
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 @Getter
 public class HealthBar extends HudElement {
 

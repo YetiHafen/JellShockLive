@@ -10,6 +10,8 @@ import de.jellshock.game.weapon.abstraction.AbstractWeapon;
 import de.jellshock.game.world.World;
 import lombok.Getter;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 @Getter
 public class Bot extends Entity implements Disposable {
 
@@ -35,7 +37,7 @@ public class Bot extends Entity implements Disposable {
 
 
     public void randomSpawn() {
-        tank.setPosition((float) (Math.random() * world.getMap().getMapWidth()));
+        tank.setPosition(ThreadLocalRandom.current().nextFloat(200, 2800));
     }
 
     @Override
