@@ -19,7 +19,7 @@ public class HealthBar extends HudElement {
     private final Entity entity;
 
     private int health = 100;
-    private static final int HEALTH_OFFSET = 4;
+    private static final int HEALTH_OFFSET = 3;
     private static final int HEALTH_HEIGHT = 8;
 
     private Texture texture;
@@ -64,7 +64,7 @@ public class HealthBar extends HudElement {
         for (int i = 0; i < 100 - health; i++) {
             for (int j = 0; j < HEALTH_HEIGHT; j++) {
                 pixmap.setColor(Color.RED);
-                pixmap.drawPixel((HEALTH_HEIGHT + health) + i, HEALTH_OFFSET + j);
+                pixmap.drawPixel((HEALTH_OFFSET + health) + i, HEALTH_OFFSET + j);
             }
         }
 

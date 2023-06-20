@@ -110,7 +110,6 @@ public class Map implements IRenderConsumer<SpriteBatch>, Disposable {
 
         if (mapTexture == null) {
             mapTexture = new Texture(pixmap);
-            PixmapIO.writePNG(Gdx.files.local("map.png"), pixmap);
         }
         mapTexture.draw(pixmap, 0,0);
     }
