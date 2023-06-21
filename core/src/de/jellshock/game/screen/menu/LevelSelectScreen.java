@@ -61,7 +61,7 @@ public class LevelSelectScreen extends AbstractMenuScreen {
             joinImage.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    joinImage.setTouchable(Touchable.disabled);
+                    //joinImage.setTouchable(Touchable.disabled);
                     JellShock.getInstance().setScreen(clazz);
                 }
             });

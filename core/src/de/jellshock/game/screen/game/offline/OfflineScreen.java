@@ -71,6 +71,7 @@ public abstract class OfflineScreen extends GameScreen {
             batch.draw(endTexture, x, y);
             batch.end();
         } else {
+            JellShock.getInstance().getScreens().remove(getClass());
             JellShock.getInstance().setScreen(MenuScreen.class);
         }
     }

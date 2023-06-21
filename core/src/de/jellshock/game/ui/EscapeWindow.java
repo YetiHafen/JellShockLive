@@ -59,6 +59,7 @@ public class EscapeWindow extends HudElement {
         quit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                JellShock.getInstance().getScreens().remove(gameScreen.getClass());
                 JellShock.getInstance().setScreen(MenuScreen.class);
             }
         });
