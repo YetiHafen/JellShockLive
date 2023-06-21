@@ -5,12 +5,15 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.jellshock.Constants;
 import de.jellshock.JellShock;
 import de.jellshock.game.rendering.IRenderConsumer;
 import de.jellshock.game.screen.game.GameScreen;
+import de.jellshock.game.screen.menu.MenuScreen;
 import lombok.Getter;
 
 @Getter
@@ -43,11 +46,24 @@ public class EscapeWindow extends HudElement {
         background = manager.get(Constants.DIALOG_PATH);
 
         TextButton resume = new TextButton("Resume", skin);
-        TextButton settings = new TextButton("Settings", skin);
+
+        resume.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                toggleWindow();
+            }
+        });
+
         TextButton quit = new TextButton("Quit", skin);
 
+        quit.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                JellShock.getInstance().setScreen(MenuScreen.class);
+            }
+        });
+
         table.add(resume).uniform().center().row();
-        table.add(settings).uniform().center().padTop(15).row();
         table.add(quit).uniform().center().padTop(15).row();
 
         buttonWidth = (int) resume.getWidth();
@@ -95,6 +111,7 @@ public class EscapeWindow extends HudElement {
 
     private void openWindow() {
         open = true;
+        Gdx.input.setInputProcessor(stage);
     }
 
     private void closeWindow() {

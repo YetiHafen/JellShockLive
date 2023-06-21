@@ -22,7 +22,11 @@ public abstract class MultiProjectile extends AbstractWeapon {
         super(color);
         this.projectiles = new HashMap<>();
         for (int i = 0; i < index; i++) {
-            this.projectiles.put(getBaseTexture(), Pair.pair(new Vector2(0, 20 * i), new Vector2(0 ,0)));
+            Texture texture = new Texture(getBaseTexture().getTextureData());
+            double angle = i * (2 * Math.PI / index);
+            float x = (float) (20 * Math.cos(angle));
+            float y = (float) (20 * Math.sin(angle));
+            this.projectiles.put(texture, Pair.pair(new Vector2(x, y), new Vector2(x ,y)));
         }
         this.damage = damage;
     }
@@ -41,6 +45,7 @@ public abstract class MultiProjectile extends AbstractWeapon {
                 vectorPair.setValue(velocity);
                 position.y = Integer.MAX_VALUE;
                 vectorPair.setKey(position);
+                texture.dispose();
 
                 onMapCollision(position);
             }

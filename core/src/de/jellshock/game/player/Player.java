@@ -76,7 +76,6 @@ public class Player extends Entity implements KeyEventListener, Disposable {
             }
             case GUN_ROTATION_LEFT -> {
                 tank.setGunRotation(tank.getGunRotation() + 40 * delta);
-                System.out.println(tank.getGunRotation());
             }
             case GUN_ROTATION_RIGHT -> tank.setGunRotation(tank.getGunRotation() - 40 * delta);
             case GUN_POWER_UP -> {
